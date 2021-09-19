@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0726563,0,0,0.0726563,20,20)">
+        <g id="bowling-ball.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M414.39,97.61C372.337,55.141 314.987,31.22 255.22,31.22C132.338,31.22 31.22,132.338 31.22,255.22C31.22,314.987 55.141,372.337 97.61,414.39C139.663,456.859 197.013,480.78 256.78,480.78C379.662,480.78 480.78,379.662 480.78,256.78C480.78,197.013 456.859,139.663 414.39,97.61ZM288,224C274.834,224 264,213.166 264,200C264,186.834 274.834,176 288,176C301.166,176 312,186.834 312,200C312,213.166 301.166,224 288,224ZM296,152C282.834,152 272,141.166 272,128C272,114.834 282.834,104 296,104C309.166,104 320,114.834 320,128C320,141.166 309.166,152 296,152ZM360,192C346.834,192 336,181.166 336,168C336,154.834 346.834,144 360,144C373.166,144 384,154.834 384,168C384,181.166 373.166,192 360,192Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="bowling-ball.svg1" serif:id="bowling-ball.svg">
+        </g>
+    </g>
+</svg>

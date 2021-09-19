@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0740166,0,0,0.0740166,20,20)">
+        <g id="wallet.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M95.5,104L415.5,104C419.238,103.998 422.972,104.235 426.68,104.71C422.067,72.33 394.046,48.018 361.34,48.018C357.257,48.018 353.183,48.397 349.17,49.15L86,94.08L85.7,94.08C69.186,97.238 54.487,106.59 44.63,120.21C59.484,109.645 77.272,103.976 95.5,104ZM415.5,128L95.5,128C60.405,128.038 31.538,156.905 31.5,192L31.5,384C31.538,419.095 60.405,447.962 95.5,448L415.5,448C450.595,447.962 479.462,419.095 479.5,384L479.5,192C479.462,156.905 450.595,128.038 415.5,128ZM368,320C350.445,320 336,305.555 336,288C336,270.445 350.445,256 368,256C385.555,256 400,270.445 400,288C400,305.555 385.555,320 368,320Z" style="fill-rule:nonzero;"/>
+            <path d="M32,259.5L32,160C32,138.33 44,102 85.65,94.13C121,87.5 156,87.5 156,87.5C156,87.5 179,103.5 160,103.5C141,103.5 141.5,128 160,128C178.5,128 160,151.5 160,151.5L85.5,236L32,259.5Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="wallet.svg1" serif:id="wallet.svg">
+        </g>
+    </g>
+</svg>

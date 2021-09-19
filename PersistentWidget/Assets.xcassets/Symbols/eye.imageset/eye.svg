@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0726563,0,0,0.0726563,20,20)">
+        <g id="eye.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <circle cx="256" cy="256" r="64"/>
+            <path d="M490.84,238.6C464.38,197.68 430.05,162.92 391.57,138.07C349,110.55 302,96 255.66,96C213.14,96 171.33,108.15 131.39,132.11C90.66,156.54 53.76,192.23 21.71,238.18C14.325,248.779 14.072,262.862 21.07,273.72C47.48,315.05 81.47,349.86 119.35,374.37C162,402 207.9,416 255.66,416C302.37,416 349.47,401.57 391.86,374.28C430.32,349.51 464.58,314.62 490.94,273.36C497.689,262.768 497.649,249.153 490.84,238.6ZM256,352C203.336,352 160,308.664 160,256C160,203.336 203.336,160 256,160C308.664,160 352,203.336 352,256C351.94,308.641 308.641,351.94 256,352Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="eye.svg1" serif:id="eye.svg">
+        </g>
+    </g>
+</svg>

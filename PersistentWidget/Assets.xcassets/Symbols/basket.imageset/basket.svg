@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0726563,0,0,0.0726563,20,20)">
+        <g id="basket.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M424.11,192L360,192L268.8,70.4C265.781,66.374 261.032,64 256,64C250.968,64 246.219,66.374 243.2,70.4L152,192L87.89,192C70.053,191.972 55.341,206.603 55.27,224.44C55.251,227.489 55.693,230.523 56.58,233.44L102.85,396.58C109.014,418.363 129.051,433.506 151.69,433.49L360.31,433.49C382.942,433.42 402.968,418.355 409.31,396.63L455.64,233.27C455.854,232.496 456.008,231.707 456.1,230.91L456.63,225.98C456.69,225.466 456.72,224.948 456.72,224.43C456.643,206.6 441.94,191.978 424.11,192ZM256,106.67L320,192L192,192L256,106.67ZM256,351.67C235.387,351.572 218.48,334.584 218.48,313.97C218.48,293.289 235.498,276.27 256.18,276.27C276.861,276.27 293.88,293.289 293.88,313.97C293.765,334.669 276.7,351.636 256,351.63L256,351.67Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="basket.svg1" serif:id="basket.svg">
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0726563,0,0,0.0726563,20,20)">
+        <g id="checkmark-circle.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M256,48C141.31,48 48,141.31 48,256C48,370.69 141.31,464 256,464C370.69,464 464,370.69 464,256C464,141.31 370.69,48 256,48ZM364.25,186.29L229.85,346.29C226.869,349.841 222.486,351.926 217.85,352L217.58,352C213.047,351.998 208.722,350.07 205.69,346.7L148.09,282.7C145.292,279.732 143.732,275.803 143.732,271.724C143.732,262.947 150.954,255.724 159.732,255.724C164.395,255.724 168.832,257.762 171.87,261.3L217.16,311.62L339.75,165.71C342.788,162.198 347.208,160.177 351.851,160.177C360.629,160.177 367.851,167.4 367.851,176.177C367.851,179.861 366.579,183.435 364.25,186.29Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="checkmark-circle.svg1" serif:id="checkmark-circle.svg">
+        </g>
+    </g>
+</svg>

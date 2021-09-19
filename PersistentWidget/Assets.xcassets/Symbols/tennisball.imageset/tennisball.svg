@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0692027,0,0,0.0692027,20,20)">
+        <g id="tennisball.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M448,256C458.723,255.999 469.427,255.103 480,253.32C478.562,132.457 379.543,33.438 258.68,32C256.897,42.573 256.001,53.277 256,64C256,169.87 342.13,256 448,256ZM253.35,480C254.29,474.33 255,468.6 255.44,462.82C255.81,457.94 256,452.96 256,448.03C256,342.16 169.87,256.03 64,256.03C53.277,256.031 42.573,256.927 32,258.71C33.454,379.573 132.487,478.579 253.35,480Z" style="fill-rule:nonzero;"/>
+            <path d="M289.61,222.39C247.48,180.491 223.838,123.417 224,64C224,53.967 224.668,43.945 226,34C126.404,47.487 47.487,126.404 34,226C43.945,224.668 53.967,224 64,224C123.417,223.838 180.491,247.48 222.39,289.61C264.52,331.509 288.162,388.583 288,448C288,453.74 287.78,459.53 287.35,465.22C287.017,469.5 286.563,473.763 285.99,478.01C385.59,464.519 464.509,385.6 478,286C468.055,287.332 458.033,288 448,288C388.583,288.162 331.509,264.52 289.61,222.39Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="tennisball.svg1" serif:id="tennisball.svg">
+        </g>
+    </g>
+</svg>

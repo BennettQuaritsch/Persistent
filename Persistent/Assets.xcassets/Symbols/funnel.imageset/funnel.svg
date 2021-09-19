@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0726563,0,0,0.0726563,20,20)">
+        <g id="funnel.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M296,464C293.434,463.998 290.884,463.583 288.45,462.77L208.3,436.1C198.549,432.823 191.954,423.607 192,413.32L192,294.11C191.978,294.062 191.948,294.018 191.91,293.98L23.26,97.54C18.592,92.102 16.024,85.167 16.024,78C16.024,61.542 29.566,48 46.024,48C46.032,48 46.041,48 46.05,48L466,48C466.009,48 466.018,48 466.026,48C482.484,48 496.026,61.542 496.026,78C496.026,85.167 493.458,92.102 488.79,97.54L320.09,294C320.056,294.04 320.025,294.084 320,294.13L320,440C320,440.023 320,440.047 320,440.07C320,453.198 309.198,464 296.07,464C296.047,464 296.023,464 296,464Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="funnel.svg1" serif:id="funnel.svg">
+        </g>
+    </g>
+</svg>

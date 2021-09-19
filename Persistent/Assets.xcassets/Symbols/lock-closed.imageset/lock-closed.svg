@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0725591,0,0,0.0725591,20,20)">
+        <g id="lock-closed.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M368,192L352,192L352,112C352,59.336 308.664,16 256,16C203.336,16 160,59.336 160,112L160,192L144,192C108.905,192.038 80.038,220.905 80,256L80,432C80.038,467.095 108.905,495.962 144,496L368,496C403.095,495.962 431.962,467.095 432,432L432,256C431.962,220.905 403.095,192.038 368,192ZM320,192L192,192L192,112C192,76.891 220.891,48 256,48C291.109,48 320,76.891 320,112L320,192Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="lock-closed.svg1" serif:id="lock-closed.svg">
+        </g>
+    </g>
+</svg>
