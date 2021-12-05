@@ -11,26 +11,21 @@ import Intents
 import CoreData
 
 struct Provider: IntentTimelineProvider {
-    var testHabit: HabitItem {
-        let moc = PersistenceController.shared.container.viewContext
-
-        let testItem: HabitItem = HabitItem(context: moc)
-        testItem.habitName = "Test"
-        testItem.amountToDo = Int16(3)
-        testItem.resetIntervalEnum = .daily
-        testItem.id = UUID()
-        testItem.iconColorIndex = Int16(1)
-        testItem.iconName = "Walking"
-
-        let anotherNewItem = HabitCompletionDate(context: moc)
-        anotherNewItem.date = Date()
-        anotherNewItem.item = testItem
-
-        let secondNewItem = HabitCompletionDate(context: moc)
-        secondNewItem.date = Date()
-        secondNewItem.item = testItem
+    var previewTestHabit: HabitItem {
+        let habit = HabitItem(context: PersistenceController.preview.container.viewContext)
+        habit.id = UUID()
+        habit.habitName = "PreviewTest"
+        habit.iconName = iconChoices.randomElement()!
+        habit.resetIntervalEnum = .daily
+        habit.amountToDo = 4
+        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
         
-        return testItem
+        for _ in 1...Int.random(in: 1...6) {
+            let date = HabitCompletionDate(context: PersistenceController.preview.container.viewContext)
+            date.date = Date()
+            date.item = habit
+        }
+        return habit
     }
     
     func getItems() -> [HabitItem] {
@@ -46,14 +41,14 @@ struct Provider: IntentTimelineProvider {
     }
     
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), habit: testHabit, configuration: SelectHabitIntent())
+        SimpleEntry(date: Date(), habit: previewTestHabit, configuration: SelectHabitIntent())
     }
 
     func getSnapshot(for configuration: SelectHabitIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
         let items = getItems()
         let chosenItem = items.first(where: { $0.id.uuidString == configuration.habit?.identifier })
         
-        let entry = SimpleEntry(date: Date(), habit: chosenItem ?? testHabit, configuration: SelectHabitIntent())
+        let entry = SimpleEntry(date: Date(), habit: chosenItem, configuration: SelectHabitIntent())
         completion(entry)
     }
 
@@ -66,7 +61,7 @@ struct Provider: IntentTimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, habit: chosenItem ?? testHabit, configuration: SelectHabitIntent())
+            let entry = SimpleEntry(date: entryDate, habit: chosenItem, configuration: SelectHabitIntent())
             entries.append(entry)
         }
 
@@ -76,28 +71,23 @@ struct Provider: IntentTimelineProvider {
 }
 
 struct MultipleHabitsProvider: IntentTimelineProvider {
-    var testHabit: HabitItem {
-        let moc = PersistenceController.shared.container.viewContext
-
-        let testItem: HabitItem = HabitItem(context: moc)
-        testItem.habitName = "Test"
-        testItem.amountToDo = Int16(3)
-        testItem.resetIntervalEnum = .daily
-        testItem.id = UUID()
-        testItem.iconColorIndex = Int16(1)
-        testItem.iconName = "Walking"
-
-        let anotherNewItem = HabitCompletionDate(context: moc)
-        anotherNewItem.date = Date()
-        anotherNewItem.item = testItem
-
-        let secondNewItem = HabitCompletionDate(context: moc)
-        secondNewItem.date = Date()
-        secondNewItem.item = testItem
+    var previewTestHabit: HabitItem {
+        let habit = HabitItem(context: PersistenceController.preview.container.viewContext)
+        habit.id = UUID()
+        habit.habitName = "PreviewTest"
+        habit.iconName = iconChoices.randomElement()!
+        habit.resetIntervalEnum = .daily
+        habit.amountToDo = 4
+        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
         
-        return testItem
+        for _ in 1...Int.random(in: 1...6) {
+            let date = HabitCompletionDate(context: PersistenceController.preview.container.viewContext)
+            date.date = Date()
+            date.item = habit
+        }
+        
+        return habit
     }
-    
     func getItems() -> [HabitItem] {
         let moc = PersistenceController.shared.container.viewContext
         
@@ -111,23 +101,23 @@ struct MultipleHabitsProvider: IntentTimelineProvider {
     }
     
     func placeholder(in context: Context) -> MultipleEntry {
-        MultipleEntry(date: Date(), habits: [testHabit, testHabit, testHabit, testHabit], configuration: SelectMultipleHabitsIntent())
+        MultipleEntry(date: Date(), habits: Array.init(repeating: previewTestHabit, count: 4), configuration: SelectMultipleHabitsIntent())
     }
 
     func getSnapshot(for configuration: SelectMultipleHabitsIntent, in context: Context, completion: @escaping (MultipleEntry) -> ()) {
         let items = getItems()
-        let filteredItems = configuration.habits!.compactMap { chosenHabit in
+        let filteredItems = configuration.habits?.compactMap { chosenHabit in
             return items.first(where: { $0.id.uuidString == chosenHabit.identifier })
         }
         
-        let entry = MultipleEntry(date: Date(), habits: filteredItems, configuration: configuration)
+        let entry = MultipleEntry(date: Date(), habits: filteredItems ?? Array.init(repeating: previewTestHabit, count: 4), configuration: configuration)
         completion(entry)
     }
 
     func getTimeline(for configuration: SelectMultipleHabitsIntent, in context: Context, completion: @escaping (Timeline<MultipleEntry>) -> ()) {
         var entries: [MultipleEntry] = []
         let items = getItems()
-        let filteredItems = configuration.habits!.compactMap { chosenHabit in
+        let filteredItems = configuration.habits?.compactMap { chosenHabit in
             return items.first(where: { $0.id.uuidString == chosenHabit.identifier })
         }
         
@@ -135,7 +125,7 @@ struct MultipleHabitsProvider: IntentTimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = MultipleEntry(date: entryDate, habits: filteredItems, configuration: configuration)
+            let entry = MultipleEntry(date: entryDate, habits: filteredItems ?? [], configuration: configuration)
             entries.append(entry)
         }
 
@@ -152,7 +142,7 @@ struct MultipleEntry: TimelineEntry {
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let habit: HabitItem
+    let habit: HabitItem?
     let configuration: SelectHabitIntent
 }
 
@@ -209,37 +199,45 @@ struct MultipleHabitsWidget: Widget {
     }
 }
 
+struct MediumGraphWidget: Widget {
+    let kind: String = "Medium sized Graph Widget"
+    
+    var body: some WidgetConfiguration {
+        IntentConfiguration(kind: kind, intent: SelectHabitIntent.self, provider: Provider()) { entry in
+            MediumGraphWidgetView(habit: entry.habit)
+        }
+        .configurationDisplayName("Graph Widget")
+        .description("See how you are doing! Choose your habit through long pressing.")
+        .supportedFamilies([.systemMedium])
+    }
+}
+
 @main
 struct PersistentWidgetBundle: WidgetBundle {
     var body: some Widget {
         PersistentWidget()
         MultipleHabitsWidget()
+        MediumGraphWidget()
     }
 }
 
 struct PersistentWidget_Previews: PreviewProvider {
     static var previews: some View {
-        var testHabit: HabitItem {
+        let habit = HabitItem(context: PersistenceController.preview.container.viewContext)
+        habit.id = UUID()
+        habit.habitName = "PreviewTest"
+        habit.iconName = iconChoices.randomElement()!
+        habit.resetIntervalEnum = .daily
+        habit.amountToDo = 4
+        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
         
-            let testItem: HabitItem = HabitItem(context: PersistenceController.shared.container.viewContext)
-            testItem.habitName = "Test"
-            testItem.amountToDo = Int16(3)
-            testItem.resetIntervalEnum = .daily
-            testItem.id = UUID()
-            testItem.iconColorIndex = Int16(1)
-            testItem.iconName = "Walking"
-            
-            let anotherNewItem = HabitCompletionDate(context: PersistenceController.shared.container.viewContext)
-            anotherNewItem.date = Date()
-            anotherNewItem.item = testItem
-            
-            let secondNewItem = HabitCompletionDate(context: PersistenceController.shared.container.viewContext)
-            secondNewItem.date = Date()
-            secondNewItem.item = testItem
-            
-            return testItem
+        for _ in 1...Int.random(in: 1...6) {
+            let date = HabitCompletionDate(context: PersistenceController.preview.container.viewContext)
+            date.date = Date()
+            date.item = habit
         }
-        return PersistentWidgetEntryView(entry: SimpleEntry(date: Date(), habit: testHabit, configuration: SelectHabitIntent()))
+        
+        return PersistentWidgetEntryView(entry: SimpleEntry(date: Date(), habit: habit, configuration: SelectHabitIntent()))
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }

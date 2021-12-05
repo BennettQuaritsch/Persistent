@@ -27,24 +27,30 @@ struct AlternativeTagSection: View {
         .onAppear {
             print(selectedTags)
         }
+        #if os(iOS)
         .listStyle(InsetGroupedListStyle())
+        #endif
         .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button {
                     isEditing.toggle()
                     print(isEditing)
                 } label: {
-                    Image(systemName: "square.and.pencil")
+                    if isEditing {
+                        Text("Done")
+                    } else {
+                        Text("Edit")
+                    }
                 }
                 
                 Button {
                     let newTag = HabitTag(context: PersistenceController.shared.container.viewContext)
-                    
+
                     newTag.id = UUID()
                     newTag.name = "Untitled Tag"
-                    
+
                     test.append(newTag)
-                    
+
                     do {
                         try PersistenceController.shared.container.viewContext.save()
                     } catch {
@@ -55,8 +61,10 @@ struct AlternativeTagSection: View {
                 }
             }
         }
+        #if os(iOS)
         .navigationBarTitle("Choose Tags")
         .navigationBarTitleDisplayMode(.inline)
+        #endif
     }
     
     func deleteTagWithOffset(at offsets: IndexSet) {

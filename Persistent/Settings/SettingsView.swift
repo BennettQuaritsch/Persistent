@@ -7,20 +7,53 @@
 
 import SwiftUI
 import WidgetKit
+import StoreKit
 
 struct SettingsView: View {
+    #if os(iOS)
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    #endif
     @EnvironmentObject private var userSettings: UserSettings
+    @EnvironmentObject private var storeManager: StoreManager
     
     @State var syncEnabled: Bool
+    
+    @State var premiumSheet: Bool = false
     
     init() {
         self._syncEnabled = State(wrappedValue: UserDefaults.standard.bool(forKey: "syncEnabled"))
     }
     
+    var product: Product? {
+        return storeManager.products.first(where: { $0.id == "quaritsch.bennnett.Persistent.premium.single" })
+    }
+    
     var body: some View {
         NavigationView {
             List {
-                Section(header: Text("Interface Design")) {
+                Button {
+                    premiumSheet = true
+                } label: {
+                    HStack {
+                        Spacer()
+                        
+                        VStack(spacing: 10) {
+                            Text("Persistent Premium")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundColor(.accentColor)
+                            
+                            Text("Buy Premium for \(product?.displayPrice ?? "unknown price")")
+                                .fontWeight(.semibold)
+                        }
+                        
+                        Spacer()
+                    }
+                    .padding(10)
+                }
+                .buttonStyle(.plain)
+                
+                Section("Interface Design") {
                     NavigationLink(destination: AccentColorSetting()) {
                         HStack {
                             Image(systemName: "paintbrush.fill")
@@ -30,16 +63,17 @@ struct SettingsView: View {
                         }
                     }
                     
-                    
-                    HStack {
-                        Image(systemName: "app.fill")
-                            .foregroundColor(userSettings.accentColor)
-                        
-                        Text("App Icon")
+                    NavigationLink(destination: ChangeAppIconView()) {
+                        HStack {
+                            Image(systemName: "app.fill")
+                                .foregroundColor(userSettings.accentColor)
+                            
+                            Text("App Icon")
+                        }
                     }
                 }
                 
-                Section(header: Text("Habits")) {
+                Section("Habits") {
                     NavigationLink(destination: DeletedHabits()) {
                         HStack {
                             Image(systemName: "trash.fill")
@@ -50,7 +84,7 @@ struct SettingsView: View {
                     }
                 }
                 
-                Section(header: Text("Sync")) {
+                Section("Sync") {
                     HStack {
                         Image(systemName: "icloud.fill")
                             .foregroundColor(userSettings.accentColor)
@@ -62,12 +96,13 @@ struct SettingsView: View {
                     }
                 }
                 
-                Section(header: Text("About")) {
+                Section("About") {
                     NavigationLink(destination: AboutPersistentView()) {
                         Label("Thanks to", systemImage: "hand.thumbsup.fill")
                     }
                 }
                 
+                //NavigationLink("calendar", destination: CalendarPageViewController(toggle: .constant(true), habitDate: .constant(Date()), date: Date(), habit: previewTestHabit))
                 
                 #if DEBUG
                 
@@ -81,20 +116,37 @@ struct SettingsView: View {
 //                    WidgetCenter.shared.reloadAllTimelines()
 //                }
 //
-//                Button("Delete all notifications") {
-//                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                #if os(iOS)
+                Button("Delete all notifications") {
+                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                }
+                #endif
+                
+//                NavigationLink(destination: HabitCompletionGraph()) {
+//                    Text("Graph")
 //                }
 //
 //                NavigationLink("Tags", destination: AlternativeTagSection(selectedTags: .constant(Set<UUID>())))
             }
+            #if os(iOS)
             .listStyle(InsetGroupedListStyle())
             .navigationBarTitle("Settings")
+            #endif
+        }
+        .sheet(isPresented: $premiumSheet) {
+            #if os(iOS)
+            BuyPremiumView()
+                .accentColor(userSettings.accentColor)
+                .environment(\.horizontalSizeClass, horizontalSizeClass)
+            #endif
         }
     }
 }
 
 struct DeletedHabits: View {
+    #if os(iOS)
     @Environment(\.editMode) private var editMode
+    #endif
     @Environment(\.managedObjectContext) private var viewContext
     
     @FetchRequest(entity: HabitItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \HabitItem.habitName, ascending: true)]) var items: FetchedResults<HabitItem>
@@ -105,29 +157,94 @@ struct DeletedHabits: View {
         List(selection: $selection) {
             ForEach(items, id: \.id) { habit in
                 if habit.habitDeleted {
-                    DeletedHabitListCell(habit: habit)
+                    ListCellView(habit: habit, viewModel: ListViewModel())
+                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                            Button {
+                                withAnimation {
+                                    habit.habitDeleted = false
+                                    
+                                    do {
+                                        try viewContext.save()
+                                    } catch {
+                                        let nsError = error as NSError
+                                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                                    }
+                                }
+                            } label: {
+                                Label("Undo Delete", systemImage: "trash.slash")
+                            }
+                            .tint(.green)
+                        }
+                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                            Button(role: .destructive) {
+                                withAnimation {
+                                    habit.deleteHabitPermanently()
+                                    
+                                    do {
+                                        try viewContext.save()
+                                    } catch {
+                                        let nsError = error as NSError
+                                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                                    }
+                                }
+                            } label: {
+                                Label("Final Delete", systemImage: "trash")
+                            }
+                        }
                 }
             }
             .onDelete(perform: deleteHabitWithOffset)
+            #if os(iOS)
+            .onChange(of: editMode?.wrappedValue) { _ in
+                selection = []
+            }
+            #endif
         }
+        #if os(iOS)
         .listStyle(InsetGroupedListStyle())
         .navigationBarTitle("Deleted Habits")
+        #endif
         .toolbar {
             #if os(iOS)
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                deleteButton
-            }
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                undoDeleteButton
-            }
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                EditButton()
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                if editMode?.wrappedValue == .active {
+                    Button {
+                        withAnimation {
+                            for habit in items where selection.contains(habit.id) {
+                                habit.deleteHabitPermanently()
+                            }
+                            
+                            do {
+                                try viewContext.save()
+                            } catch {
+                                let nsError = error as NSError
+                                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                    
+                    Button {
+                        withAnimation {
+                            for habit in items where selection.contains(habit.id) {
+                                habit.habitDeleted = false
+                            }
+                            
+                            do {
+                                try viewContext.save()
+                            } catch {
+                                let nsError = error as NSError
+                                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                            }
+                        }
+                    } label: {
+                        Image(systemName: "trash.slash")
+                    }
+                }
                 
+                EditButton()
             }
-            
             #endif
         }
     }
@@ -143,112 +260,6 @@ struct DeletedHabits: View {
                 fatalError()
             }
         }
-    }
-    
-    var deleteButton: some View {
-        VStack {
-            if editMode?.wrappedValue == .active {
-                Button {
-                    print(selection)
-                    
-                    viewContext.perform {
-                        
-                    }
-                    for habit in items where selection.contains(habit.id) {
-                        habit.deleteHabitPermanently()
-                    }
-                    
-                    do {
-                        try viewContext.save()
-                    } catch {
-                        let nsError = error as NSError
-                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                    }
-                } label: {
-                    Image(systemName: "trash.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .font(.title2.weight(.semibold))
-                }
-            }
-        }
-    }
-    
-    var undoDeleteButton: some View {
-        VStack {
-            if editMode?.wrappedValue == .active {
-                Button {
-                    print(selection)
-                    
-                    for habit in items where selection.contains(habit.id) {
-                        habit.habitDeleted = false
-                    }
-                    
-                    do {
-                        try viewContext.save()
-                    } catch {
-                        let nsError = error as NSError
-                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                    }
-                } label: {
-                    Image(systemName: "trash.slash.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .font(.title2.weight(.semibold))
-                }
-            }
-        }
-    }
-}
-
-struct DeletedHabitListCell: View {
-    var habit: HabitItem
-    
-    var body: some View {
-        HStack {
-            if habit.iconName != nil {
-                ZStack {
-                    Image(habit.iconName!)
-                        .resizable()
-                    
-                    //iconColors[item.iconColorIndex].blendMode(.sourceAtop)
-                    
-                    habit.iconColor.blendMode(.sourceAtop)
-                }
-                .aspectRatio(contentMode: .fit)
-                .frame(height: 40)
-                    //.padding(.trailing, 5)
-            }
-            
-            Text(habit.habitName)
-                .font(.title)
-                .fontWeight(.semibold)
-            
-            Spacer()
-            
-            ZStack {
-                Text("\(relevantCount(habit: habit))/\(habit.amountToDo)")
-                    .fontWeight(.bold)
-                NewProgressBar(strokeWidth: 7, progress: habit.progress(), color: habit.iconColor)
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 50)
-            }
-            .padding(.trailing)
-            .padding(.vertical, 3)
-        }
-    }
-    
-    fileprivate func relevantCount(habit: HabitItem) -> Int {
-        let todayCount: [HabitCompletionDate]
-        switch habit.resetIntervalEnum {
-        case .daily:
-            todayCount = habit.dateArray.filter { Calendar.current.isDateInToday($0.date!) }
-        case .weekly:
-            todayCount = habit.dateArray.filter { Calendar.current.isDate($0.date!, equalTo: Date(), toGranularity: .weekOfYear) }
-        case .monthly:
-            todayCount = habit.dateArray.filter { Calendar.current.isDate($0.date!, equalTo: Date(), toGranularity: .month) }
-        }
-        return todayCount.count
     }
 }
 
@@ -276,8 +287,10 @@ struct AccentColorSetting: View {
                 settings.accentColorIndex = value
             })
         }
+        #if os(iOS)
         .listStyle(InsetGroupedListStyle())
         .navigationBarTitle("Accent Color")
+        #endif
         .onAppear {
             selection = settings.accentColorIndex
         }

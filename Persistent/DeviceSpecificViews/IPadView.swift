@@ -49,14 +49,19 @@ struct IPadView: View {
     }
     
     init() {
-        UIApplication.shared.setFirstSplitViewPreferredDisplayMode(.twoBesideSecondary)
+        //UIApplication.shared.setFirstSplitViewPreferredDisplayMode(.twoBesideSecondary)
     }
     
     @State var selection: Int? = 1
+    
+    @State private var allHabitsSelected: Bool = false
+    
+    @StateObject var viewModel: ListViewModel = .init()
+    
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: ListView()) {
+                NavigationLink(destination: ListView(), isActive: $allHabitsSelected) {
                     HStack {
                         Image(systemName: "checkmark.circle")
                             .foregroundColor(.purple)
@@ -67,42 +72,37 @@ struct IPadView: View {
                     
                 }
                 
-                DisclosureGroup(content: {
-                    NavigationLink(destination: ListView(predicate: dayPredicate)) {
-                        HStack {
-                            Image(systemName: "clock")
-                                .foregroundColor(.purple)
-                                .font(.title2)
-                            
-                            Text("Daily Habits")
-                        }
+                NavigationLink(destination: ListView(predicate: dayPredicate)) {
+                    HStack {
+                        Image(systemName: "clock")
+                            .foregroundColor(.purple)
+                            .font(.title2)
                         
+                        Text("Daily Habits")
                     }
                     
-                    NavigationLink(destination: ListView(predicate: weekPredicate)) {
-                        HStack {
-                            Image(systemName: "clock")
-                                .foregroundColor(.purple)
-                                .font(.title2)
-                            
-                            Text("Weekly Habits")
-                        }
+                }
+                
+                NavigationLink(destination: ListView(predicate: weekPredicate)) {
+                    HStack {
+                        Image(systemName: "clock")
+                            .foregroundColor(.purple)
+                            .font(.title2)
                         
+                        Text("Weekly Habits")
                     }
                     
-                    NavigationLink(destination: ListView(predicate: monthPredicate)) {
-                        HStack {
-                            Image(systemName: "clock")
-                                .foregroundColor(.purple)
-                                .font(.title2)
-                            
-                            Text("Monthly Habits")
-                        }
-                       
+                }
+                
+                NavigationLink(destination: ListView(predicate: monthPredicate)) {
+                    HStack {
+                        Image(systemName: "clock")
+                            .foregroundColor(.purple)
+                            .font(.title2)
+                        
+                        Text("Monthly Habits")
                     }
-                }) {
-                    Text("Specifics")
-                        .bold()
+                   
                 }
             }
             .accentColor(.blue)
@@ -111,42 +111,45 @@ struct IPadView: View {
             Text("No Sidebar Selection") // You won't see this in practice (default selection)
             Text("No Habit Chosen") // You will see this
         }
-    }
-}
-
-
-
-// MARK: - Consistency with iPad
-#if canImport(UIKit)
-private extension UIApplication {
-    func setFirstSplitViewPreferredDisplayMode(_ preferredDisplayMode: UISplitViewController.DisplayMode) {
-        var splitViewController: UISplitViewController? {
-            UIApplication.shared.firstSplitViewController
-        }
-        
-        // Sometimes split view is not available instantly
-        if let splitViewController = splitViewController {
-            splitViewController.preferredDisplayMode = preferredDisplayMode
-        } else {
-            DispatchQueue.main.async {
-                splitViewController?.preferredDisplayMode = preferredDisplayMode
-            }
+        .onAppear {
+            allHabitsSelected = true
         }
     }
-    
-    private var firstSplitViewController: UISplitViewController? {
-        windows.first { $0.isKeyWindow }?
-            .rootViewController?.firstSplitViewController
-    }
 }
 
-private extension UIViewController {
-    var firstSplitViewController: UISplitViewController? {
-        self as? UISplitViewController
-            ?? children.lazy.compactMap { $0.firstSplitViewController }.first
-    }
-}
-#endif
+
+
+//// MARK: - Consistency with iPad
+//#if canImport(UIKit)
+//private extension UIApplication {
+//    func setFirstSplitViewPreferredDisplayMode(_ preferredDisplayMode: UISplitViewController.DisplayMode) {
+//        var splitViewController: UISplitViewController? {
+//            UIApplication.shared.firstSplitViewController
+//        }
+//
+//        // Sometimes split view is not available instantly
+//        if let splitViewController = splitViewController {
+//            splitViewController.preferredDisplayMode = preferredDisplayMode
+//        } else {
+//            DispatchQueue.main.async {
+//                splitViewController?.preferredDisplayMode = preferredDisplayMode
+//            }
+//        }
+//    }
+//
+//    private var firstSplitViewController: UISplitViewController? {
+//        windows.first { $0.isKeyWindow }?
+//            .rootViewController?.firstSplitViewController
+//    }
+//}
+//
+//private extension UIViewController {
+//    var firstSplitViewController: UISplitViewController? {
+//        self as? UISplitViewController
+//            ?? children.lazy.compactMap { $0.firstSplitViewController }.first
+//    }
+//}
+//#endif
 
 
 struct IPadView_Previews: PreviewProvider {

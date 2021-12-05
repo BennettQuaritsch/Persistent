@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0726563,0,0,0.0726563,20,20)">
+        <g id="golf.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M272,320.46L272,202.3L438.62,126.57C444.327,123.98 448.008,118.267 448.008,112C448.008,105.733 444.327,100.02 438.62,97.43L262.62,17.43C260.541,16.485 258.284,15.996 256,15.996C247.223,15.996 240,23.219 240,31.996C240,31.997 240,31.999 240,32L240,320.46C245.333,320.16 250.667,320.007 256,320C261.333,319.993 266.667,320.147 272,320.46Z" style="fill-rule:nonzero;"/>
+            <path d="M463.33,457.5C454.77,414.65 428.22,378.76 386.55,353.7C354.05,334.15 313.88,322.4 272,320L272,399.75C272,408.527 264.777,415.75 256,415.75C247.223,415.75 240,408.527 240,399.75L240,320C198.12,322.4 157.95,334.15 125.45,353.7C83.78,378.76 57.23,414.65 48.67,457.5C46.647,467.03 49.013,476.981 55.11,484.58C61.13,492 70,496 80,496L432,496C442,496 450.88,491.95 456.9,484.58C462.993,476.98 465.356,467.028 463.33,457.5Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="golf.svg1" serif:id="golf.svg">
+        </g>
+    </g>
+</svg>

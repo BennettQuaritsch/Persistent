@@ -14,6 +14,8 @@ struct HabitDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var userSettings: UserSettings
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.colorScheme) var colorScheme
     
     init(habit: HabitItem) {
         self.habit = habit
@@ -34,74 +36,91 @@ struct HabitDetailView: View {
     
     var habitIntervalString: String
     
+    var habitAmountText: String {
+        switch habit.valueTypeEnum {
+        case .number:
+            return "\(viewModel.habit.relevantCount(viewModel.shownDate))/\(habit.amountToDo)"
+        default:
+            return "\(viewModel.habit.relevantCount(viewModel.shownDate))\(habit.valueTypeEnum.unit)"
+        }
+    }
+    
     
     @ObservedObject var habit: HabitItem
     
-    
-//    func getDates() -> Int {
-//        let currentDate = Date()
-//        let firstDate = Date(timeIntervalSince1970: TimeInterval(0))
-//
-//        let components = Calendar.current.dateComponents([.day], from: firstDate, to: currentDate)
-//
-//        return components.day!
-//    }
-//
-//    func changeDate(value: Int) {
-//        withAnimation(.easeInOut) {
-//            viewModel.chosenDateNumber = value
-//            var component: DateComponents = DateComponents()
-//            component.day = -value
-//            viewModel.shownDate = Calendar.current.date(byAdding: component, to: Date()) ?? Date()
-//        }
-//    }
-    
     var habitCircle: some View {
-        ZStack {
-            NewProgressBar(strokeWidth: 30, progress: viewModel.progress(), color: habit.iconColor, shadowRadius: 5)
-                .aspectRatio(contentMode: .fit)
-                .padding(25)
-                .drawingGroup()
-            
-            HStack {
-                Button(action: viewModel.removeFromHabit) {
-                    Image(systemName: "minus.circle.fill")
-                        .renderingMode(.original)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 40)
-                }
+        GeometryReader { geo in
+            ZStack {
+                ProgressBar(strokeWidth: 30, progress: viewModel.progress(), color: habit.iconColor)
+                    .frame(maxWidth: .infinity)
+                    .padding(25)
+                    .drawingGroup()
+                    
                 
-                VStack {
-                    Text("\(viewModel.habit.relevantCount(viewModel.shownDate))/\(habit.amountToDo)")
-                        .font(.system(size: 40, weight: .black, design: .monospaced))
-                        .padding(.horizontal, 10)
-                    Text("for this \(habitIntervalString)")
-                        .font(.headline.weight(.light))
-                }
-                .onTapGesture {
-                    withAnimation(.easeOut(duration: 0.15)) {
-                        viewModel.multipleAddShown = true
+                HStack {
+                    Button(action: viewModel.removeFromHabit) {
+                        Image(systemName: "minus.circle.fill")
+                            .renderingMode(.original)
+                            .resizable()
+                            .scaledToFit()
+                            .buttonStyle(.plain)
+                        #if os(macOS)
+                            .frame(minWidth: 40, maxWidth: 50)
+                        #else
+                            .frame(height: 40)
+                        #endif
                     }
+                    .buttonStyle(.plain)
+                    .keyboardShortcut("-", modifiers: [.command])
+                    
+                    VStack {
+                        Text(habitAmountText)
+                            .font(.system(size: 40, weight: .black, design: .monospaced))
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.5)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 10)
+                        Text("for this \(habitIntervalString)")
+                            .font(.headline.weight(.light))
+                    }
+                    .onTapGesture {
+                        withAnimation(.easeOut(duration: 0.15)) {
+                            viewModel.multipleAddShown = true
+                        }
+                    }
+                    
+                    Button(action: viewModel.addToHabit) {
+                        Image(systemName: "plus.circle.fill")
+                            .renderingMode(.original)
+                            .resizable()
+                            .scaledToFit()
+                            .buttonStyle(.plain)
+                        #if os(macOS)
+                            .frame(minWidth: 40, maxWidth: 50)
+                        #else
+                            .frame(height: 40)
+                        #endif
+                    }
+                    .buttonStyle(.plain)
+                    .keyboardShortcut("+", modifiers: [.command])
                 }
-                
-                Button(action: viewModel.addToHabit) {
-                    Image(systemName: "plus.circle.fill")
-                        .renderingMode(.original)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(height: 40)
-                }
+                //.padding(.horizontal, 50)
             }
-        }
+            .frame(maxWidth: .infinity)
         .padding(.top)
-        .padding(.horizontal, 25)
+        }
+        .padding(.horizontal)
     }
     
     var multipleAdd: some View {
         ZStack {
+//            RoundedRectangle(cornerRadius: 15)
+//                .foregroundColor(Color("systemGray6"))
+//                .shadow(color: .black.opacity(0.3), radius: 8)
+            
             RoundedRectangle(cornerRadius: 15)
-                .foregroundColor(Color(UIColor.systemGray6))
+                .foregroundColor(.clear)
+                .background(.thickMaterial, in: RoundedRectangle(cornerRadius: 15))
                 .shadow(color: .black.opacity(0.3), radius: 8)
             
             VStack {
@@ -113,20 +132,24 @@ struct HabitDetailView: View {
                 
                 Text("How much?")
                     .font(.headline)
+                    .padding(.top)
                 
                 ZStack(alignment: .trailing) {
-                    TextField("Enter a number", text: $viewModel.multipleAddField, onCommit: {
-                        
-                    })
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                    TextField("Enter a number", text: $viewModel.multipleAddField)
+                        .textFieldStyle(.roundedBorder)
+                        .onSubmit {
+                            viewModel.addRemoveMultiple()
+                        }
+                    #if os(iOS)
                     .keyboardType(.numberPad)
+                    #endif
                     
                     Button {
-                        validate()
+                        viewModel.addRemoveMultiple()
                     } label: {
                         Image(systemName: "checkmark")
                             .imageScale(.medium)
-                            .padding()
+                            .padding(.trailing)
                     }
                 }
             }
@@ -134,60 +157,13 @@ struct HabitDetailView: View {
         }
         .aspectRatio(2, contentMode: .fit)
         .padding(.horizontal, 30)
-        .transition(AnyTransition.scale.animation(.easeInOut(duration: 0.15)))
-        .animation(.easeInOut)
+        .transition(.asymmetric(insertion: .scale.animation(.interpolatingSpring(stiffness: 450, damping: 28)), removal: .scale))
+        .animation(.easeInOut, value: true)
     }
     
 //    @State private var multipleAddSelection = MultipleAddEnum.add
 //    @State private var multipleAddField = ""
 //    @State private var multipleAddShown = false
-    
-    func validate() {
-        if let multipleAddInt = Int(viewModel.multipleAddField) {
-            switch viewModel.multipleAddSelection {
-            case .add:
-                for _ in 0 ..< multipleAddInt {
-                    withAnimation(.easeInOut(duration: 2 - (2 - 0.15) * Double(pow(Float(1 - 0.075), Float(multipleAddInt))))) {
-                        let newhabit = HabitCompletionDate(context: viewContext)
-                        newhabit.date = viewModel.shownDate
-                        newhabit.item = habit
-                        
-                        do {
-                            try viewContext.save()
-                            viewModel.selectionChanged()
-                        } catch {
-                            let nsError = error as NSError
-                            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                        }
-                    }
-                }
-            case .remove:
-                withAnimation(.easeInOut(duration: 2 - (2 - 0.15) * Double(pow(Float(1 - 0.075), Float(multipleAddInt))))) {
-                    for _ in 0 ..< multipleAddInt {
-                        if let habitObject = habit.dateArray.last(where: { Calendar.current.isDate($0.date!, equalTo: viewModel.shownDate, toGranularity: .day) }) {
-                            viewContext.delete(habitObject as NSManagedObject)
-                            viewModel.selectionChanged()
-                        } else {
-                            viewModel.errorVibration()
-                        }
-                        
-                        do {
-                            try viewContext.save()
-                            
-                        } catch {
-                            let nsError = error as NSError
-                            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                        }
-                    }
-                    
-                }
-            }
-            viewModel.multipleAddField = ""
-            viewModel.multipleAddShown = false
-        } else {
-            viewModel.errorVibration()
-        }
-    }
     
     var body: some View {
         ZStack(alignment: .top) {
@@ -211,38 +187,63 @@ struct HabitDetailView: View {
                 
                 Spacer()
                 
-                Image(systemName: "calendar.circle.fill")
-                    .font(.system(size: 50))
-                    .padding()
-                    .onTapGesture {
-                        viewModel.calendarSheet = true
-                    }
-                    .foregroundColor(.accentColor)
+                HStack {
+                    Circle()
+                        .scaledToFit()
+                        .foregroundColor(.accentColor)
+                        .overlay(
+                            Image(systemName: "chart.bar.fill")
+                                .font(.system(size: 25))
+                                .foregroundColor(.init("systemBackground"))
+                                .onTapGesture {
+                                    viewModel.graphSheet = true
+                                }
+                        )
+                        .frame(height: 50)
+                        .padding()
+                    
+                    Circle()
+                        .scaledToFit()
+                        .foregroundColor(.accentColor)
+                        .overlay(
+                            Image(systemName: "calendar")
+                                .font(.system(size: 25))
+                                .foregroundColor(.init("systemBackground"))
+                                .onTapGesture {
+                                    viewModel.calendarSheet = true
+                                }
+                        )
+                        .frame(height: 50)
+                        .padding()
+                }
+                .padding()
+                
+                //NavigationLink("Graph", destination: HabitCompletionGraph(habit: habit))
             
             }
+            #if os(iOS)
             .navigationBarTitle(habit.habitName, displayMode: .large)
+            #endif
             .toolbar(content: {
                 ToolbarItem(placement: .primaryAction) {
-                    Menu() {
-                        Button(action: {
+                    Menu {
+                        Button(role: .destructive) {
                             withAnimation(.easeInOut) {
                                 viewModel.deleteActionSheet = true
                             }
-                            
-                        }) {
-                            Text("Delete")
-                                .foregroundColor(.red)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
                         }
-                        .foregroundColor(.red)
+                        
                         Button(action: {
                             viewModel.editSheet = true
                         }) {
-                            Text("Edit")
+                            Label("Edit", systemImage: "pencil")
                         }
                     } label: {
                         Image(systemName: "ellipsis.circle")
-                            .resizable()
-                            .aspectRatio(1, contentMode: .fit)
+//                            .resizable()
+//                            .aspectRatio(1, contentMode: .fit)
                             //.font(.title2.weight(.semibold))
                     }
                     .frame(height: 25)
@@ -253,8 +254,19 @@ struct HabitDetailView: View {
                     .environment(\.managedObjectContext, self.viewContext)
             }
             .sheet(isPresented: $viewModel.calendarSheet) {
-                CalendarPagerView(habit: habit, date: $viewModel.shownDate, toggle: $viewModel.calendarSheet)
-                    .padding(.top, 30)
+                CalendarPageViewController(
+                    toggle: $viewModel.calendarSheet,
+                    habitDate: $viewModel.shownDate,
+                    date: Date(),
+                    habit: habit
+                )
+                    .accentColor(userSettings.accentColor)
+                    .environment(\.horizontalSizeClass, horizontalSizeClass)
+                    .environment(\.colorScheme, colorScheme)
+            }
+            .sheet(isPresented: $viewModel.graphSheet) {
+                HabitSpecificGraphsView(habit: habit)
+                    .accentColor(userSettings.accentColor)
             }
             .alert(isPresented: $viewModel.deleteActionSheet) {
                 Alert(title: Text("Do you really want to delete this habit?"), primaryButton: .destructive(Text("Delete")) {
@@ -324,25 +336,24 @@ struct ScrollCalendarDateView: View {
 }
 
 struct NewHabitDetailView_Previews: PreviewProvider {
-    static let moc = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     static var previews: some View {
-        var testHabit: HabitItem {
+        let moc = PersistenceController().container.viewContext
         
-            let testItem: HabitItem = HabitItem(context: moc)
-            testItem.habitName = "Test"
-            testItem.amountToDo = 3
-            testItem.resetIntervalEnum = .monthly
-            
-            let anotherNewItem = HabitCompletionDate(context: moc)
-            anotherNewItem.date = Date()
-            
-            let secondNewItem = HabitCompletionDate(context: moc)
-            secondNewItem.date = Date()
-            testItem.date = NSSet(array: [anotherNewItem, secondNewItem])
-            
-            return testItem
+        let habit = HabitItem(context: moc)
+        habit.id = UUID()
+        habit.habitName = "PreviewTest"
+        habit.iconName = iconChoices.randomElement()!
+        habit.resetIntervalEnum = .daily
+        habit.amountToDo = 4
+        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
+        
+        for _ in 1...Int.random(in: 1...6) {
+            let date = HabitCompletionDate(context: moc)
+            date.date = Date()
+            date.item = habit
         }
-        return NavigationView {HabitDetailView(habit: testHabit)
+        
+        return NavigationView {HabitDetailView(habit: habit)
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
         }.previewDevice("iPhone 12")
     }

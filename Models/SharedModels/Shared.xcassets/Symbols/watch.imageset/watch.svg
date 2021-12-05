@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.075078,0,0,0.075078,20,20)">
+        <g id="watch.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M376,192C376,161.093 350.907,136 320,136L192,136C161.093,136 136,161.093 136,192L136,320C136,350.907 161.093,376 192,376L320,376C350.907,376 376,350.907 376,320L376,192Z"/>
+            <path d="M336,96L336,32C336,23.223 328.777,16 320,16L192,16C183.223,16 176,23.223 176,32L176,96C132.132,96.049 96.049,132.132 96,176L96,336C96.049,379.868 132.132,415.951 176,416L176,480C176,488.777 183.223,496 192,496L320,496C328.777,496 336,488.777 336,480L336,416C379.868,415.951 415.951,379.868 416,336L416,176C415.951,132.132 379.868,96.049 336,96ZM392,320C391.956,359.481 359.481,391.956 320,392L192,392C152.519,391.956 120.044,359.481 120,320L120,192C120.044,152.519 152.519,120.044 192,120L320,120C359.481,120.044 391.956,152.519 392,192L392,320Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="watch.svg1" serif:id="watch.svg">
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0726563,0,0,0.0726563,20,20)">
+        <g id="cafe.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M432,64L96,64C87.223,64 80,71.223 80,80L80,272C80.06,324.641 123.359,367.94 176,368L288,368C340.641,367.94 383.94,324.641 384,272L384,192L402,192C435.998,191.962 463.962,163.998 464,130L464,96C464,78.445 449.555,64 432,64ZM432,130C432,146.458 418.458,160 402,160L384,160L384,96L432,96L432,130ZM400,400L64,400C55.223,400 48,407.223 48,416C48,424.777 55.223,432 64,432L400,432C408.777,432 416,424.777 416,416C416,407.223 408.777,400 400,400Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="cafe.svg1" serif:id="cafe.svg">
+        </g>
+    </g>
+</svg>

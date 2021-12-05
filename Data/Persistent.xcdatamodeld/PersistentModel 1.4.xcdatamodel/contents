@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19461" systemVersion="21A559" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithCloudKit="YES" userDefinedModelVersionIdentifier="">
+    <entity name="HabitCompletionDate" representedClassName="HabitCompletionDate" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="value" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HabitItem" inverseName="date" inverseEntity="HabitItem"/>
+    </entity>
+    <entity name="HabitItem" representedClassName="HabitItem" syncable="YES">
+        <attribute name="amountToDo" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="habitDeleted" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="habitDescription" optional="YES" attributeType="String"/>
+        <attribute name="habitName" optional="YES" attributeType="String"/>
+        <attribute name="iconColorIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="iconName" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="resetInterval" optional="YES" attributeType="String"/>
+        <attribute name="valueType" optional="YES" attributeType="String"/>
+        <relationship name="date" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="HabitCompletionDate" inverseName="item" inverseEntity="HabitCompletionDate"/>
+        <relationship name="notificationDates" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="NotificationItem" inverseName="habit" inverseEntity="NotificationItem"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HabitTag" inverseName="containingHabits" inverseEntity="HabitTag"/>
+    </entity>
+    <entity name="HabitTag" representedClassName="HabitTag" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="containingHabits" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="HabitItem" inverseName="tags" inverseEntity="HabitItem"/>
+    </entity>
+    <entity name="NotificationItem" representedClassName="NotificationItem" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <relationship name="habit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HabitItem" inverseName="notificationDates" inverseEntity="HabitItem"/>
+    </entity>
+    <elements>
+        <element name="HabitCompletionDate" positionX="-601.6847534179688" positionY="89.45855712890625" width="128" height="74"/>
+        <element name="HabitItem" positionX="-352.164306640625" positionY="-314.7224426269531" width="128" height="209"/>
+        <element name="HabitTag" positionX="76.2373046875" positionY="-20.28759765625" width="128" height="74"/>
+        <element name="NotificationItem" positionX="-360" positionY="-117" width="128" height="74"/>
+    </elements>
+</model>

@@ -36,60 +36,17 @@ struct iPhoneView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                Color(UIColor.systemGray6)
-                    .edgesIgnoringSafeArea(.all)
-                
-                ListView(predicate: chosenPredicate)
-                    .toolbar {
-                        ToolbarItem(placement: .navigationBarLeading) {
-                            habitListMenu
-                        }
-                    }
-                    .sheet(isPresented: $addSheetPresented, content: { AddHabitView(accentColor: userSettings.accentColor)
-                        .environment(\.managedObjectContext, self.viewContext)
-                    })
-                
-                VStack {
-                    Spacer()
-                    
-                    HStack {
-                        Spacer()
-                        
-                        ZStack {
-                            Circle()
-                                .fill(Color.accentColor)
-                            
-                            Image(systemName: "plus")
-                                .foregroundColor(.primary)
-                        }
-                        .frame(width: 50, height: 50)
-                        .onTapGesture {
-                            addSheetPresented = true
-                        }
-                        .shadow(radius: 5)
-                        .padding()
+            ListView(predicate: chosenPredicate)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        habitListMenu
                     }
                 }
-            }
         }
     }
     
-    var addButton: some View {
-        Image(systemName: "plus")
-            .resizable()
-            .aspectRatio(1, contentMode: .fit)
-            .font(.title2.weight(.semibold))
-            .onTapGesture {
-                addSheetPresented = true
-            }
-            .foregroundColor(.accentColor)
-            .frame(minWidth: 22, minHeight: 22)
-            .contentShape(Rectangle())
-    }
 
     func predicateButton(predicate: NSPredicate?, text: String, imageName: String? = nil) -> some View {
-        
         Button(action: {
             withAnimation(.easeInOut) {
                 if let predicate = predicate {
@@ -109,6 +66,18 @@ struct iPhoneView: View {
     
     var habitListMenu: some View {
         Menu() {
+//            Menu {
+//                Button("Ascending") {
+//                    viewModel.filterOptions = .nameAscending
+//                }
+//                
+//                Button("Descending") {
+//                    viewModel.filterOptions = .nameDescending
+//                }
+//            } label: {
+//                Label("Sorting", systemImage: "line.3.horizontal")
+//            }
+            
             predicateButton(predicate: nil, text: "All Habits", imageName: "checkmark.circle")
             
             Menu {
@@ -130,8 +99,8 @@ struct iPhoneView: View {
             }
             
         } label: {
-            Image(systemName: "ellipsis.circle")
-                .font(.title2)
+            Image(systemName: "line.3.horizontal.decrease.circle")
+                //.font(.title2)
                 .contentShape(Rectangle())
         }
     }

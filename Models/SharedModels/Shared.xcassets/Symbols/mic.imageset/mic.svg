@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;">
+    <g transform="matrix(0.078125,0,0,0.078125,20,20)">
+        <g id="mic.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M192,448L320,448M384,208L384,240C384,310.4 326.4,368 256,368C185.6,368 128,310.4 128,240L128,208M256,368L256,448" style="fill:none;fill-rule:nonzero;stroke:black;stroke-width:32px;"/>
+            <path d="M256,320C234.674,319.95 214.256,311.248 199.45,295.9C184.447,280.77 176.014,260.308 176,239L176,128C176,127.896 175.999,127.793 175.999,127.689C175.999,83.973 211.973,47.999 255.689,47.999C255.793,47.999 255.896,48 256,48C300.86,48 336,83.14 336,128L336,239C336,283.66 300.11,320 256,320Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="mic.svg1" serif:id="mic.svg">
+        </g>
+    </g>
+</svg>

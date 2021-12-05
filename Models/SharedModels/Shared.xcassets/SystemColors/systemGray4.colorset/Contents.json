@@ -1,0 +1,29 @@
+{
+  "colors" : [
+    {
+      "color" : {
+        "platform" : "ios",
+        "reference" : "systemGray4Color"
+      },
+      "idiom" : "iphone"
+    },
+    {
+      "color" : {
+        "platform" : "ios",
+        "reference" : "systemGray4Color"
+      },
+      "idiom" : "ipad"
+    },
+    {
+      "color" : {
+        "platform" : "osx",
+        "reference" : "windowBackgroundColor"
+      },
+      "idiom" : "mac"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

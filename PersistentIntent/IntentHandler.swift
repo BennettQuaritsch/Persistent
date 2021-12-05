@@ -9,6 +9,27 @@ import Intents
 import CoreData
 
 class IntentHandler: INExtension, SelectHabitIntentHandling, SelectMultipleHabitsIntentHandling {
+    func defaultHabits(for intent: SelectMultipleHabitsIntent) -> [ChosenHabit]? {
+        let request = NSFetchRequest<HabitItem>(entityName: "HabitItem")
+        
+        let result: [HabitItem]? = try? PersistenceController.shared.container.viewContext.fetch(request)
+        
+        if let filteredResult = result?.filter({ !$0.habitDeleted }) {
+            let prefix = filteredResult.shuffled().prefix(4)
+            
+            let mappedResult: [ChosenHabit] = prefix.map {
+                let chosenHabit = ChosenHabit(identifier: $0.id.uuidString, display: $0.habitName)
+                chosenHabit.name = $0.habitName
+                
+                return chosenHabit
+            }
+            
+            return mappedResult
+        }
+        
+        return nil
+    }
+    
     ///Function for passig multiple Habits
     func provideHabitsOptionsCollection(for intent: SelectMultipleHabitsIntent, with completion: @escaping (INObjectCollection<ChosenHabit>?, Error?) -> Void) {
         let test = ChosenHabit(identifier: "Test", display: "Test")
@@ -45,6 +66,20 @@ class IntentHandler: INExtension, SelectHabitIntentHandling, SelectMultipleHabit
         completion(collection, nil)
     }
     
+    func defaultHabit(for intent: SelectHabitIntent) -> ChosenHabit? {
+        let request = NSFetchRequest<HabitItem>(entityName: "HabitItem")
+        
+        let result: [HabitItem]? = try? PersistenceController.shared.container.viewContext.fetch(request)
+        
+        if let habitItem: HabitItem = result?.filter({ !$0.habitDeleted }).randomElement() {
+            let chosenHabit = ChosenHabit(identifier: habitItem.id.uuidString, display: habitItem.habitName)
+            chosenHabit.name = habitItem.habitName
+            
+            return chosenHabit
+        }
+        
+        return nil
+    }
     
     func provideHabitOptionsCollection(for intent: SelectHabitIntent, with completion: @escaping (INObjectCollection<ChosenHabit>?, Error?) -> Void) {
         let test = ChosenHabit(identifier: "Test", display: "Test")

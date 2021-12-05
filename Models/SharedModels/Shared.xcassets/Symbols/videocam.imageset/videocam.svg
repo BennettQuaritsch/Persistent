@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0723161,0,0,0.0723161,20,20)">
+        <g id="videocam.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M464,384.39C459.521,384.387 455.092,383.443 451,381.62C450.048,381.197 449.14,380.682 448.29,380.08L365.58,321.86C357.075,315.873 352.002,306.101 352,295.7L352,216.3C352.002,205.899 357.075,196.127 365.58,190.14L448.29,131.92C449.14,131.318 450.048,130.803 451,130.38C455.092,128.561 459.521,127.62 464,127.62C481.555,127.62 496,142.065 496,159.62L496,352.38C496,369.935 481.555,384.38 464,384.38L464,384.39ZM268,400L84,400C46.711,399.962 16.038,369.289 16,332L16,180C16.038,142.711 46.711,112.038 84,112L268.48,112C305.504,112.044 335.956,142.496 336,179.52L336,332C335.962,369.289 305.289,399.962 268,400Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="videocam.svg1" serif:id="videocam.svg">
+        </g>
+    </g>
+</svg>

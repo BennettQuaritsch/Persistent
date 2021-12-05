@@ -13,10 +13,14 @@ struct ListView: View {
     
     @Environment(\.colorScheme) var colorScheme
     
-    @Environment(\.editMode) var editMode
+    #if os(iOS)
+    //@Environment(\.editMode) var editMode
+    @State var editMode: EditMode = .inactive
+    #endif
+    
+    @EnvironmentObject private var userSettings: UserSettings
 
     /// Init with optional Predicate. When predicate = nil, no predicate will be used.
-    
     init(predicate: [NSPredicate]?) {
         if let predicate = predicate {
             let combinedPredicate = NSCompoundPredicate(andPredicateWithSubpredicates: predicate)
@@ -39,92 +43,100 @@ struct ListView: View {
     }
     
     @FetchRequest private var items: FetchedResults<HabitItem>
-
-    func deleteHabitWithOffset(at offsets: IndexSet) {
-        for index in offsets {
-            let habit = items[index]
-            habit.deleteHabit()
-            
-            do {
-                try viewContext.save()
-            } catch {
-                fatalError()
-            }
+    
+    //@FetchRequest(entity: HabitItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \HabitItem.habitName, ascending: true)], predicate: NSCompoundPredicate(andPredicateWithSubpredicates: []), animation: .default) var test: FetchedResults<HabitItem>
+    
+    @StateObject var viewModel: ListViewModel = .init()
+    
+    var shownItems: [HabitItem] {
+//        var tempItems: [HabitItem] = []
+//
+//        switch viewModel.filterOptions {
+//        case .nameAscending:
+//            tempItems = items.sorted(by: { $0.habitName < $1.habitName })
+//        case .nameDescending:
+//            tempItems = items.sorted(by: { $0.habitName > $1.habitName })
+//        }
+        
+        if viewModel.searchText.isEmpty {
+            return items.map {$0}
+        } else {
+            return items.filter { $0.habitName.contains(viewModel.searchText) }
         }
     }
+
+    func deleteHabitWithOffset(at offsets: IndexSet) {
+        viewModel.deleteHabitWithOffset(at: offsets, items: items, context: viewContext)
+    }
     
-    @State private var selection = Set<UUID>()
-    @State private var testBool = false
+    private var isEditing: Bool {
+            editMode.isEditing
+        }
     
     var body: some View {
-        List(selection: $selection) {
-            ForEach(items, id: \.id) { item in
+        List(selection: $viewModel.selection) {
+            ForEach(shownItems, id: \.id) { item in
                 if !item.habitDeleted {
-                    Section {
-                        NavigationLink(destination: HabitDetailView(habit: item)) {
-                            HStack {
-                                if item.iconName != nil {
-                                    Image(item.iconName!)
-                                        .resizable()
-                                        .foregroundColor(item.iconColor)
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(height: 40)
-                                        //.padding(.trailing, 5)
-                                }
-
-                                Text(item.habitName)
-                                    .font(.title)
-                                    .fontWeight(.semibold)
-                                    .lineLimit(1)
-                                    .minimumScaleFactor(0.4)
-                                    .padding(.trailing, 5)
-
-                                Spacer()
-
-                                ZStack {
-                                    Text("\(relevantCount(habit: item))/\(item.amountToDo)")
-                                        .fontWeight(.bold)
-                                    NewProgressBar(strokeWidth: 7, progress: CGFloat(relevantCount(habit: item)) / CGFloat(item.amountToDo), color: item.iconColor)
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(height: 50)
-                                }
-                                .padding(.trailing)
-                                .padding(.vertical, 3)
-                            }
-                            .animation(.easeOut(duration: 0.25))
-                        }
+                    NavigationLink(destination: HabitDetailView(habit: item)) {
+                        ListCellView(habit: item, viewModel: viewModel)
                     }
                 }
             }
             .onDelete(perform: deleteHabitWithOffset)
+            #if os(iOS)
+            .onChange(of: editMode) { _ in
+                viewModel.selection = []
+                print("change")
+            }
+            #endif
+            //.listRowSeparator(.hidden)
         }
-        .listStyle(InsetGroupedListStyle())
+        .tint(.accentColor)
+        .safeAreaInset(edge: .bottom) {
+            HStack {
+                Spacer()
+
+                ZStack {
+                    Circle()
+                        .fill(Color.accentColor)
+
+                    Image(systemName: "plus")
+                        .foregroundColor(.primary)
+                }
+                .frame(width: 50, height: 50)
+                .onTapGesture {
+                    viewModel.addSheetPresented = true
+                }
+                .shadow(radius: 5)
+                .padding()
+            }
+        }
+        //.listStyle(InsetGroupedListStyle())
+        .searchable(text: $viewModel.searchText, prompt: "Search for a habit")
+        #if os(iOS)
         .navigationBarTitle("All Habits")
+        #endif
         .toolbar {
             #if os(iOS)
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                deleteButton
-            }
-            
-            ToolbarItem(placement: .navigationBarTrailing) {
-                EditButton()
-            }
-            
+            editAndDeleteButton
             #endif
         }
+        .sheet(isPresented: $viewModel.addSheetPresented, content: {
+            AddHabitView(accentColor: userSettings.accentColor)
+            .environment(\.managedObjectContext, self.viewContext)
+        })
+        .environment(\.editMode, $editMode)
     }
     
-    var deleteButton: some View {
-        VStack {
-            if editMode?.wrappedValue == .active {
+    #if os(iOS)
+    var editAndDeleteButton: some ToolbarContent {
+        ToolbarItemGroup(placement: .navigationBarTrailing) {
+            if editMode == .active {
                 Button {
-                    print(selection)
-                    
-                    for habit in items where selection.contains(habit.id) {
+                    for habit in items where viewModel.selection.contains(habit.id) {
                         habit.deleteHabit()
                     }
-                    
+
                     do {
                         try viewContext.save()
                     } catch {
@@ -132,57 +144,14 @@ struct ListView: View {
                         fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
                     }
                 } label: {
-                    Image(systemName: "trash.fill")
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .font(.title2.weight(.semibold))
+                    Image(systemName: "trash")
                 }
             }
+            
+            EditButton()
         }
     }
-}
-
-struct CustomListCell: View {
-    @ObservedObject var item: HabitItem
-    
-    var body: some View {
-        HStack {
-            Text(item.habitName)
-                .font(.title)
-                .fontWeight(.semibold)
-                .foregroundColor(.primary)
-            Spacer()
-            ZStack {
-                Text("\(relevantCount(habit: item))/\(item.amountToDo)")
-                    .fontWeight(.bold)
-                    .foregroundColor(.primary)
-                CircleProgressBar(progress: CGFloat(relevantCount(habit: item)) / CGFloat(item.amountToDo), strokeWidth: 7)
-                    .aspectRatio(contentMode: .fit)
-                    .frame(height: 50)
-            }
-            .padding(.vertical, 3)
-        }
-        .padding(.horizontal, 5)
-        .padding(10)
-        .background(Color.primary.colorInvert())
-        .cornerRadius(20)
-        .shadow(color: .primary.opacity(0.2), radius: 6, x: 0, y: 0)
-        .padding(.horizontal)
-        .padding(.bottom)
-    }
-}
-
-fileprivate func relevantCount(habit: HabitItem) -> Int {
-    let todayCount: [HabitCompletionDate]
-    switch habit.resetIntervalEnum {
-    case .daily:
-        todayCount = habit.dateArray.filter { Calendar.current.isDateInToday($0.date!) }
-    case .weekly:
-        todayCount = habit.dateArray.filter { Calendar.current.isDate($0.date!, equalTo: Date(), toGranularity: .weekOfYear) }
-    case .monthly:
-        todayCount = habit.dateArray.filter { Calendar.current.isDate($0.date!, equalTo: Date(), toGranularity: .month) }
-    }
-    return todayCount.count
+    #endif
 }
 
 

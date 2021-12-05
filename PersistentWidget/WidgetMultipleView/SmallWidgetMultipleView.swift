@@ -8,60 +8,12 @@
 import SwiftUI
 import CoreData
 
-var testHabit: HabitItem {
-    let testItem: HabitItem = HabitItem(context: PersistenceController.shared.container.viewContext)
-    testItem.habitName = "Test"
-    testItem.amountToDo = Int16(3)
-    testItem.resetIntervalEnum = .daily
-    testItem.id = UUID()
-    testItem.iconColorIndex = Int16(1)
-    testItem.iconName = "Walking"
-    
-    return testItem
-}
-
-var testHabit2: HabitItem {
-    let testItem: HabitItem = HabitItem(context: PersistenceController.shared.container.viewContext)
-    testItem.habitName = "Test"
-    testItem.amountToDo = Int16(3)
-    testItem.resetIntervalEnum = .daily
-    testItem.id = UUID()
-    testItem.iconColorIndex = Int16(1)
-    testItem.iconName = "Walking"
-    
-    return testItem
-}
-
-var testHabit3: HabitItem {
-    let testItem: HabitItem = HabitItem(context: PersistenceController.shared.container.viewContext)
-    testItem.habitName = "Test"
-    testItem.amountToDo = Int16(3)
-    testItem.resetIntervalEnum = .daily
-    testItem.id = UUID()
-    testItem.iconColorIndex = Int16(1)
-    testItem.iconName = "Walking"
-    
-    return testItem
-}
-
-var testHabit4: HabitItem {
-    let testItem: HabitItem = HabitItem(context: PersistenceController.shared.container.viewContext)
-    testItem.habitName = "Test"
-    testItem.amountToDo = Int16(3)
-    testItem.resetIntervalEnum = .daily
-    testItem.id = UUID()
-    testItem.iconColorIndex = Int16(1)
-    testItem.iconName = "Walking"
-    
-    return testItem
-}
-
 struct SmallWidgetMultipleView: View {
+    @Environment(\.redactionReasons) var redactionReasons
+    
     init(chosenHabits: [HabitItem]) {
         self.habits = chosenHabits
     }
-    
-    let testHabits = [testHabit, testHabit2, testHabit3, testHabit4]
     
     let grids = [
         GridItem(.flexible()),
@@ -71,36 +23,69 @@ struct SmallWidgetMultipleView: View {
     var habits: [HabitItem]
     
     var body: some View {
-        if !habits.isEmpty {
+        if redactionReasons == .placeholder {
             LazyVGrid(columns: grids) {
                 ForEach(habits, id: \.id) { habit in
                     ZStack {
-                        NewProgressBar(strokeWidth: 5, progress: habit.progress(), color: habit.iconColor)
+                        ProgressBar(strokeWidth: 5, progress: 0, color: .black)
                             .aspectRatio(contentMode: .fit)
                         
-                        if habit.iconName != nil {
-                            ZStack {
-                                Image(habit.iconName!)
-                                    .resizable()
-                                    .foregroundColor(habit.iconColor)
-                                
-                            }
-                            .aspectRatio(contentMode: .fit)
-                            .frame(height: 35)
-                        }
+                        Circle()
+                            .foregroundColor(Color("systemGray6"))
+                            .scaledToFit()
                     }
-                    .padding(3)
+                    .padding(4)
                 }
             }
             .padding(10)
         } else {
-            Text("Choose a habit")
+            if !habits.isEmpty {
+                LazyVGrid(columns: grids) {
+                    ForEach(habits, id: \.id) { habit in
+                        ZStack {
+                            ProgressBar(strokeWidth: 6, progress: habit.progress(), color: habit.iconColor)
+                            
+                            if habit.iconName != nil {
+                                Image(habit.iconName!)
+                                    .resizable()
+                                    .foregroundColor(habit.iconColor)
+                                    .aspectRatio(contentMode: .fit)
+                                    //.frame(height: 45)
+                                    .padding(10)
+                            }
+                        }
+                        .padding(4)
+                    }
+                }
+                .padding(10)
+            } else {
+                Text("Configure your habits through long-pressing")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .multilineTextAlignment(.center)
+            }
         }
     }
 }
 
 struct SmallWidgetMultipleView_Previews: PreviewProvider {
     static var previews: some View {
-        SmallWidgetMultipleView(chosenHabits: [])
+        let moc = PersistenceController().container.viewContext
+        
+        let habit = HabitItem(context: moc)
+        habit.id = UUID()
+        habit.habitName = "PreviewTest"
+        habit.iconName = iconChoices.randomElement()!
+        habit.resetIntervalEnum = .daily
+        habit.amountToDo = 4
+        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
+        
+        for _ in 1...Int.random(in: 1...6) {
+            let date = HabitCompletionDate(context: moc)
+            date.date = Date()
+            date.item = habit
+        }
+        
+        return SmallWidgetMultipleView(chosenHabits: [habit])
     }
 }

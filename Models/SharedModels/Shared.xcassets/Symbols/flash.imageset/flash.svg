@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0726563,0,0,0.0726563,20,20)">
+        <g id="flash.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M194.82,496C194.815,496 194.81,496 194.804,496C184.732,496 176.444,487.712 176.444,477.64C176.444,476.577 176.537,475.517 176.72,474.47L176.72,474.36L204.83,320L96,320C87.223,319.999 80.002,312.777 80.002,304C80.002,300.339 81.258,296.787 83.56,293.94L302.73,23C306.226,18.562 311.574,15.967 317.223,15.967C327.344,15.967 335.673,24.296 335.673,34.417C335.673,35.184 335.625,35.949 335.53,36.71C335.53,37.01 335.45,37.3 335.4,37.6L307.19,192L416,192C424.777,192.001 431.998,199.223 431.998,208C431.998,211.661 430.742,215.213 428.44,218.06L209.24,489C205.753,493.406 200.438,495.986 194.82,496Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="flash.svg1" serif:id="flash.svg">
+        </g>
+    </g>
+</svg>

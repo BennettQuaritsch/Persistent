@@ -12,31 +12,30 @@ struct PersistenceController {
     
     static var preview: PersistenceController = {
         let result = PersistenceController()
-        let viewContext = result.container.viewContext
-        for i in 0..<10 {
-//            let newItem = HabitCompletionDate(context: viewContext)
-//            newItem.date = Date()
-//            newItem.item = HabitItem(context: viewContext)
-//            newItem.item?.habitName = "Test \(i)"
-//            newItem.item?.amountToDo = 3
-//            newItem.item?.iconName = "Walking"
-//            newItem.item?.iconColorIndex = 0
-//            newItem.item?.habitDeleted = false
-//            newItem.item?.resetIntervalEnum = .daily
-//            newItem.item?.id = UUID()
-            
-            let newTag = HabitTag(context: viewContext)
-            newTag.name = "Tag \(i)"
-            newTag.id = UUID()
-        }
-        do {
-            try viewContext.save()
-        } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
+//        let viewContext = result.container.viewContext
+//        for i in 0..<3 {
+//            let habit = HabitItem(context: viewContext)
+//            habit.id = UUID()
+//            habit.habitName = "PreviewTest"
+//            habit.iconName = iconChoices.randomElement()!
+//            habit.resetIntervalEnum = .daily
+//            habit.amountToDo = 4
+//            habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
+//            
+//            for _ in 1...Int.random(in: 1...6) {
+//                let date = HabitCompletionDate(context: viewContext)
+//                date.date = Date()
+//                date.item = habit
+//            }
+//        }
+//        do {
+//            try viewContext.save()
+//        } catch {
+//            // Replace this implementation with code to handle the error appropriately.
+//            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+//            let nsError = error as NSError
+//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//        }
         return result
     }()
 
@@ -47,6 +46,8 @@ struct PersistenceController {
         
         let storeURL = URL.storeURL(for: "group.persistentData", databaseName: "PersistentDatabase")
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
+        storeDescription.shouldInferMappingModelAutomatically = true
+        storeDescription.shouldMigrateStoreAutomatically = true
         
         let syncEnabled: Bool = UserDefaults.standard.bool(forKey: "syncEnabled")
         

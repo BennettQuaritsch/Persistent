@@ -27,6 +27,7 @@ extension HabitDetailView {
         
         @Published var deleteActionSheet: Bool = false
         @Published var editSheet: Bool = false
+        @Published var graphSheet: Bool = false
         @Published var calendarSheet: Bool = false
         
     //    var progress: CGFloat {
@@ -46,17 +47,23 @@ extension HabitDetailView {
         
         func addToHabit() {
             withAnimation(.easeInOut) {
-                let newhabit = HabitCompletionDate(context: viewContext)
-                newhabit.date = shownDate
-                newhabit.item = habit
+//                let newhabit = HabitCompletionDate(context: viewContext)
+//                newhabit.date = shownDate
+//                newhabit.item = habit
+//
+//                do {
+//                    try viewContext.save()
+//                    selectionChanged()
+//                } catch {
+//                    let nsError = error as NSError
+//                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//                }
                 
-                do {
-                    try viewContext.save()
-                    selectionChanged()
-                } catch {
-                    let nsError = error as NSError
-                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                }
+                habit.addToHabit(1, date: shownDate, context: viewContext)
+                
+                self.objectWillChange.send()
+                
+                habit.objectWillChange.send()
             }
         }
         
@@ -64,31 +71,63 @@ extension HabitDetailView {
             withAnimation(.easeInOut) {
     //            let habitObject = habit.date?.sortedArray(using: [NSSortDescriptor(keyPath: \HabitCompletionDate.date, ascending: true)]).last
                 
-                if let habitObject = habit.dateArray.last(where: { Calendar.current.isDate($0.date!, equalTo: shownDate, toGranularity: .day) }) {
-                    viewContext.delete(habitObject as NSManagedObject)
-                    selectionChanged()
+//                if let habitObject = habit.dateArray.last(where: { Calendar.current.isDate($0.date!, equalTo: shownDate, toGranularity: .day) }) {
+//                    viewContext.delete(habitObject as NSManagedObject)
+//                    selectionChanged()
+//                } else {
+//                    errorVibration()
+//                }
+//
+//                do {
+//                    try viewContext.save()
+//
+//                } catch {
+//                    let nsError = error as NSError
+//                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+//                }
+                
+                habit.addToHabit(-1, date: shownDate, context: viewContext)
+                
+                self.objectWillChange.send()
+                
+                habit.objectWillChange.send()
+            }
+        }
+        
+        func addRemoveMultiple() {
+            withAnimation(.easeInOut) {
+                if let toAdd: Int32 = Int32(multipleAddField) {
+                    switch multipleAddSelection {
+                    case .add:
+                        habit.addToHabit(toAdd, date: shownDate, context: viewContext)
+                    case .remove:
+                        habit.addToHabit(-toAdd, date: shownDate, context: viewContext)
+                    }
+                    
+                    self.multipleAddField = ""
+                    self.multipleAddShown = false
                 } else {
                     errorVibration()
                 }
                 
-                do {
-                    try viewContext.save()
-                    
-                } catch {
-                    let nsError = error as NSError
-                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                }
+                self.objectWillChange.send()
+                
+                habit.objectWillChange.send()
             }
         }
         
         func selectionChanged() {
+            #if os(iOS)
             let generator = UISelectionFeedbackGenerator()
             generator.selectionChanged()
+            #endif
         }
         
         func errorVibration() {
+            #if os(iOS)
             let generator = UINotificationFeedbackGenerator()
             generator.notificationOccurred(.error)
+            #endif
         }
     }
     

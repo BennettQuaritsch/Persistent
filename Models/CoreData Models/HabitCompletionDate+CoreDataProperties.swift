@@ -18,6 +18,7 @@ extension HabitCompletionDate {
 
     @NSManaged public var date: Date?
     @NSManaged public var item: HabitItem?
+    @NSManaged public var habitValue: Int32
 
 }
 

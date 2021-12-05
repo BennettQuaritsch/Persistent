@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0726563,0,0,0.0726563,20,20)">
+        <g id="clipboard.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M368,48L356.59,48C353.309,47.997 350.348,45.975 349.15,42.92C342.872,26.742 327.223,16.018 309.87,16L202.13,16C184.777,16.018 169.128,26.742 162.85,42.92C161.652,45.975 158.691,47.997 155.41,48L144,48C108.891,48 80,76.891 80,112L80,432C80,467.109 108.891,496 144,496L368,496C403.109,496 432,467.109 432,432L432,112C432,76.891 403.109,48 368,48ZM319.87,112L192.13,112C183.353,112 176.13,104.777 176.13,96C176.13,87.223 183.353,80 192.13,80L319.87,80C328.647,80 335.87,87.223 335.87,96C335.87,104.777 328.647,112 319.87,112Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="clipboard.svg1" serif:id="clipboard.svg">
+        </g>
+    </g>
+</svg>

@@ -12,10 +12,13 @@ struct AboutPersistentView: View {
         List {
             if let url = URL(string: "https://ionic.io/ionicons") {
                 Link("Thanks ionicons for making their icons open source!", destination: url)
+                    .padding(5)
             }
         }
+        #if os(iOS)
         .listStyle(InsetGroupedListStyle())
         .navigationBarTitle("Thanks to")
+        #endif
     }
 }
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 40 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(0.0725591,0,0,0.0725591,20,20)">
+        <g id="pricetag.svg" transform="matrix(1,0,0,1,-256,-256)">
+            <path d="M467,45.2C458.629,36.732 447.197,31.973 435.29,32L312.36,32C304.299,32.015 296.561,35.212 290.84,40.89L45.09,286.59C27.746,303.969 27.746,332.531 45.09,349.91L162.09,466.91C179.474,484.261 208.046,484.261 225.43,466.91L471.08,221.31C476.77,215.598 479.978,207.862 480,199.8L480,76.8C480.073,64.955 475.387,53.564 467,45.2ZM384,160C366.445,160 352,145.555 352,128C352,110.445 366.445,96 384,96C401.555,96 416,110.445 416,128C416,145.555 401.555,160 384,160Z" style="fill-rule:nonzero;"/>
+        </g>
+        <g id="pricetag.svg1" serif:id="pricetag.svg">
+        </g>
+    </g>
+</svg>

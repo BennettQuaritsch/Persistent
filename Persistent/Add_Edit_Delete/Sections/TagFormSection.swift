@@ -31,7 +31,7 @@ struct TagFormSection: View {
             if isAdding {
                 ZStack {
                     Capsule()
-                        .fill(Color(UIColor.tertiarySystemGroupedBackground))
+                        .fill(Color("tertiaryGroupedBackground"))
                         .matchedGeometryEffect(id: "buttonBackground", in: animation)
                     
                     HStack {
@@ -57,7 +57,7 @@ struct TagFormSection: View {
                                 .padding()
                                 .background(
                                     Capsule()
-                                        .fill(Color(selection.contains(tag.id ?? UUID()) ?  UIColor.systemGray4 : UIColor.systemGray6))
+                                        .fill(selection.contains(tag.id ?? UUID()) ? Color("systemGray4") : Color("systemGray6"))
                                 )
                                 .onTapGesture {
                                     if selection.contains(tag.id ?? UUID()) {
@@ -85,7 +85,7 @@ struct TagFormSection: View {
             if !isAdding {
                 ZStack {
                     Capsule()
-                        .fill(Color(UIColor.tertiarySystemGroupedBackground))
+                        .fill(Color("tertiaryGroupedBackground"))
                         .aspectRatio(contentMode: .fit)
                         .matchedGeometryEffect(id: "buttonBackground", in: animation)
                     
@@ -143,7 +143,7 @@ struct TagSelectionBackgroundModifier: ViewModifier {
             .padding()
             .background(
                 Capsule()
-                    .fill(Color(UIColor.systemGroupedBackground))
+                    .fill(Color("systemGroupedBackground"))
             )
     }
 }
@@ -155,24 +155,7 @@ extension View {
 }
 
 struct TagFormSection_Previews: PreviewProvider {
-    static let moc = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     static var previews: some View {
-        var testHabit: HabitItem {
-        
-            let testItem: HabitItem = HabitItem(context: moc)
-            testItem.habitName = "Test"
-            testItem.amountToDo = 3
-            testItem.resetIntervalEnum = .monthly
-            
-            let anotherNewItem = HabitCompletionDate(context: moc)
-            anotherNewItem.date = Date()
-            
-            let secondNewItem = HabitCompletionDate(context: moc)
-            secondNewItem.date = Date()
-            testItem.date = NSSet(array: [anotherNewItem, secondNewItem])
-            
-            return testItem
-        }
         return VStack{TagFormSection(selection: .constant(Set<UUID>()))}
             .previewLayout(.sizeThatFits)
     }
