@@ -85,6 +85,15 @@ extension NotificationItem {
         }
     }
     
+    public var wrappedIntSet: Set<Int> {
+        get {
+            return self.weekdayIntSet ?? []
+        }
+        set {
+            self.weekdayIntSet = newValue
+        }
+    }
+    
     public var wrappedDate: Date {
         get {
             return date ?? Date()

@@ -42,13 +42,20 @@ struct NewNotificationsView: View {
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     withAnimation {
-                        viewModel.notifcationArray.append(.init(message: "Notification", date: Date(), weekdays: [.init(date: Date())]))
+                        viewModel.notifcationArray.append(.init(message: "Notification", date: Date(), weekdays: [getDateIndex()]))
                     }
                 } label: {
                     Label("Add", systemImage: "plus")
                 }
             }
         }
+    }
+    
+    func getDateIndex() -> Int {
+        let cal = Calendar.current
+        print(cal.component(.weekday, from: Date()))
+        print(weekdayNameFrom(weekdayNumber: cal.component(.weekday, from: Date())))
+        return ((cal.component(.weekday, from: Date()) - 1) + (cal.firstWeekday - 1)) % 7
     }
 }
 

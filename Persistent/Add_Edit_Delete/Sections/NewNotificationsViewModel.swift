@@ -15,7 +15,7 @@ struct NotificationDate: Identifiable {
     
     var message: String
     var date: Date
-    var weekdays: Set<WeekdayEnum>
+    var weekdays: Set<Int>
 }
 
 func weekdayNameFrom(weekdayNumber: Int) -> String {
@@ -49,7 +49,7 @@ class NewNotificationsViewModel: ObservableObject {
             newNotificationItem.date = notificationDate.date
             newNotificationItem.habit = habit
             newNotificationItem.wrappedMessage = notificationDate.message
-            newNotificationItem.weekdayEnumSet = notificationDate.weekdays
+            newNotificationItem.wrappedIntSet = notificationDate.weekdays
             
             var components = calendar.dateComponents([.hour, .minute], from: notificationDate.date)
             
@@ -59,7 +59,7 @@ class NewNotificationsViewModel: ObservableObject {
             // Für jeden Weekday loopen
             for notificationWeekday in notificationDate.weekdays {
                 // Eventuell weekday ausgleichen?
-                components.weekday = ((notificationWeekday.id - 1) + (calendar.firstWeekday - 1)) % 7 + 1
+                components.weekday = ((notificationWeekday - 1) + (calendar.firstWeekday - 1)) % 7 + 1
                 
                 let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
                 
@@ -67,7 +67,7 @@ class NewNotificationsViewModel: ObservableObject {
 
                 // UUID aus dem NotificationItem
                 //let uuidString = notificationItem.wrappedID.uuidString
-                let uuidString = newNotificationItem.wrappedID.uuidString + " - \(notificationWeekday.id)"
+                let uuidString = newNotificationItem.wrappedID.uuidString + " - \(notificationWeekday)"
                 
                 // Request Erstellen
                 let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
@@ -122,7 +122,7 @@ class NewNotificationsViewModel: ObservableObject {
         
         for notification in habitNotifications {
             print(notification.wrappedDate)
-            tempNotificationArray.append(NotificationDate(message: notification.wrappedMessage, date: notification.wrappedDate, weekdays: notification.weekdayEnumSet))
+            tempNotificationArray.append(NotificationDate(message: notification.wrappedMessage, date: notification.wrappedDate, weekdays: notification.wrappedIntSet))
         }
         
         self.notifcationArray = tempNotificationArray

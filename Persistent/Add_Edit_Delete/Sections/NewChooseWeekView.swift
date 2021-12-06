@@ -21,7 +21,7 @@ struct NewChooseWeekView: View {
                     
                     Circle()
                         .fill(
-                            notificationDate.weekdays.contains(where: { $0.id == index })
+                            notificationDate.weekdays.contains(where: { $0 == index })
                             ? Color.accentColor : Color.clear)
                         .shadow(color: .black.opacity(0.2), radius: 6)
                         .overlay(
@@ -34,10 +34,14 @@ struct NewChooseWeekView: View {
                 }
                 
                 .onTapGesture {
-                    if notificationDate.weekdays.contains(where: { $0.id == index }) {
-                        notificationDate.weekdays.remove(WeekdayEnum(index: index))
+                    if notificationDate.weekdays.contains(where: { $0 == index }) {
+                        notificationDate.weekdays
+                            .remove(index)
+                            //.remove(WeekdayEnum(index: index))
                     } else {
-                        notificationDate.weekdays.insert(WeekdayEnum(index: index))
+                        notificationDate.weekdays
+                            .insert(index)
+                            //.insert(WeekdayEnum(index: index))
                     }
                 }
             }
