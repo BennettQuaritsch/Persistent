@@ -12,14 +12,20 @@ struct ListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.purchaseInfo) var purchaseInfo
     
     #if os(iOS)
     //@Environment(\.editMode) var editMode
     @State var editMode: EditMode = .inactive
     #endif
     
+    @State private var purchaseAlert = false
+    
     @EnvironmentObject private var userSettings: UserSettings
 
+    var habitLimitReached: Bool {
+        return !purchaseInfo.wrappedValue && items.count > 3
+    }
     /// Init with optional Predicate. When predicate = nil, no predicate will be used.
     init(predicate: [NSPredicate]?) {
         if let predicate = predicate {
@@ -98,14 +104,18 @@ struct ListView: View {
 
                 ZStack {
                     Circle()
-                        .fill(Color.accentColor)
+                        .fill(habitLimitReached ? Color.gray : Color.accentColor)
 
                     Image(systemName: "plus")
                         .foregroundColor(.primary)
                 }
                 .frame(width: 50, height: 50)
                 .onTapGesture {
-                    viewModel.addSheetPresented = true
+                    if habitLimitReached {
+                        purchaseAlert = true
+                    } else {
+                        viewModel.addSheetPresented = true
+                    }
                 }
                 .shadow(radius: 5)
                 .padding()
@@ -124,8 +134,16 @@ struct ListView: View {
         .sheet(isPresented: $viewModel.addSheetPresented, content: {
             AddHabitView(accentColor: userSettings.accentColor)
             .environment(\.managedObjectContext, self.viewContext)
+            .environment(\.purchaseInfo, purchaseInfo)
         })
         .environment(\.editMode, $editMode)
+        .alert("Your have reached your limit", isPresented: $purchaseAlert) {
+            Button("OK", role: .cancel) {
+                purchaseAlert = false
+            }
+        } message: {
+            Text("Purchase Premium to add unlimited habits and to support me")
+        }
     }
     
     #if os(iOS)

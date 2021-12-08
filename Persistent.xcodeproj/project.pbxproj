@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -137,6 +137,7 @@
 		9156186C272A11AE00C07395 /* HabitSpecificGraphsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192C2E427103F5700997D51 /* HabitSpecificGraphsView.swift */; };
 		9156186D272A11AE00C07395 /* HabitBarChartMonthlyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192C2EF2717386900997D51 /* HabitBarChartMonthlyView.swift */; };
 		9156186E272A11B800C07395 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9105490226860C62005E80C2 /* CalendarView.swift */; };
+		916A8C382761161C00D24202 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 916A8C372761161C00D24202 /* SwiftKeychainWrapper */; };
 		916B1E8226A8A29D005F7AB0 /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916B1E8126A8A29D005F7AB0 /* PageView.swift */; };
 		916BDCC426E7ED4000F069AC /* AlternativeTagSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916BDCC326E7ED4000F069AC /* AlternativeTagSection.swift */; };
 		9179C96F26E241CA0054B188 /* HabitTag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9179C96D26E241CA0054B188 /* HabitTag+CoreDataClass.swift */; };
@@ -389,6 +390,7 @@
 			files = (
 				91807CEC2720D83B006208FE /* StoreKit.framework in Frameworks */,
 				9194121226DFF3B30042599E /* CloudKit.framework in Frameworks */,
+				916A8C382761161C00D24202 /* SwiftKeychainWrapper in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,6 +555,7 @@
 				91F45A1226C7DFB600311FD1 /* OldProgressBar.swift */,
 				913025692743F99E00CC91B2 /* ProgressBar.swift */,
 				913025762757D80700CC91B2 /* Shared.xcassets */,
+				916A8C392761165400D24202 /* KeychainWrapper */,
 			);
 			path = SharedModels;
 			sourceTree = "<group>";
@@ -665,6 +668,13 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		916A8C392761165400D24202 /* KeychainWrapper */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = KeychainWrapper;
+			sourceTree = "<group>";
+		};
 		91807CEE2720D866006208FE /* InAppPurchase */ = {
 			isa = PBXGroup;
 			children = (
@@ -752,6 +762,7 @@
 			);
 			name = Persistent;
 			packageProductDependencies = (
+				916A8C372761161C00D24202 /* SwiftKeychainWrapper */,
 			);
 			productName = Persistent;
 			productReference = 910548D926860ADE005E80C2 /* Persistent.app */;
@@ -847,6 +858,7 @@
 			);
 			mainGroup = 910548D026860ADE005E80C2;
 			packageReferences = (
+				916A8C362761161C00D24202 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
 			);
 			productRefGroup = 910548DA26860ADE005E80C2 /* Products */;
 			projectDirPath = "";
@@ -1522,6 +1534,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		916A8C362761161C00D24202 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jrendel/SwiftKeychainWrapper";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		916A8C372761161C00D24202 /* SwiftKeychainWrapper */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 916A8C362761161C00D24202 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
+			productName = SwiftKeychainWrapper;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		910548EE26860BC7005E80C2 /* Persistent.xcdatamodeld */ = {

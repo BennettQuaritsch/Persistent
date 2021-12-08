@@ -31,7 +31,7 @@ struct SymbolColorView: View {
         }
         
         
-        ScrollView(.horizontal) {
+        ScrollView(.horizontal, showsIndicators: false) {
             LazyHGrid(rows: rows, alignment: .center, spacing: 10) {
                 ForEach(0..<iconColors.count, id: \.self) { index in
                     ZStack {

@@ -20,6 +20,9 @@ struct AppSidebarNavigation: View {
     #if os(iOS)
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     #endif
+    
+    @Environment(\.purchaseInfo) var purchaseInfo
+    
     @EnvironmentObject private var userSettings: UserSettings
     
     @State private var selection: NavigationItem? = .allHabits
@@ -105,6 +108,7 @@ struct AppSidebarNavigation: View {
                     .accentColor(userSettings.accentColor)
                     .environmentObject(userSettings)
                     .environment(\.horizontalSizeClass, horizontalSizeClass)
+                    .environment(\.purchaseInfo, purchaseInfo)
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {

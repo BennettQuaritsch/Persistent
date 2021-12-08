@@ -52,10 +52,17 @@ struct NewNotificationsView: View {
     }
     
     func getDateIndex() -> Int {
-        let cal = Calendar.current
-        print(cal.component(.weekday, from: Date()))
-        print(weekdayNameFrom(weekdayNumber: cal.component(.weekday, from: Date())))
-        return ((cal.component(.weekday, from: Date()) - 1) + (cal.firstWeekday - 1)) % 7
+        var cal = Calendar.current
+        let prefLanguage = Locale.preferredLanguages[0]
+        cal.locale = .init(identifier: prefLanguage)
+        
+        var weekday = (cal.component(.weekday, from: Date()) - 1) - (cal.firstWeekday - 1)
+        
+        while weekday < 0 {
+            weekday += 7
+        }
+        
+        return weekday + 1
     }
 }
 

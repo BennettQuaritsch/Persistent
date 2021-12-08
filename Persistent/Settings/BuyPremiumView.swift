@@ -28,6 +28,7 @@ struct BuyPremiumView: View {
     #if os(iOS)
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     #endif
+    @Environment(\.purchaseInfo) var purchaseInfo
     @Environment(\.dismiss) var dismiss
     
     let premiumContents: [PremiumContent] = [
@@ -81,7 +82,7 @@ struct BuyPremiumView: View {
                     }
                     .padding(.vertical)
                 
-                if UserDefaults.standard.bool(forKey: product?.id ?? "") {
+                if purchaseInfo.wrappedValue {
                     Text("Purchased")
                 } else {
                     Button {
@@ -90,6 +91,7 @@ struct BuyPremiumView: View {
                                 do {
                                     if try await storeManager.purchase(product) != nil {
                                         print("bought")
+                                        purchaseInfo.wrappedValue = true
                                         dismiss()
                                     } else {
                                         print("not bought")

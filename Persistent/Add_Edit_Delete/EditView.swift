@@ -12,6 +12,7 @@ import UserNotifications
 struct EditView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) var dismiss
+    @Environment(\.purchaseInfo) var purchaseInfo
     
     //@StateObject private var notificationsViewModel = NotificationsViewModel()
     

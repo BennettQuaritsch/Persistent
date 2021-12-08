@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct NewChooseWeekView: View {
+    @Environment(\.colorScheme) var colorScheme
+    
     //@StateObject var viewModel = NewNotificationsViewModel()
     @Binding var notificationDate: NotificationDate
     
@@ -16,14 +18,14 @@ struct NewChooseWeekView: View {
             ForEach(1...7, id: \.self) { index in
                 ZStack {
                     Circle()
-                        .fill(.regularMaterial)
-                        .shadow(color: .black.opacity(0.2), radius: 6)
+                        .fill(.thickMaterial)
+                        .shadow(color: colorScheme == .dark ? .white.opacity(0.2) : .black.opacity(0.25), radius: 5)
                     
                     Circle()
                         .fill(
                             notificationDate.weekdays.contains(where: { $0 == index })
                             ? Color.accentColor : Color.clear)
-                        .shadow(color: .black.opacity(0.2), radius: 6)
+                        //.shadow(color: colorScheme == .dark ? .white.opacity(0.20) : .black.opacity(0.25), radius: 5)
                         .overlay(
                             Text(weekdayNameFrom(weekdayNumber: index))
                                 .minimumScaleFactor(0.6)

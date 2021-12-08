@@ -12,6 +12,7 @@ struct AddHabitView: View {
     
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.dismiss) var dismiss
+    @Environment(\.purchaseInfo) var purchaseInfo
     
     let accentColor: Color
     

@@ -7,85 +7,10 @@
 
 import Foundation
 import StoreKit
+import SwiftKeychainWrapper
 
 public enum StoreError: Error {
     case failedVerification
-}
-
-class StoreManagerDeprecated: NSObject, ObservableObject, SKProductsRequestDelegate, SKPaymentTransactionObserver {
-    @Published var myProducts = [SKProduct]()
-    @Published var transactionState: SKPaymentTransactionState?
-    
-    var request: SKProductsRequest!
-    
-    func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse) {
-        print("Did receive response")
-            
-        if !response.products.isEmpty {
-            for fetchedProduct in response.products {
-                DispatchQueue.main.async {
-                    self.myProducts.append(fetchedProduct)
-                }
-            }
-        }
-        
-        for invalidIdentifier in response.invalidProductIdentifiers {
-            print("Invalid identifiers found: \(invalidIdentifier)")
-        }
-    }
-    
-    func request(_ request: SKRequest, didFailWithError error: Error) {
-        print("Request did fail: \(error)")
-    }
-    
-    func getProducts(productIDs: [String]) {
-        print("Start requesting products ...")
-        let request = SKProductsRequest(productIdentifiers: Set(productIDs))
-        request.delegate = self
-        request.start()
-    }
-    
-    func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-        for transaction in transactions {
-            switch transaction.transactionState {
-            case .purchasing:
-                transactionState = .purchasing
-            case .purchased:
-                UserDefaults.standard.setValue(true, forKey: transaction.payment.productIdentifier)
-                queue.finishTransaction(transaction)
-                transactionState = .purchased
-                print("purchased \(transaction.payment.productIdentifier)")
-            case .restored:
-                UserDefaults.standard.setValue(true, forKey: transaction.payment.productIdentifier)
-                queue.finishTransaction(transaction)
-                transactionState = .restored
-            case .failed, .deferred:
-                print("Payment Queue Error: \(String(describing: transaction.error))")
-                queue.finishTransaction(transaction)
-                transactionState = .failed
-            default:
-                queue.finishTransaction(transaction)
-            }
-        }
-    }
-    
-    func paymentQueue(_ queue: SKPaymentQueue, restoreCompletedTransactionsFailedWithError error: Error) {
-        print(error)
-    }
-    
-    func purchaseProduct(product: SKProduct) {
-        if SKPaymentQueue.canMakePayments() {
-            let payment = SKPayment(product: product)
-            SKPaymentQueue.default().add(payment)
-        } else {
-            print("User can't make payment.")
-        }
-    }
-    
-    func restoreProducts() {
-        print("Restoring products ...")
-        SKPaymentQueue.default().restoreCompletedTransactions()
-    }
 }
 
 class StoreManager: ObservableObject {
@@ -123,7 +48,8 @@ class StoreManager: ObservableObject {
         case .success(let verification):
             let transaction = try checkVerified(verification)
             
-            UserDefaults.standard.setValue(true, forKey: transaction.productID)
+            //UserDefaults.standard.setValue(true, forKey: transaction.productID)
+            KeychainWrapper.standard.set(true, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
             
             print("True set for \(transaction.productID)")
             
@@ -193,6 +119,37 @@ class StoreManager: ObservableObject {
             case .unverified(let transaction, _):
                 if transaction.productID == "quaritsch.bennnett.Persistent.premium.single" {
                     UserDefaults.standard.setValue(false, forKey: transaction.productID)
+                    print("entitlement false")
+                }
+            }
+        }
+    }
+    
+    enum PurchaseEnum: String {
+        case isPurchasedIdentifier = "isPurchasedIdentifier"
+    }
+    
+    func getPurchaseEntitlement() async {
+        KeychainWrapper.standard.set(false, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
+        for await result in Transaction.currentEntitlements {
+            switch result {
+            case .verified(let transaction):
+                print("transaction: \(transaction.productID)")
+                
+                if transaction.productID == "quaritsch.bennnett.Persistent.premium.single" {
+                    if transaction.revocationDate == nil {
+                        KeychainWrapper.standard.set(true, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
+                        
+                        print("entitlement true")
+                    } else {
+                        KeychainWrapper.standard.set(false, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
+                        
+                        print("entitlement false")
+                    }
+                }
+            case .unverified(let transaction, _):
+                if transaction.productID == "quaritsch.bennnett.Persistent.premium.single" {
+                    KeychainWrapper.standard.set(false, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
                     print("entitlement false")
                 }
             }
