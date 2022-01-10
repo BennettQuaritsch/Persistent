@@ -33,7 +33,9 @@ struct BuyPremiumView: View {
     
     let premiumContents: [PremiumContent] = [
         .init(title: "More than 3 Habits", description: "You can create more than 3 habits at the same time. Time to power through them!", systemImageName: "checkmark.seal.fill"),
-        .init(title: "View graphs", description: "Get a graphical look at how you did in the past. View a habit specificly or at all of them.", systemImageName: "chart.bar.xaxis")
+        .init(title: "View graphs", description: "Get a graphical look at how you did in the past. View a habit specificly or at all of them.", systemImageName: "chart.bar.xaxis"),
+        .init(title: "Notifications", description: "Schedule notifications that remind you of your habit", systemImageName: "bell.badge.fill"),
+        .init(title: "Support", description: "With this purchase you can support me, an indie app-creator.", systemImageName: "heart.fill")
     ]
     
     var product: Product? {
@@ -42,115 +44,116 @@ struct BuyPremiumView: View {
     
     @State var alert: Bool = false
     
+    @State private var purchasing: Bool = false
+    
     var body: some View {
-        NavigationView {
-            VStack {
-                Image("persistentLogo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(minWidth: 50, maxWidth: 150)
-                    .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
-                
-                    ScrollView() {
-                        GeometryReader { geo in
-                            VStack(alignment: .leading, spacing: 30) {
-                                ForEach(premiumContents, id: \.self) { content in
-                                    HStack(spacing: 0) {
-                                        Image(systemName: content.systemImageName)
-                                            .resizable()
-                                            .scaledToFill()
-                                            .foregroundColor(.accentColor)
-                                        #if os(iOS)
-                                            .frame(width: horizontalSizeClass == .regular ? geo.size.width * 0.1 : geo.size.width * 0.2)
-                                            .padding(.trailing)
-                                        #endif
-                                        
-                                        VStack(alignment: .leading, spacing: 5) {
-                                            Text(content.title)
-                                                .font(.headline)
-                                                .foregroundColor(.primary)
-                                            
-                                            Text(content.description)
-                                                .foregroundColor(.secondary)
-                                                .fixedSize(horizontal: false, vertical: true)
-                                        }
-                                    }
+        VStack {
+            Image("persistentLogo")
+                .resizable()
+                .scaledToFit()
+                .frame(minWidth: 80, maxWidth: 120)
+                .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
+
+            GeometryReader { geo in
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(alignment: .leading, spacing: 30) {
+                        ForEach(premiumContents, id: \.self) { content in
+                            HStack(spacing: 0) {
+                                Image(systemName: content.systemImageName)
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.accentColor)
+                                #if os(iOS)
+                                    .frame(width: horizontalSizeClass == .regular ? geo.size.width * 0.1 : geo.size.width * 0.2)
+                                    .padding(.trailing)
+                                #endif
+                                
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text(content.title)
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
                                     
+                                    Text(content.description)
+                                        .foregroundColor(.secondary)
+                                        .fixedSize(horizontal: false, vertical: true)
                                 }
                             }
                         }
                     }
-                    .padding(.vertical)
-                
-                if purchaseInfo.wrappedValue {
-                    Text("Purchased")
-                } else {
-                    Button {
-                        if let product = product {
-                            Task {
-                                do {
-                                    if try await storeManager.purchase(product) != nil {
-                                        print("bought")
-                                        purchaseInfo.wrappedValue = true
-                                        dismiss()
-                                    } else {
-                                        print("not bought")
-                                    }
-                                } catch {
-                                    print("error")
+                }
+            }
+            .padding(.vertical)
+            
+            if purchaseInfo.wrappedValue {
+                Text("Purchased")
+                    .font(.headline)
+                    .padding()
+            } else {
+                Button {
+                    if let product = product {
+                        Task {
+                            purchasing = true
+                            
+                            do {
+                                if try await storeManager.purchase(product) != nil {
+                                    print("bought")
+                                    purchaseInfo.wrappedValue = true
+                                    dismiss()
+                                } else {
+                                    print("not bought")
                                 }
+                            } catch {
+                                print("error")
+                                alert = true
                             }
-                        }
-                    } label: {
-                        if storeManager.transactionState == .pending {
-                            ProgressView()
-                                .frame(maxWidth: .infinity)
-                        } else {
-                            Text("Buy Persistent for \(product?.displayPrice ?? "unknown price")")
-                                .font(.title3)
-                                .fontWeight(.semibold)
-                                .frame(maxWidth: .infinity)
+                            
+                            purchasing = false
                         }
                     }
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.large)
-                        
+                } label: {
+                    if purchasing {
+                        ProgressView()
+                            .frame(maxWidth: .infinity)
+                    } else {
+                        Text("Buy Premium for \(product?.displayPrice ?? "unknown price")")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .frame(maxWidth: .infinity)
+                    }
+                }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
                     
-                    Button("Restore Purchases") {
-                        //storeManager.restoreProducts()
-                    }
-                    .buttonStyle(.bordered)
-                    .controlSize(.regular)
-                }
-            }
-            .padding()
-            #if os(iOS)
-            .navigationTitle("Premium")
-            .navigationBarTitleDisplayMode(.inline)
-            #endif
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Close") {
-                        dismiss()
+                
+                Button("Restore Purchases") {
+                    //storeManager.restoreProducts()
+                    Task {
+                        await storeManager.getEntitlements()
                     }
                 }
-            }
-            .onChange(of: storeManager.transactionState) { state in
-                switch state {
-                case .success:
-                    dismiss()
-                case .failed:
-                    print("failed")
-                    alert = true
-                default:
-                    print("Nichts passiert")
-                }
-            }
-            .alert(isPresented: $alert) {
-                Alert(title: Text("Something went wrong"), message: Text("This might have been your connection or I made a mistake. If this keeps happening, please reach out to me."), dismissButton: .cancel())
+                .buttonStyle(.bordered)
+                .controlSize(.regular)
             }
         }
-        
+        .padding()
+        #if os(iOS)
+        .navigationTitle("Premium")
+        .navigationBarTitleDisplayMode(.inline)
+        #endif
+        .onChange(of: storeManager.transactionState) { state in
+            switch state {
+            case .success:
+                dismiss()
+            case .failed:
+                print("failed")
+                alert = true
+            default:
+                print("Nichts passiert")
+            }
+        }
+        .alert(isPresented: $alert) {
+            Alert(title: Text("Something went wrong"), message: Text("This might have been your connection or I made a mistake. If this keeps happening, please reach out to me."), dismissButton: .cancel())
+        }
     }
 }
 

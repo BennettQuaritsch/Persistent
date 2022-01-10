@@ -32,11 +32,12 @@ struct ProgressBar: View {
     
     var body: some View {
         ZStack() {
-            Circle()
-                .stroke(Color("secondarySystemGroupedBackground"), lineWidth: strokeWidth)
+//            Circle()
+//                .stroke(Color("systemBackground"), lineWidth: strokeWidth)
             
-            Circle()
-                .stroke(colors.first!.opacity(0.2), lineWidth: strokeWidth)
+//            
+//            Circle()
+//                .stroke(colors.first!.opacity(0.3), lineWidth: strokeWidth)
             
             Circle()
                 .trim(from: 0, to: progress)
@@ -103,6 +104,15 @@ struct TestCircle: View {
 
 struct TestCircle_Previews: PreviewProvider {
     static var previews: some View {
-        TestCircle()
+        Group {
+            TestCircle()
+                .padding(50)
+            .previewLayout(.sizeThatFits)
+            
+            TestCircle()
+                .preferredColorScheme(.dark)
+                .padding(50)
+                .previewLayout(.sizeThatFits)
+        }
     }
 }

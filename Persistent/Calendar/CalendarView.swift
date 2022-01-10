@@ -8,11 +8,51 @@
 import SwiftUI
 import CoreData
 
+extension Calendar {
+
+//    func generateDates(inside interval: DateInterval,
+//                       matching components: DateComponents) -> [Date] {
+//       var dates: [Date] = []
+//       dates.append(interval.start)
+//
+//       enumerateDates(
+//           startingAfter: interval.start,
+//           matching: components,
+//           matchingPolicy: .nextTime) { date, _, stop in
+//           if let date = date {
+//               if date < interval.end {
+//                   dates.append(date)
+//               } else {
+//                   stop = true
+//               }
+//           }
+//       }
+//
+//       return dates
+//    }
+
+}
+
+extension Date {
+    func startOfWeek(calendar: Calendar = Calendar.defaultCalendar) -> Date? {
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
+        guard let date = calendar.date(from: components) else { return nil }
+        return date
+    }
+    
+    func endOfWeek(calendar: Calendar = Calendar.defaultCalendar) -> Date? {
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
+        guard let date = calendar.date(from: components) else { return nil }
+        return calendar.date(byAdding: .day, value: 7, to: date)
+    }
+}
+
 struct CalendarView: View {
     // PresentationMode Workaround
     @Binding var toggle: Bool
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.calendar) var calendar
     
     let habit: HabitItem
     
@@ -33,33 +73,22 @@ struct CalendarView: View {
     var date: Date
     @Binding var habitDate: Date
     
-    var days: [Date] {
-        let cal = Calendar.current
-        let nsCal = cal as NSCalendar
+    var dates: [Date] {
+//        var calendar = Calendar.current
+//        let prefLanguage = Locale.preferredLanguages[0]
+//        calendar.locale = .init(identifier: prefLanguage)
         
-        let components = nsCal.components([.year, .month, .weekday, .day], from: date)
-        
-        let year = components.year
-        let month = components.month
-        
-        let weekRange = nsCal.range(of: .weekOfMonth, in: .month, for: date)
-        
-        let weeks = weekRange.length
-        
-        let totalCells = weeks * 7
+        let interval = calendar.dateInterval(of: .month, for: date)!
         
         var dates: [Date] = []
-        var firstDate = dateFormatter.date(from: "\(year!)-\(month!)-1")!
         
-        let componentsFirstDate = nsCal.components([.year, .month, .weekday, .day], from: firstDate)
+        let startDate = interval.start
+        let endDate = interval.end
         
-        firstDate = nsCal.date(byAdding: [.day], value: -(componentsFirstDate.weekday! - 2), to: firstDate, options: [])!
-        
-        for _ in 0 ..< totalCells {
-            dates.append(firstDate)
-            firstDate = nsCal.date(byAdding: [.day], value: 1, to: firstDate, options: [])!
-        }
-        
+        // Generiere die Dates vom Beginn und Ende der Woche, damit die Reste der Wochen noch im Kalendar zu sehen sind
+        let newInterval = DateInterval(start: startDate.startOfWeek()!, end: endDate.endOfWeek()!)
+        let generatedDates = calendar.generateDates(inside: newInterval, matching: DateComponents(hour: 0, minute: 0, second: 0))
+        dates.append(contentsOf: generatedDates)
         
         return dates
     }
@@ -67,13 +96,14 @@ struct CalendarView: View {
     var titles: [String] {
         var titles: [String] = []
         
-        titles.append("Mon")
-        titles.append("Tue")
-        titles.append("Wed")
-        titles.append("Thu")
-        titles.append("Fri")
-        titles.append("Sat")
-        titles.append("Sun")
+//        var calendar = Calendar.current
+//        let prefLanguage = Locale.preferredLanguages[0]
+//        calendar.locale = .init(identifier: prefLanguage)
+        
+        //titles = calendar.shortWeekdaySymbols.map { $0.trimmingCharacters(in: .alphanumerics.inverted) }
+        for index in 1...7 {
+            titles.append(weekdayNameFrom(weekdayNumber: index).trimmingCharacters(in: .alphanumerics.inverted))
+        }
         
         return titles
     }
@@ -93,21 +123,34 @@ struct CalendarView: View {
                         .fontWeight(.heavy)
                 }
                 
-                ForEach(days, id: \.self) { date in
+                ForEach(dates, id: \.self) { date in
                     ZStack {
                         Circle()
                             #if os(iOS)
-                            .fill(Color(colorScheme == .dark ? "secondarySystemGroupedBackground" : "systemGray6"))
+                            .fill(calendar.isDate(date, equalTo: self.date, toGranularity: .month) ? Color(colorScheme == .dark ? "secondarySystemGroupedBackground" : "systemGray6") : Color.clear)
+                            .overlay(
+                                VStack {
+                                    Spacer()
+                                    
+                                    if calendar.isDate(date, equalTo: Date(), toGranularity: .day) {
+                                        Circle()
+                                            .fill(Color.accentColor)
+                                            .frame(width: 5, height: 5)
+                                            .padding(.bottom, 6)
+                                    }
+                                }
+                            )
                             #endif
                             .scaledToFit()
                         
-                        if Calendar.current.isDate(habitDate, equalTo: date, toGranularity: .day) {
+                        if calendar.isDate(habitDate, equalTo: date, toGranularity: .day) {
                             Circle()
-                                .fill(habit.iconColor.opacity(0.4))
+                                .fill(habit.iconColor.opacity(0.3))
                         }
                         
                         Text(stringFormatter.string(from: date))
                             .font(.headline)
+                            .foregroundColor(calendar.isDate(date, equalTo: self.date, toGranularity: .month) ? .primary : .gray)
                         
                         Circle()
                             .trim(from: 0, to: CGFloat(habit.relevantCountDaily(date)) / CGFloat(habit.amountToDo))
@@ -132,107 +175,6 @@ struct CalendarView: View {
     }
 }
 
-struct CalendarPagerView: View {
-    let habit: HabitItem
-    @Binding var date: Date
-    
-    let radius: Int = 1001
-    
-    func getMonth(_ index: Int) -> Date {
-        var date = Date()
-        
-        let cal = Calendar.current as NSCalendar
-        
-        var toAdd = Int(Float(radius / 2).rounded(.down))
-        toAdd = index - (toAdd + 1)
-        
-        date = cal.date(byAdding: [.month], value: toAdd, to: date, options: [])!
-        
-        return date
-    }
-    
-    func getMonthName(date: Date) -> String {
-        let formatter  = DateFormatter()
-        formatter.dateFormat = "MMMM"
-        return formatter.string(from: date)
-    }
-    
-    @State var index: Int = 501
-    
-    @Binding var toggle: Bool
-    
-    let animation: Animation = .interpolatingSpring(stiffness: 400, damping: 28)
-    
-    var body: some View {
-        NavigationView {
-            VStack {
-                HStack {
-                    Image(systemName: "chevron.left.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .onTapGesture {
-                            withAnimation {
-                                index -= 1
-                            }
-                        }
-                    Spacer()
-                    
-                    Text(getMonthName(date: getMonth(index)))
-                        .font(.title.weight(.bold))
-                        .id(index)
-                        .transition(.identity)
-                        
-                    
-                    Spacer()
-                    
-                    Image(systemName: "chevron.right.circle.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .onTapGesture {
-                            withAnimation {
-                                index += 1
-                            }
-                        }
-                }
-                .frame(minHeight: 30, maxHeight: 30)
-                .padding(.horizontal)
-                
-//                TabView(selection: $index) {
-//                    ForEach(0 ..< radius, id: \.self) { index in
-//                        VStack {
-//                            CalendarView(toggle: $toggle, habit: habit, date: getMonth(index), habitDate: $date)
-//                            Spacer()
-//                        }
-//                    }
-//                }
-//                #if os(iOS)
-//                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-//                #endif
-                
-                VStack {
-                    CalendarView(toggle: $toggle, habit: habit, date: getMonth(index), habitDate: $date)
-                    Spacer()
-                }
-                .id(UUID())
-                .transition(.identity)
-                
-                
-            }
-            .padding(.top)
-            .navigationTitle("Calendar")
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button(role: .cancel) {
-                        toggle = false
-                    } label: {
-                        Text("Close")
-                    }
-                }
-            }
-        }
-    }
-}
-
 
 
 struct CalendarView_Previews: PreviewProvider {
@@ -242,7 +184,7 @@ struct CalendarView_Previews: PreviewProvider {
         let habit = HabitItem(context: moc)
         habit.id = UUID()
         habit.habitName = "PreviewTest"
-        habit.iconName = iconChoices.randomElement()!
+        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
         habit.resetIntervalEnum = .daily
         habit.amountToDo = 4
         habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
@@ -253,6 +195,6 @@ struct CalendarView_Previews: PreviewProvider {
             date.item = habit
         }
         
-        return CalendarPagerView(habit: habit, date: .constant(Date()), toggle: .constant(false))
+        return CalendarView(toggle: .constant(true), habit: habit, date: Date(), habitDate: .constant(Date()))
     }
 }

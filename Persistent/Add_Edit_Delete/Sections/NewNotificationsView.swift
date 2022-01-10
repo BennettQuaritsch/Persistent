@@ -52,9 +52,9 @@ struct NewNotificationsView: View {
     }
     
     func getDateIndex() -> Int {
-        var cal = Calendar.current
-        let prefLanguage = Locale.preferredLanguages[0]
-        cal.locale = .init(identifier: prefLanguage)
+        let cal = Calendar.defaultCalendar
+//        let prefLanguage = Locale.preferredLanguages[0]
+//        cal.locale = .init(identifier: prefLanguage)
         
         var weekday = (cal.component(.weekday, from: Date()) - 1) - (cal.firstWeekday - 1)
         

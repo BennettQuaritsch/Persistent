@@ -14,7 +14,7 @@ class IntentHandler: INExtension, SelectHabitIntentHandling, SelectMultipleHabit
         
         let result: [HabitItem]? = try? PersistenceController.shared.container.viewContext.fetch(request)
         
-        if let filteredResult = result?.filter({ !$0.habitDeleted }) {
+        if let filteredResult = result?.filter({ !$0.habitArchived }) {
             let prefix = filteredResult.shuffled().prefix(4)
             
             let mappedResult: [ChosenHabit] = prefix.map {
@@ -48,7 +48,7 @@ class IntentHandler: INExtension, SelectHabitIntentHandling, SelectMultipleHabit
         var collection: INObjectCollection<ChosenHabit>
         
         if let result = result {
-            let filteredResults = result.filter { !$0.habitDeleted }
+            let filteredResults = result.filter { !$0.habitArchived }
             
             let mappedResults: [ChosenHabit] = filteredResults.map {
                 let chosenHabit = ChosenHabit(identifier: $0.id.uuidString, display: $0.habitName)
@@ -71,7 +71,7 @@ class IntentHandler: INExtension, SelectHabitIntentHandling, SelectMultipleHabit
         
         let result: [HabitItem]? = try? PersistenceController.shared.container.viewContext.fetch(request)
         
-        if let habitItem: HabitItem = result?.filter({ !$0.habitDeleted }).randomElement() {
+        if let habitItem: HabitItem = result?.filter({ !$0.habitArchived }).randomElement() {
             let chosenHabit = ChosenHabit(identifier: habitItem.id.uuidString, display: habitItem.habitName)
             chosenHabit.name = habitItem.habitName
             
@@ -95,7 +95,7 @@ class IntentHandler: INExtension, SelectHabitIntentHandling, SelectMultipleHabit
         var collection: INObjectCollection<ChosenHabit>
         
         if let result = result {
-            let filteredResults = result.filter { !$0.habitDeleted }
+            let filteredResults = result.filter { !$0.habitArchived }
             
             let mappedResults: [ChosenHabit] = filteredResults.map {
                 let chosenHabit = ChosenHabit(identifier: $0.id.uuidString, display: $0.habitName)

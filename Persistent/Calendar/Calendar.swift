@@ -7,21 +7,7 @@
 
 import SwiftUI
 
-fileprivate extension DateFormatter {
-    static var month: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM"
-        return formatter
-    }
-
-    static var monthAndYear: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM yyyy"
-        return formatter
-    }
-}
-
-fileprivate extension Calendar {
+extension Calendar {
     func generateDates(
         inside interval: DateInterval,
         matching components: DateComponents
@@ -44,82 +30,5 @@ fileprivate extension Calendar {
         }
 
         return dates
-    }
-}
-
-struct CalendarTestView<DateView>: View where DateView: View {
-    @Environment(\.calendar) var calendar
-
-    let interval: DateInterval
-    let showHeaders: Bool
-    let content: (Date) -> DateView
-
-    init(
-        interval: DateInterval,
-        showHeaders: Bool = true,
-        @ViewBuilder content: @escaping (Date) -> DateView
-    ) {
-        self.interval = interval
-        self.showHeaders = showHeaders
-        self.content = content
-    }
-
-    var body: some View {
-        LazyVGrid(columns: Array(repeating: GridItem(), count: 7)) {
-            ForEach(months, id: \.self) { month in
-                Section(header: header(for: month)) {
-                    ForEach(days(for: month), id: \.self) { date in
-                        if calendar.isDate(date, equalTo: month, toGranularity: .month) {
-                            content(date).id(date)
-                        } else {
-                            content(date).hidden()
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private var months: [Date] {
-        calendar.generateDates(
-            inside: interval,
-            matching: DateComponents(day: 1, hour: 0, minute: 0, second: 0)
-        )
-    }
-
-    private func header(for month: Date) -> some View {
-        let component = calendar.component(.month, from: month)
-        let formatter = component == 1 ? DateFormatter.monthAndYear : .month
-
-        return Group {
-            if showHeaders {
-                Text(formatter.string(from: month))
-                    .font(.title)
-                    .padding()
-            }
-        }
-    }
-
-    private func days(for month: Date) -> [Date] {
-        guard
-            let monthInterval = calendar.dateInterval(of: .month, for: month),
-            let monthFirstWeek = calendar.dateInterval(of: .weekOfMonth, for: monthInterval.start),
-            let monthLastWeek = calendar.dateInterval(of: .weekOfMonth, for: monthInterval.end)
-        else { return [] }
-        return calendar.generateDates(
-            inside: DateInterval(start: monthFirstWeek.start, end: monthLastWeek.end),
-            matching: DateComponents(hour: 0, minute: 0, second: 0)
-        )
-    }
-}
-
-struct CalendarTestView_Previews: PreviewProvider {
-    static var previews: some View {
-        CalendarTestView(interval: .init()) { _ in
-            Text("30")
-                .padding(8)
-                .background(Color.blue)
-                .cornerRadius(8)
-        }
     }
 }

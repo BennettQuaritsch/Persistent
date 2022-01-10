@@ -22,6 +22,7 @@ struct SmallWidgetView: View {
         if redactionReasons == .placeholder {
             ZStack {
                 ProgressBar(strokeWidth: 10, progress: 0, color: .black)
+                    .background(Circle().stroke(habit?.iconColor.opacity(0.2) ?? Color.primary.opacity(0.2), lineWidth: 10))
                 
                 Circle()
                     .foregroundColor(Color("systemGray6"))
@@ -32,6 +33,7 @@ struct SmallWidgetView: View {
             if let habit = habit {
                 ZStack {
                     ProgressBar(strokeWidth: 10, progress: habit.progress(), color: habit.iconColor)
+                        .background(Circle().stroke(habit.iconColor.opacity(0.2), lineWidth: 10))
                     
                     if habit.iconName != nil {
                         Image(habit.iconName!)
@@ -59,7 +61,7 @@ struct SmallWidgetView_Previews: PreviewProvider {
         let habit = HabitItem(context: moc)
         habit.id = UUID()
         habit.habitName = "PreviewTest"
-        habit.iconName = iconChoices.randomElement()!
+        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
         habit.resetIntervalEnum = .daily
         habit.amountToDo = 4
         habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)

@@ -11,7 +11,7 @@ struct HabitLineChartView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     init(habit: HabitItem) {
-        let cal = Calendar.current
+        let cal = Calendar.defaultCalendar
         
         var dates: [Date] = []
         
@@ -67,7 +67,7 @@ struct HabitLineChartView: View {
 //                print(filteredDates)
 //                countArray.append(filteredDates.count)
                 
-                if let tempDate = habit.date?.first(where: { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .day) }) {
+                if let tempDate = habit.date?.first(where: { Calendar.defaultCalendar.isDate($0.date!, equalTo: date, toGranularity: .day) }) {
                     countArray.append(Int(tempDate.habitValue))
                 } else {
                     countArray.append(0)

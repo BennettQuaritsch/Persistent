@@ -19,9 +19,12 @@ struct SettingsView: View {
     @State var syncEnabled: Bool
     
     @State var premiumSheet: Bool = false
+    @State private var premiumNavigationActive: Bool = false
+    
+    @StateObject private var viewModel: SettingsViewModel = .init()
     
     init() {
-        self._syncEnabled = State(wrappedValue: UserDefaults.standard.bool(forKey: "syncEnabled"))
+        self._syncEnabled = State(wrappedValue: UserDefaults.standard.bool(forKey: "syncDisabled"))
     }
     
     var product: Product? {
@@ -31,27 +34,34 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             List {
-                Button {
-                    premiumSheet = true
-                } label: {
-                    HStack {
-                        Spacer()
-                        
-                        VStack(spacing: 10) {
-                            Text("Persistent Premium")
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .foregroundColor(.accentColor)
-                            
-                            Text("Buy Premium for \(product?.displayPrice ?? "unknown price")")
-                                .fontWeight(.semibold)
-                        }
-                        
-                        Spacer()
+                ZStack {
+                    NavigationLink(destination: BuyPremiumView(), isActive: $premiumNavigationActive) {
+                        EmptyView()
                     }
-                    .padding(10)
+                    .hidden()
+                    
+                    Button {
+                        premiumNavigationActive = true
+                    } label: {
+                        HStack {
+                            Spacer()
+                            
+                            VStack(spacing: 10) {
+                                Text("Persistent Premium")
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.accentColor)
+                                
+                                Text("Buy Premium for \(product?.displayPrice ?? "unknown price")")
+                                    .fontWeight(.semibold)
+                            }
+                            
+                            Spacer()
+                        }
+                        .padding(10)
+                    }
+                    .buttonStyle(.plain)
                 }
-                .buttonStyle(.plain)
                 
                 Section("Interface Design") {
                     NavigationLink(destination: AccentColorSetting()) {
@@ -71,15 +81,32 @@ struct SettingsView: View {
                             Text("App Icon")
                         }
                     }
+                    
+                    Picker("Hand Preference", selection: $userSettings.leftHandedInterface) {
+                        Text("Left Handed").tag(true)
+                        Text("Right Handed").tag(false)
+                    }
+                    .pickerStyle(.segmented)
                 }
                 
                 Section("Habits") {
-                    NavigationLink(destination: DeletedHabits()) {
+                    NavigationLink(destination: ArchivedListView()) {
                         HStack {
-                            Image(systemName: "trash.fill")
+                            Image(systemName: "archivebox")
                                 .foregroundColor(userSettings.accentColor)
                             
-                            Text("Deleted Habits")
+                            Text("Archived Habits")
+                        }
+                    }
+                }
+                
+                Section("Calendar") {
+                    NavigationLink(destination: FirstWeekdayPickerView(settingsViewModel: viewModel)) {
+                        HStack {
+                            Image(systemName: "calendar")
+                                .foregroundColor(userSettings.accentColor)
+                            
+                            Text("First Day of the Week")
                         }
                     }
                 }
@@ -89,14 +116,18 @@ struct SettingsView: View {
                         Image(systemName: "icloud.fill")
                             .foregroundColor(userSettings.accentColor)
                         
-                        Toggle("iCloud Sync", isOn: $syncEnabled)
+                        Toggle("iCloud Sync", isOn: !$syncEnabled)
                             .onChange(of: syncEnabled) { value in
-                                UserDefaults.standard.set(value, forKey: "syncEnabled")
+                                UserDefaults.standard.set(value, forKey: "syncDisabled")
                             }
                     }
                 }
                 
                 Section("About") {
+                    NavigationLink(destination: AboutAppView()) {
+                        Label("About the app", systemImage: "info.circle.fill") 
+                    }
+                    
                     NavigationLink(destination: AboutPersistentView()) {
                         Label("Thanks to", systemImage: "hand.thumbsup.fill")
                     }
@@ -116,11 +147,11 @@ struct SettingsView: View {
 //                    WidgetCenter.shared.reloadAllTimelines()
 //                }
 //
-                #if os(iOS)
-                Button("Delete all notifications") {
-                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                }
-                #endif
+//                #if os(iOS)
+//                Button("Delete all notifications") {
+//                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+//                }
+//                #endif
                 
 //                NavigationLink(destination: HabitCompletionGraph()) {
 //                    Text("Graph")
@@ -128,6 +159,7 @@ struct SettingsView: View {
 //
 //                NavigationLink("Tags", destination: AlternativeTagSection(selectedTags: .constant(Set<UUID>())))
             }
+            .symbolVariant(.fill)
             #if os(iOS)
             .listStyle(InsetGroupedListStyle())
             .navigationBarTitle("Settings")
@@ -135,156 +167,59 @@ struct SettingsView: View {
         }
         .sheet(isPresented: $premiumSheet) {
             #if os(iOS)
-            BuyPremiumView()
-                .accentColor(userSettings.accentColor)
-                .environment(\.horizontalSizeClass, horizontalSizeClass)
+            NavigationView {
+                BuyPremiumView()
+                    .accentColor(userSettings.accentColor)
+                    .environment(\.horizontalSizeClass, horizontalSizeClass)
+            }
             #endif
         }
     }
 }
 
-struct DeletedHabits: View {
-    #if os(iOS)
-    @Environment(\.editMode) private var editMode
-    #endif
-    @Environment(\.managedObjectContext) private var viewContext
-    
-    @FetchRequest(entity: HabitItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \HabitItem.habitName, ascending: true)]) var items: FetchedResults<HabitItem>
-    
-    @State private var selection = Set<UUID>()
-    
-    var body: some View {
-        List(selection: $selection) {
-            ForEach(items, id: \.id) { habit in
-                if habit.habitDeleted {
-                    ListCellView(habit: habit, viewModel: ListViewModel())
-                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
-                            Button {
-                                withAnimation {
-                                    habit.habitDeleted = false
-                                    
-                                    do {
-                                        try viewContext.save()
-                                    } catch {
-                                        let nsError = error as NSError
-                                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                                    }
-                                }
-                            } label: {
-                                Label("Undo Delete", systemImage: "trash.slash")
-                            }
-                            .tint(.green)
-                        }
-                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                            Button(role: .destructive) {
-                                withAnimation {
-                                    habit.deleteHabitPermanently()
-                                    
-                                    do {
-                                        try viewContext.save()
-                                    } catch {
-                                        let nsError = error as NSError
-                                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                                    }
-                                }
-                            } label: {
-                                Label("Final Delete", systemImage: "trash")
-                            }
-                        }
-                }
-            }
-            .onDelete(perform: deleteHabitWithOffset)
-            #if os(iOS)
-            .onChange(of: editMode?.wrappedValue) { _ in
-                selection = []
-            }
-            #endif
-        }
-        #if os(iOS)
-        .listStyle(InsetGroupedListStyle())
-        .navigationBarTitle("Deleted Habits")
-        #endif
-        .toolbar {
-            #if os(iOS)
-            ToolbarItemGroup(placement: .navigationBarTrailing) {
-                if editMode?.wrappedValue == .active {
-                    Button {
-                        withAnimation {
-                            for habit in items where selection.contains(habit.id) {
-                                habit.deleteHabitPermanently()
-                            }
-                            
-                            do {
-                                try viewContext.save()
-                            } catch {
-                                let nsError = error as NSError
-                                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "trash")
-                    }
-                    
-                    Button {
-                        withAnimation {
-                            for habit in items where selection.contains(habit.id) {
-                                habit.habitDeleted = false
-                            }
-                            
-                            do {
-                                try viewContext.save()
-                            } catch {
-                                let nsError = error as NSError
-                                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-                            }
-                        }
-                    } label: {
-                        Image(systemName: "trash.slash")
-                    }
-                }
-                
-                EditButton()
-            }
-            #endif
-        }
-    }
-    
-    func deleteHabitWithOffset(at offsets: IndexSet) {
-        for index in offsets {
-            let habit = items[index]
-            habit.deleteHabitPermanently()
-            
-            do {
-                try viewContext.save()
-            } catch {
-                fatalError()
-            }
-        }
-    }
+prefix func ! (value: Binding<Bool>) -> Binding<Bool> {
+    Binding<Bool>(
+        get: { !value.wrappedValue },
+        set: { value.wrappedValue = !$0 }
+    )
 }
+
 
 struct AccentColorSetting: View {
     @EnvironmentObject private var settings: UserSettings
-    @State var selection = 0
+    @State var selection = "Persistent"
     
     var body: some View {
         List {
             Picker("Select your preffered Color", selection: $selection) {
-                ForEach(0..<settings.colors.count) { index in
+//                ForEach(0..<settings.colors.count) { index in
+//                    HStack {
+//                        RoundedRectangle(cornerRadius: 10)
+//                            .fill(settings.colors[index].color)
+//                            .scaledToFit()
+//                            .frame(width: 30)
+//                            .padding(.trailing, 5)
+//
+//                        Text("\(settings.colors[index].name)")
+//                    }
+//                }
+                ForEach(settings.accentColorNames, id: \.self) { name in
                     HStack {
                         RoundedRectangle(cornerRadius: 10)
-                            .fill(settings.colors[index].color)
+                            .fill(Color(name))
                             .scaledToFit()
                             .frame(width: 30)
                             .padding(.trailing, 5)
-                        
-                        Text("\(settings.colors[index].name)")
+
+                        Text(name)
                     }
                 }
             }
+            .labelsHidden()
             .pickerStyle(InlinePickerStyle())
             .onChange(of: selection, perform: { value in
-                settings.accentColorIndex = value
+//                settings.accentColorIndex = value
+                settings.accentColorName = value
             })
         }
         #if os(iOS)
@@ -292,7 +227,8 @@ struct AccentColorSetting: View {
         .navigationBarTitle("Accent Color")
         #endif
         .onAppear {
-            selection = settings.accentColorIndex
+//            selection = settings.accentColorIndex
+            selection = settings.accentColorName
         }
     }
 }

@@ -7,7 +7,7 @@
     </entity>
     <entity name="HabitItem" representedClassName="HabitItem" syncable="YES">
         <attribute name="amountToDo" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="habitDeleted" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="habitDeleted" optional="YES" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES" elementID="habitArchivedIdentifier"/>
         <attribute name="habitDescription" optional="YES" attributeType="String"/>
         <attribute name="habitName" optional="YES" attributeType="String"/>
         <attribute name="iconColorIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>

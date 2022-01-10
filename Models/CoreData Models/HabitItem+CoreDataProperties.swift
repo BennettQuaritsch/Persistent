@@ -37,7 +37,21 @@ import SwiftUI
 
 public let iconColors: [Color] = [Color("primary"), Color("pink"), Color("red"), Color("orange"), Color("yellow"), Color("green"), Color("cyan"), Color("teal"), Color("blue"), Color("indigo"), Color("purple"), Color("magenta"), Color("brown"), Color("gray")]
 
-public let iconChoices = ["man", "woman", "walk", "body", "person", "people", "american-football", "barbell", "baseball", "tennisball", "basketball", "bowling-ball", "fitness", "football", "footsteps", "airplane", "alarm", "aperture", "archive", "at-circle", "bag", "balloon", "ban", "bandage", "bar-chart", "barcode", "basket", "bed", "beer", "bicycle", "boat", "book", "bookmark", "briefcase", "brush", "bug", "build", "bulb", "bus", "business", "cafe", "calculator", "calendar", "call", "camera", "car-sport", "car", "card", "cart", "cash", "chatbox", "checkmark-circle", "clipboard", "cloud", "cloudy", "code-slash", "cog", "color-filter", "color-palette", "color-wand", "create", "crop", "cut", "desktop", "dice", "disc", "document", "download", "ear", "earth", "extension-puzzle", "eye", "eyedrop", "fast-food", "file-tray", "film", "finger-print", "fish", "flag", "flame", "flash", "flask", "flower", "folder", "funnel", "game-controller", "gift", "git-branch", "glasses", "golf", "hammer", "hand-left", "happy", "hardware-chip", "headset", "heart", "hourglass", "ice-cream", "id-card", "image", "journal", "key", "language", "laptop", "layers", "leaf", "library", "link", "list", "location", "lock-closed", "magnet", "mail", "map", "medical", "medkit", "mic", "moon", "musical-notes", "navigate", "newspaper", "notifications", "nuclear", "nutrition", "partly-sunny", "paw", "pencil", "pie-chart", "pint", "pizza", "planet", "play", "pricetag", "print", "qr-code", "radio", "rainy", "reader", "restaurant", "ribbon", "rocket", "rose", "sad", "save", "school", "server", "shield", "shirt", "skull", "snow", "sparkles", "storefront", "subway", "sunny", "telescope", "terminal", "text", "thermometer", "thumbs-down", "thumbs-up", "thunderstorm", "ticket", "time", "timer", "toggle", "trash", "tv", "umbrella", "videocam", "volume-high", "wallet", "watch", "wine"]
+
+
+struct IconSection: Hashable {
+    let name: String
+    let iconArray: [String]
+}
+
+let iconSections: [IconSection] = [
+    .init(name: "Sport", iconArray: ["american-football", "barbell", "baseball", "tennisball", "basketball", "bowling-ball", "fitness", "football", "bicycle", ]),
+    .init(name: "Food", iconArray: ["restaurant", "nutrition", "pizza", "beer", "ice-cream", "cafe", "fast-food", "fish", "pint", "wine"]),
+    .init(name: "People and animals", iconArray: ["man", "woman", "walk", "body", "person", "people", "happy", "sad", "eye", "footsteps", "hand-left", "ear", "paw", "thumbs-up", "thumbs-down", ]),
+    .init(name: "Tech", iconArray: ["desktop", "laptop", "tv", "watch", "headset", "mic", "game-controller", "hardware-chip", "git-branch", "qr-code", "camera", "videocam", "aperture", "calculator", "code-slash", "terminal", "save", "disc", "server", ]),
+    .init(name: "Objects", iconArray: ["car-sport", "car", "bus", "subway", "airplane", "boat", "rocket", "archive", "bag", "balloon", "bandage", "basket", "bed", "book", "reader", "brush", "pencil", "build", "hammer", "bug", "bulb", "business", "calendar", "call", "cart", "wallet", "cash", "card", "briefcase", "cut", "dice", "earth", "extension-puzzle", "file-tray", "film", "flag", "flame", "flash", "flask", "leaf", "flower", "rose", "gift", "glasses", "golf", "hourglass", "id-card", "image", "library", "journal", "newspaper", "key", "lock-closed", "magnet", "medkit", "planet", "print", "ribbon", "shirt", "skull", "storefront", "telescope", "thermometer", "ticket", "umbrella"]),
+    .init(name: "Symbols", iconArray: ["text", "language", "bar-chart", "pie-chart", "ban", "at-circle", "cog", "color-filter", "color-palette", "eyedrop", "color-wand", "create", "crop", "document", "download", "trash", "finger-print", "folder", "checkmark-circle", "heart", "bookmark", "clipboard", "layers", "link", "list", "location", "map", "navigate", "mail", "musical-notes", "notifications", "chatbox", "nuclear", "sunny", "moon", "partly-sunny", "cloud", "rainy", "thunderstorm", "snow", "play", "volume-high", "radio", "pricetag", "school", "shield", "sparkles", "time", "timer", "alarm", "toggle", "funnel", "medical"])
+]
 
 public enum ResetIntervals {
     case daily, weekly, monthly
@@ -94,7 +108,7 @@ extension HabitItem {
     @NSManaged private var resetInterval: String
     @NSManaged public var iconName: String?
     @NSManaged public var iconColorIndex: Int16
-    @NSManaged public var habitDeleted: Bool
+    @NSManaged public var habitArchived: Bool
     @NSManaged public var iconColorName: String?
     @NSManaged private var valueType: String?
 
@@ -182,70 +196,69 @@ extension HabitItem {
         #if os(iOS)
         let notificationCenter = UNUserNotificationCenter.current()
         
-        notificationCenter.getPendingNotificationRequests { requests in
-            var identifiers = [String]()
-            
-            let notificationIDStringArray: [String] = self.notificationArray.map { $0.wrappedID.uuidString }
-            
-            for request in requests {
-                if notificationIDStringArray.contains(request.identifier) {
-                    identifiers.append(request.identifier)
-                }
+        let habitNotifications = notificationArray
+        
+        var notificationIDs: [String] = []
+        
+        for notification in habitNotifications {
+            for weekday in notification.weekdayEnumSet {
+                let id = notification.wrappedID.uuidString + " - \(weekday.id)"
+                
+                notificationIDs.append(id)
             }
             
-            notificationCenter.removePendingNotificationRequests(withIdentifiers: identifiers)
-            
-            let notificationIDStrings = self.notificationArray.map { $0.wrappedID.uuidString }
-            
-            // Vorhandene Notifications löschen
-            for notificationIDString in notificationIDStrings {
-                if identifiers.contains(notificationIDString) {
-                    if let notification = self.notificationArray.first(where: { $0.wrappedID.uuidString == notificationIDString }) {
-                        print("deleting notification")
-                        
-                        context.delete(notification)
-                    }
-                }
-            }
+            context.delete(notification)
         }
+        
+        notificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIDs)
         #endif
         
-        self.habitDeleted = true
+        self.habitArchived = true
         
-        context.perform {
-            do {
-                try context.save()
-            } catch {
-                fatalError(error.localizedDescription)
-            }
+        do {
+            try context.save()
+        } catch {
+            fatalError(error.localizedDescription)
         }
+    }
+    
+    func unarchiveHabit() {
+        let context = PersistenceController.shared.container.viewContext
         
-        print(habitDeleted)
+        self.habitArchived = false
+        
+        do {
+            try context.save()
+        } catch {
+            fatalError(error.localizedDescription)
+        }
     }
 
     func deleteHabitPermanently() {
-        PersistenceController.shared.container.viewContext.delete(self)
+        let context = PersistenceController.shared.container.viewContext
+        context.perform {
+            context.delete(self)
+            
+            do {
+                try context.save()
+            } catch {
+                let nsError = error as NSError
+                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+            }
+        }
     }
 
     /// Function for getting habit's count for its corresponding interval
     func relevantCount(_ date: Date = Date()) -> Int {
-//        let todayCount: [HabitCompletionDate]
-//        switch self.resetIntervalEnum {
-//        case .daily:
-//            todayCount = self.dateArray.filter { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .day) }
-//        case .weekly:
-//            todayCount = self.dateArray.filter { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .weekOfYear) }
-//        case .monthly:
-//            todayCount = self.dateArray.filter { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .month) }
-//        }
-//        return todayCount.count
+        let calendar: Calendar = Calendar.defaultCalendar
+        
         var count: Int32 = 0
         
         switch resetIntervalEnum {
         case .daily:
-            count = self.date?.first(where: { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .day) })?.habitValue ?? 0
+            count = self.date?.first(where: { calendar.isDate($0.date!, equalTo: date, toGranularity: .day) })?.habitValue ?? 0
         case .weekly:
-            let dateItemsInWeek = self.date?.filter { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .weekOfYear) }
+            let dateItemsInWeek = self.date?.filter { calendar.isDate($0.date!, equalTo: date, toGranularity: .weekOfYear) }
             
             if let dateItemsInWeek = dateItemsInWeek {
                 for dateItemInWeek in dateItemsInWeek {
@@ -253,7 +266,7 @@ extension HabitItem {
                 }
             }
         case .monthly:
-            let dateItemsInMonth = self.date?.filter { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .month) }
+            let dateItemsInMonth = self.date?.filter { calendar.isDate($0.date!, equalTo: date, toGranularity: .month) }
             
             if let dateItemsInMonth = dateItemsInMonth {
                 for dateItemInMonth in dateItemsInMonth {
@@ -266,25 +279,19 @@ extension HabitItem {
     }
     
     func relevantCountDaily(_ date: Date = Date()) -> Int {
-//        let todayCount: [HabitCompletionDate]
-//        switch self.resetIntervalEnum {
-//        case .daily:
-//            todayCount = self.dateArray.filter { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .day) }
-//        case .weekly:
-//            todayCount = self.dateArray.filter { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .weekOfYear) }
-//        case .monthly:
-//            todayCount = self.dateArray.filter { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .month) }
-//        }
-//        return todayCount.count
+        let calendar: Calendar = Calendar.defaultCalendar
+        
         var count: Int32 = 0
         
-        count = self.date?.first(where: { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .day) })?.habitValue ?? 0
+        count = self.date?.first(where: { calendar.isDate($0.date!, equalTo: date, toGranularity: .day) })?.habitValue ?? 0
         
         return Int(count)
     }
     
     func addToHabit(_ value: Int32, date: Date = Date(), context: NSManagedObjectContext) {
-        let todayItem = self.date?.first(where: { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .day) })
+        let calendar: Calendar = Calendar.defaultCalendar
+        
+        let todayItem = self.date?.first(where: { calendar.isDate($0.date!, equalTo: date, toGranularity: .day) })
         
         if let todayItem = todayItem {
             todayItem.habitValue += value

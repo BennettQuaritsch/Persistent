@@ -17,6 +17,7 @@ struct ContentView: View {
                     .tabItem {
                         Label("Habits", systemImage: "checkmark.circle.fill")
                 }
+                    .environment(\.parentSizeClass, horizontalSizeClass)
 
                 SettingsView()
                     .tabItem {
@@ -25,19 +26,8 @@ struct ContentView: View {
             }
         } else if horizontalSizeClass == .regular {
             AppSidebarNavigation()
+                .environment(\.parentSizeClass, horizontalSizeClass)
         }
-        
-//        TabView {
-//            iPhoneView()
-//                .tabItem {
-//                    Label("Habits", systemImage: "checkmark.circle.fill")
-//            }
-//
-//            SettingsView()
-//                .tabItem {
-//                    Label("Settings", systemImage: "gear")
-//                }
-//        }
     }
 }
 

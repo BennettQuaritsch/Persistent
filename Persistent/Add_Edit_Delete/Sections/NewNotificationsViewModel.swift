@@ -19,9 +19,10 @@ struct NotificationDate: Identifiable {
 }
 
 func weekdayNameFrom(weekdayNumber: Int) -> String {
-    var calendar = Calendar.current
-    let prefLanguage = Locale.preferredLanguages[0]
-    calendar.locale = .init(identifier: prefLanguage)
+//    var calendar = Calendar.current
+//    let prefLanguage = Locale.preferredLanguages[0]
+//    calendar.locale = .init(identifier: prefLanguage)
+    let calendar: Calendar = Calendar.defaultCalendar
     let dayIndex = ((weekdayNumber - 1) + (calendar.firstWeekday - 1)) % 7
     return calendar.shortWeekdaySymbols[dayIndex]
 }
@@ -33,9 +34,10 @@ class NewNotificationsViewModel: ObservableObject {
     
     func addNotifications(habit: HabitItem, moc: NSManagedObjectContext) {
         // Lokalisierter Kalendar
-        var calendar = Calendar.current
-        let prefLanguage = Locale.preferredLanguages[0]
-        calendar.locale = .init(identifier: prefLanguage)
+        let calendar: Calendar = Calendar.defaultCalendar
+//        var calendar = Calendar.current
+//        let prefLanguage = Locale.preferredLanguages[0]
+//        calendar.locale = .init(identifier: prefLanguage)
         
         // Jede Notification loopen
         for notificationDate in notifcationArray {

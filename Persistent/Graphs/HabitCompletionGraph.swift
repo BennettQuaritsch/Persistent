@@ -71,7 +71,13 @@ struct HabitCompletionGraph: View {
             }
         }
         .onAppear {
-            viewModel.loadDailyHabits()
+            if viewModel.habit.resetIntervalEnum == .weekly {
+                print("loading weekly")
+                viewModel.loadHabitsForWeeklyHabit()
+            } else {
+                viewModel.loadDailyHabits()
+            }
+            
         }
         
         
@@ -85,7 +91,7 @@ struct HabitCompletionGraph_Previews: PreviewProvider {
         let habit = HabitItem(context: moc)
         habit.id = UUID()
         habit.habitName = "PreviewTest"
-        habit.iconName = iconChoices.randomElement()!
+        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
         habit.resetIntervalEnum = .daily
         habit.amountToDo = 4
         habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)

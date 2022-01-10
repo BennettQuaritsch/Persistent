@@ -9,6 +9,43 @@
 import Foundation
 import CoreData
 
+extension Calendar {
+    static var defaultCalendar: Calendar {
+        var calendar = Calendar.current
+        let prefLanguage = Locale.preferredLanguages[0]
+        calendar.locale = .init(identifier: prefLanguage)
+        
+        if let weekdaySelectionEnumData = UserDefaults.standard.object(forKey: Calendar.FirstWeekdayEnum.userDefaultsString) as? Data {
+            let decoder = JSONDecoder()
+            if let decodedWeekdaySelection = try? decoder.decode(Calendar.FirstWeekdayEnum.self, from: weekdaySelectionEnumData) {
+                calendar.firstWeekday = decodedWeekdaySelection.id
+            } else {
+                calendar.firstWeekday = FirstWeekdayEnum.monday.id
+            }
+        } else {
+            calendar.firstWeekday = FirstWeekdayEnum.monday.id
+        }
+        
+        return calendar
+    }
+    
+    enum FirstWeekdayEnum: String, Codable, CaseIterable {
+        case sunday = "Sunday"
+        case monday = "Monday"
+        
+        var id: Int {
+            switch self {
+            case .sunday:
+                return 1
+            case .monday:
+                return 2
+            }
+        }
+        
+        static let userDefaultsString = "firstWeekdayEnum"
+    }
+}
+
 public enum WeekdayEnum {
     init(index: Int) {
         switch index {
@@ -32,9 +69,7 @@ public enum WeekdayEnum {
     }
     
     init(date: Date) {
-        var calendar = Calendar.current
-        let prefLanguage = Locale.preferredLanguages[0]
-        calendar.locale = .init(identifier: prefLanguage)
+        let calendar: Calendar = Calendar.defaultCalendar
         
         let weekday = ((calendar.component(.weekday, from: date) - 1) + (calendar.firstWeekday - 1)) % 7
         

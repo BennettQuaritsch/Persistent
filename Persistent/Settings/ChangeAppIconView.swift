@@ -19,7 +19,7 @@ struct ChangeAppIconView: View {
             } label: {
                 HStack {
                     icon.image
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                         .padding(.trailing, 5)
                     
                     Text(icon.iconName)
@@ -29,6 +29,7 @@ struct ChangeAppIconView: View {
             }
             .buttonStyle(.plain)
         }
+        .navigationTitle("App Icon")
     }
 }
 

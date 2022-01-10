@@ -13,7 +13,7 @@ class AddEditViewModel: ObservableObject {
     // Name
     @Published var name = ""
     @Published var description = ""
-    let uuid = UUID()
+    let uuid: UUID
     
     // Intervall
     @Published var intervalChoice = "Day"
@@ -33,16 +33,19 @@ class AddEditViewModel: ObservableObject {
     
     @Published var notificationsViewModel = NewNotificationsViewModel()
     
+    @Published var validationFailedAlert: Bool = false
+    
     var habit: HabitItem?
     
     init() {
-        
+        self.uuid = UUID()
     }
     
     init(habit: HabitItem) {
         self.habit = habit
         
         self.name = habit.habitName
+        self.uuid = habit.id
         self.description = habit.habitDescription ?? ""
         self.amountToDo = habit.amountToDo
         self.intervalChoice = habit.resetIntervalEnum.getString()
@@ -72,6 +75,16 @@ class AddEditViewModel: ObservableObject {
     #endif
     
     func addHabit(viewContext: NSManagedObjectContext, dismiss: DismissAction) {
+        do {
+            try validateHabit()
+        } catch {
+            errorVibration()
+            
+            self.validationFailedAlert = true
+            
+            return
+        }
+        
         let newhabit = HabitItem(context: viewContext)
         
         saveHabit(habit: newhabit, viewContext: viewContext, dismiss: dismiss)
@@ -95,6 +108,16 @@ class AddEditViewModel: ObservableObject {
     
     func editHabit(viewContext: NSManagedObjectContext, dismiss: DismissAction) {
         if let habit = self.habit {
+            do {
+                try validateHabit()
+            } catch {
+                errorVibration()
+                
+                self.validationFailedAlert = true
+                
+                return
+            }
+            
             saveHabit(habit: habit, viewContext: viewContext, dismiss: dismiss)
             
             #if os(iOS)
@@ -116,14 +139,32 @@ class AddEditViewModel: ObservableObject {
         }
     }
     
-    func saveHabit(habit: HabitItem, viewContext: NSManagedObjectContext, dismiss: DismissAction) {
-        habit.id = uuid
-        habit.habitName = name
-        if description.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
-            habit.habitDescription = description
+    private enum HabitValidationError: Error {
+        case validationError
+    }
+    
+    private func validateHabit() throws {
+        if self.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            throw HabitValidationError.validationError
         }
         
-        habit.habitDeleted = false
+        if self.amountToDo < 1 {
+            throw HabitValidationError.validationError
+        }
+        
+        for notificationObject in self.notificationsViewModel.notifcationArray {
+            if notificationObject.weekdays.isEmpty {
+                throw HabitValidationError.validationError
+            }
+        }
+    }
+    
+    func saveHabit(habit: HabitItem, viewContext: NSManagedObjectContext, dismiss: DismissAction) {
+        
+        habit.id = uuid
+        habit.habitName = name
+        
+        habit.habitArchived = false
         
         let habitInterval: ResetIntervals
         
@@ -173,7 +214,7 @@ class AddEditViewModel: ObservableObject {
 //            let nsError = error as NSError
 //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
 //        }
-        
+//
         dismiss()
     }
 }

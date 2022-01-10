@@ -41,7 +41,7 @@ class NotificationsViewModel: ObservableObject {
             
             for date in notificationDates {
                 // components vom jeweiligen Datum (Zeitzone angepasst)
-                let components = Calendar.current.dateComponents([.weekday, .hour, .minute], from: date)
+                let components = Calendar.defaultCalendar.dateComponents([.weekday, .hour, .minute], from: date)
                 
                 let notificationItem = NotificationItem(context: context)
                 notificationItem.wrappedID = UUID()

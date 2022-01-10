@@ -22,89 +22,9 @@ struct AddHabitView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                List {
-                    Section(header: Text("Name & Description")) {
-                        TextField("Name", text: $viewModel.name)
-                        
-                        //TextField("Description", text: $viewModel.description)
-                    }
-                    
-                    Section(header: Text("Value Types")) {
-                        ValueTypeSelectionView(selection: $viewModel.valueTypeSelection)
-                    }
-                    
-                    Section(header: Text("How often?")) {
-                        ResertIntervalPickerView(
-                            intervalChoice: $viewModel.intervalChoice,
-                            valueString: $viewModel.valueString,
-                            timesPerDay: $viewModel.amountToDo,
-                            valueTypeSelection: $viewModel.valueTypeSelection,
-                            valueTypeTextFieldSelected: _valueTypeTextFieldSelected
-                        )
-                    }
-                    
-                    Section(header: Text("Symbol & Color")) {
-                        SymbolColorView(iconChoice: $viewModel.iconChoice, colorSelection: $viewModel.colorSelection)
-                    }
-                    
-                    Section(header: Text("Tags")) {
-                        NavigationLink("Tags", destination: AlternativeTagSection(selectedTags: $viewModel.tagSelection))
-                    }
-                    
-                    Section(header: Text("Notifications")) {
-                        //NotificationsView(viewModel: viewModel.notificationsViewModel)
-                        NavigationLink(destination: NewNotificationsView(viewModel: viewModel.notificationsViewModel)) {
-                            Text("Notifications")
-                        }
-                        .alert("That did not work", isPresented: $viewModel.notificationsViewModel.alertPresented) {
-                            Button("OK", role: .cancel) {
-                                viewModel.notificationsViewModel.alertPresented = false
-                            }
-                        } message: {
-                            Text("An error accured while trying to schedule your notifications. Have you turned notifications off?")
-                        }
-                    }
-                    
-                    addHabitButton
-                }
-                #if os(iOS)
-                .listStyle(InsetGroupedListStyle())
-                #else
-                .listStyle(.inset)
-                #endif
-                .zIndex(1)
-                
-                if viewModel.valueTypeTextFieldSelectedWrapper {
-                    VStack {
-                        Spacer()
-                        
-                        HStack {
-                            Spacer()
-                            
-                            Button {
-                                valueTypeTextFieldSelected = false
-                            } label: {
-                                Image(systemName: "keyboard.chevron.compact.down")
-                            }
-                            .imageScale(.large)
-                            .padding()
-                            .background(.thinMaterial)
-                            .clipShape(Capsule())
-                            .contentShape(Capsule())
-                            .padding()
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .transition(AnyTransition.move(edge: .bottom))
-                    .zIndex(2)
-                }
-            }
-            .onChange(of: valueTypeTextFieldSelected) { value in
-                withAnimation {
-                    viewModel.valueTypeTextFieldSelectedWrapper = value
-                }
-            }
+            EditHabitBaseView(viewModel: viewModel, saveButtonAction: {
+                viewModel.addHabit(viewContext: viewContext, dismiss: dismiss)
+            })
             #if os(iOS)
             .navigationBarTitle("Create a Habit")
             #endif
@@ -154,31 +74,43 @@ struct ChooseIconView: View {
                 .edgesIgnoringSafeArea(.all)
             
             ScrollView {
-                LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
-                    ForEach(iconChoices, id: \.self) { icon in
-                        ZStack {
+                ForEach(iconSections, id: \.self) { section in
+                    HStack {
+                        Text(section.name)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                        
+                        Spacer()
+                    }
+                    
+                    LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
+                        ForEach(section.iconArray, id: \.self) { icon in
                             ZStack {
-                                Image(icon)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundColor(.primary)
-                                    .padding(8)
-                                
-                                //Color.primary.blendMode(.sourceAtop)
-                            }
-                            .onTapGesture {
-                                iconChoice = icon
-                                presentationMode.wrappedValue.dismiss()
+                                ZStack {
+                                    Image(icon)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .foregroundColor(.primary.opacity(0.7))
+                                        .padding(8)
+                                        .accessibility(label: Text(icon))
+                                    
+                                    //Color.primary.blendMode(.sourceAtop)
+                                }
+                                .onTapGesture {
+                                    iconChoice = icon
+                                    presentationMode.wrappedValue.dismiss()
+                                }
                             }
                         }
                     }
                 }
-                .padding(.horizontal)
+                .padding()
             }
         }
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
+        .navigationTitle("Choose Icon")
     }
 }
 

@@ -15,7 +15,7 @@ struct Provider: IntentTimelineProvider {
         let habit = HabitItem(context: PersistenceController.preview.container.viewContext)
         habit.id = UUID()
         habit.habitName = "PreviewTest"
-        habit.iconName = iconChoices.randomElement()!
+        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
         habit.resetIntervalEnum = .daily
         habit.amountToDo = 4
         habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
@@ -60,7 +60,7 @@ struct Provider: IntentTimelineProvider {
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+            let entryDate = Calendar.defaultCalendar.date(byAdding: .hour, value: hourOffset, to: currentDate)!
             let entry = SimpleEntry(date: entryDate, habit: chosenItem, configuration: SelectHabitIntent())
             entries.append(entry)
         }
@@ -75,7 +75,7 @@ struct MultipleHabitsProvider: IntentTimelineProvider {
         let habit = HabitItem(context: PersistenceController.preview.container.viewContext)
         habit.id = UUID()
         habit.habitName = "PreviewTest"
-        habit.iconName = iconChoices.randomElement()!
+        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
         habit.resetIntervalEnum = .daily
         habit.amountToDo = 4
         habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
@@ -124,7 +124,7 @@ struct MultipleHabitsProvider: IntentTimelineProvider {
         // Generate a timeline consisting of five entries an hour apart, starting from the current date.
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
+            let entryDate = Calendar.defaultCalendar.date(byAdding: .hour, value: hourOffset, to: currentDate)!
             let entry = MultipleEntry(date: entryDate, habits: filteredItems ?? [], configuration: configuration)
             entries.append(entry)
         }
@@ -181,7 +181,7 @@ struct PersistentWidget: Widget {
             PersistentWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Big Habit")
-        .description("This widget shows your habits in a big way!")
+        .description("This widget shows your habits in a big way! Choose your habit through long pressing on the widget.")
         .supportedFamilies([.systemSmall])
     }
 }
@@ -194,7 +194,7 @@ struct MultipleHabitsWidget: Widget {
             MultipleWidgetsEntryView(entry: entry)
         }
         .configurationDisplayName("Multiple Habits Widget")
-        .description("See multiple habits at once! Choose your habits through long pressing.")
+        .description("See multiple habits at once! Choose your habits through long pressing on the widget.")
         .supportedFamilies([.systemSmall, .systemMedium])
     }
 }
@@ -226,7 +226,7 @@ struct PersistentWidget_Previews: PreviewProvider {
         let habit = HabitItem(context: PersistenceController.preview.container.viewContext)
         habit.id = UUID()
         habit.habitName = "PreviewTest"
-        habit.iconName = iconChoices.randomElement()!
+        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
         habit.resetIntervalEnum = .daily
         habit.amountToDo = 4
         habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)

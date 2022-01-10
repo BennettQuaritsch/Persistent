@@ -30,9 +30,9 @@ struct NotificationsView: View {
                     self.viewModel.notificationAmount += 1
                     
                     // Multiple weekdaySelections
-                    
-                    let component = Calendar.current.component(.weekday, from: Date())
-                    viewModel.weekdaySelection.append(component - Calendar.current.firstWeekday)
+                    let calendar: Calendar = Calendar.defaultCalendar
+                    let component = calendar.component(.weekday, from: Date())
+                    viewModel.weekdaySelection.append(component - calendar.firstWeekday)
                 }, onDecrement: {
                     self.viewModel.notificationAmount -= 1
                     
@@ -58,17 +58,20 @@ struct NotificationsView: View {
                     
                     ChooseWeekView(selection: $viewModel.weekdaySelection[index - 1])
                         .onChange(of: viewModel.weekdaySelection, perform: { array in
-                            let component = Calendar.current.component(.weekday, from: viewModel.notificationDates[index - 1])
+                            let calendar: Calendar = Calendar.defaultCalendar
+                            
+                            let component = calendar.component(.weekday, from: viewModel.notificationDates[index - 1])
                             
                             
                             // Dem Wochentag muss der für iOS erste Wochentag abgezogen werden, sonst verschiebt sich die Selection
-                            let toAdd = array[index - 1] - (component - Calendar.current.firstWeekday)
+                            let toAdd = array[index - 1] - (component - calendar.firstWeekday)
                             
-                            viewModel.notificationDates[index - 1] = Calendar.current.date(byAdding: .weekday, value: toAdd, to: viewModel.notificationDates[index - 1]) ?? viewModel.notificationDates[index - 1]
+                            viewModel.notificationDates[index - 1] = calendar.date(byAdding: .weekday, value: toAdd, to: viewModel.notificationDates[index - 1]) ?? viewModel.notificationDates[index - 1]
                         })
                         .onAppear {
-                            let component = Calendar.current.component(.weekday, from: Date())
-                            viewModel.weekdaySelection[index - 1] = component - Calendar.current.firstWeekday
+                            let calendar: Calendar = Calendar.defaultCalendar
+                            let component = calendar.component(.weekday, from: Date())
+                            viewModel.weekdaySelection[index - 1] = component - calendar.firstWeekday
                             print("on appear \(component)")
                         }
                 }

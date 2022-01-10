@@ -44,81 +44,9 @@ struct EditView: View {
     
     var body: some View {
         NavigationView {
-            ZStack {
-                List {
-                    Section(header: Text("Name & description")) {
-                        TextField("Name", text: $viewModel.name)
-                        
-                        //TextField("Description", text: $viewModel.description)
-                    }
-                    
-                    Section(header: Text("Value Types")) {
-                        ValueTypeSelectionView(selection: $viewModel.valueTypeSelection)
-                    }
-                    
-                    Section(header: Text("How often?")) {
-                        ResertIntervalPickerView(
-                            intervalChoice: $viewModel.intervalChoice,
-                            valueString: $viewModel.valueString,
-                            timesPerDay: $viewModel.amountToDo,
-                            valueTypeSelection: $viewModel.valueTypeSelection,
-                            valueTypeTextFieldSelected: _valueTypeTextFieldSelected
-                        )
-                    }
-                    
-                    Section(header: Text("Symbol & Color")) {
-                        SymbolColorView(iconChoice: $viewModel.iconChoice, colorSelection: $viewModel.colorSelection)
-                    }
-                    
-                    Section(header: Text("Tags")) {
-                        NavigationLink("Tags", destination: AlternativeTagSection(selectedTags: $viewModel.tagSelection))
-                    }
-                    
-                    Section(header: Text("Notifications")) {
-                        NavigationLink(destination: NewNotificationsView(viewModel: viewModel.notificationsViewModel)) {
-                            Text("Notifications")
-                        }
-                    }
-                    
-                    Button("Save Changes") {
-                        viewModel.editHabit(viewContext: viewContext, dismiss: dismiss)
-                    }
-                }
-                #if os(iOS)
-                .listStyle(.insetGrouped)
-                #endif
-                .zIndex(1)
-                
-                if viewModel.valueTypeTextFieldSelectedWrapper {
-                    VStack {
-                        Spacer()
-                        
-                        HStack {
-                            Spacer()
-                            
-                            Button {
-                                valueTypeTextFieldSelected = false
-                            } label: {
-                                Image(systemName: "keyboard.chevron.compact.down")
-                            }
-                            .imageScale(.large)
-                            .padding()
-                            .background(.thinMaterial)
-                            .clipShape(Capsule())
-                            .contentShape(Capsule())
-                            .padding()
-                        }
-                    }
-                    .frame(maxWidth: .infinity)
-                    .transition(AnyTransition.move(edge: .bottom))
-                    .zIndex(2)
-                }
-            }
-            .onChange(of: valueTypeTextFieldSelected) { value in
-                withAnimation {
-                    viewModel.valueTypeTextFieldSelectedWrapper = value
-                }
-            }
+            EditHabitBaseView(viewModel: viewModel, saveButtonAction: {
+                viewModel.editHabit(viewContext: viewContext, dismiss: dismiss)
+            })
             #if os(iOS)
             .navigationBarTitle("Edit Habit")
             #endif
@@ -154,7 +82,7 @@ struct EditView_Previews: PreviewProvider {
         let habit = HabitItem(context: moc)
         habit.id = UUID()
         habit.habitName = "PreviewTest"
-        habit.iconName = iconChoices.randomElement()!
+        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
         habit.resetIntervalEnum = .daily
         habit.amountToDo = 4
         habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)

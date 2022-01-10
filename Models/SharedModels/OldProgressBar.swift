@@ -52,7 +52,7 @@ extension NSColor {
 }
 #endif
 
-#if os(iOS)
+#if os(iOS) || os(watchOS)
 extension UIColor {
     func makeColor(componentDelta: CGFloat) -> UIColor {
         var red: CGFloat = 0

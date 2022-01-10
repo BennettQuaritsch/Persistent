@@ -24,6 +24,7 @@ struct AppSidebarNavigation: View {
     @Environment(\.purchaseInfo) var purchaseInfo
     
     @EnvironmentObject private var userSettings: UserSettings
+    @EnvironmentObject private var appViewModel: AppViewModel
     
     @State private var selection: NavigationItem? = .allHabits
     
@@ -32,22 +33,6 @@ struct AppSidebarNavigation: View {
     @State var settingsSheet: Bool = false
     
     @FetchRequest(entity: HabitTag.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \HabitTag.name, ascending: true)]) var tags: FetchedResults<HabitTag>
-    
-    func tagPredicate(_ tag: HabitTag) -> NSPredicate {
-        return NSPredicate(format: "%@ IN tags", tag)
-    }
-    
-    var dayPredicate: NSPredicate {
-        return NSPredicate(format: "resetInterval == 'daily'")
-    }
-    
-    var weekPredicate: NSPredicate {
-        return NSPredicate(format: "resetInterval == 'weekly'")
-    }
-    
-    var monthPredicate: NSPredicate {
-        return NSPredicate(format: "resetInterval == 'monthly'")
-    }
     
     @StateObject var viewModel: ListViewModel = .init()
     
@@ -59,26 +44,26 @@ struct AppSidebarNavigation: View {
                     .fontWeight(.bold)
                 
                 NavigationLink(tag: NavigationItem.allHabits, selection: $selection) {
-                    ListView(predicate: nil)
+                    ListView()
                 } label: {
                     Label("All habits", systemImage: "checkmark.circle")
                 }
                 
                 DisclosureGroup(isExpanded: $isExpanded) {
                     NavigationLink(tag: NavigationItem.dailyHabits, selection: $selection) {
-                        ListView(predicate: [dayPredicate])
+                        ListView(.daily)
                     } label: {
                         Label("Daily habits", systemImage: "clock.badge.checkmark")
                     }
                     
                     NavigationLink(tag: NavigationItem.weeklyHabits, selection: $selection) {
-                        ListView(predicate: [weekPredicate])
+                        ListView(.weekly)
                     } label: {
                         Label("Weekly habits", systemImage: "clock.badge.checkmark")
                     }
                     
                     NavigationLink(tag: NavigationItem.monthlyHabits, selection: $selection) {
-                        ListView(predicate: [monthPredicate])
+                        ListView(.monthly)
                     } label: {
                         Label("Monthly habits", systemImage: "clock.badge.checkmark")
                     }
@@ -94,7 +79,7 @@ struct AppSidebarNavigation: View {
                 
                 ForEach(tags) { tag in
                     NavigationLink(tag: NavigationItem.tag(tag.wrappedId), selection: $selection) {
-                        ListView(predicate: [tagPredicate(tag)])
+                        ListView(.tag(tag))
                     } label: {
                         Label(tag.wrappedName, systemImage: "tag")
                     }
@@ -107,6 +92,7 @@ struct AppSidebarNavigation: View {
                 SettingsView()
                     .accentColor(userSettings.accentColor)
                     .environmentObject(userSettings)
+                    .environmentObject(appViewModel)
                     .environment(\.horizontalSizeClass, horizontalSizeClass)
                     .environment(\.purchaseInfo, purchaseInfo)
             }

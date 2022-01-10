@@ -27,7 +27,7 @@ class HabitBarChartViewModel: ObservableObject {
     
     init(habit: HabitItem) {
         // Datum des Wochenanfangs heraussuchen, zusammen mit den nächsten sechs Tagen in einen Array
-        let cal = Calendar.current
+        let cal = Calendar.defaultCalendar
         
         var dates: [Date] = []
         
@@ -48,7 +48,7 @@ class HabitBarChartViewModel: ObservableObject {
     }
     
     func loadDailyHabits() {
-        let cal = Calendar.current
+        let cal = Calendar.defaultCalendar
         
         var dates: [Date] = []
         
@@ -87,7 +87,7 @@ class HabitBarChartViewModel: ObservableObject {
     }
     
     func loadMonthlyHabits() {
-        let cal = Calendar.current
+        let cal = Calendar.defaultCalendar
         
         var dates: [Date] = []
         
@@ -116,7 +116,7 @@ class HabitBarChartViewModel: ObservableObject {
 //            let filteredDates = habit.dateArray.filter { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .day) }
 //            print(filteredDates)
 //            countArray.append(filteredDates.count)
-            if let date = habit.date?.first(where: { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .day) }) {
+            if let date = habit.date?.first(where: { Calendar.defaultCalendar.isDate($0.date!, equalTo: date, toGranularity: .day) }) {
                 countArray.append(Int(date.habitValue))
             } else {
                 countArray.append(0)
@@ -140,5 +140,52 @@ class HabitBarChartViewModel: ObservableObject {
             
             
         }
+    }
+    
+    func loadHabitsForWeeklyHabit() {
+        let cal = Calendar.defaultCalendar
+        var countArray: [Int] = []
+        
+        let year = cal.component(.year, from: Date())
+        // Get the first day of next year
+        if let firstOfYear = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1)) {
+            var currentDate = firstOfYear
+            
+            for _ in 1 ... weeks(in: year) {
+                countArray.append(habit.relevantCount(currentDate))
+                currentDate = cal.date(byAdding: .weekOfYear, value: 1, to: currentDate)!
+            }
+        }
+        
+        if let max = countArray.max() {
+            if max > 0 && max > habit.amountToDo {
+                maxValue = max
+            } else {
+                maxValue = Int(habit.amountToDo)
+            }
+        }
+        
+        data = countArray.map { _ in return 0 }
+        
+        withAnimation(.easeInOut) {
+            data = countArray
+        }
+    }
+    
+    private func weeks(in year: Int) -> Int {
+        func p(_ year: Int) -> Int {
+            return (year + year/4 - year/100 + year/400) % 7
+        }
+        return (p(year) == 4 || p(year-1) == 3) ? 53 : 52
+    }
+    
+    //
+    func numberOfWeeksInMonth(_ date: Date) -> Int {
+         var calendar = Calendar(identifier: .gregorian)
+         calendar.firstWeekday = 1
+         let weekRange = calendar.range(of: .weekOfMonth,
+                                        in: .month,
+                                        for: date)
+         return weekRange!.count
     }
 }

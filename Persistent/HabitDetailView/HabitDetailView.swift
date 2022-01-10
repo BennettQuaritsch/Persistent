@@ -14,8 +14,10 @@ struct HabitDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var userSettings: UserSettings
+    @EnvironmentObject private var appViewModel: AppViewModel
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.purchaseInfo) var purchaseInfo
     
     init(habit: HabitItem) {
         self.habit = habit
@@ -33,6 +35,8 @@ struct HabitDetailView: View {
     }
     
     @StateObject private var viewModel: HabitDetailViewModel
+    
+    @FocusState private var multipleAddViewTextFieldFocused: Bool
     
     var habitIntervalString: String
     
@@ -53,6 +57,10 @@ struct HabitDetailView: View {
             ZStack {
                 ProgressBar(strokeWidth: 30, progress: viewModel.progress(), color: habit.iconColor)
                     .frame(maxWidth: .infinity)
+                    .background(
+                        Circle()
+                            .stroke(habit.iconColor.opacity(0.2), lineWidth: 30)
+                    )
                     .padding(25)
                     .drawingGroup()
                     
@@ -86,6 +94,8 @@ struct HabitDetailView: View {
                     .onTapGesture {
                         withAnimation(.easeOut(duration: 0.15)) {
                             viewModel.multipleAddShown = true
+                            
+                            multipleAddViewTextFieldFocused = true
                         }
                     }
                     
@@ -137,6 +147,7 @@ struct HabitDetailView: View {
                 ZStack(alignment: .trailing) {
                     TextField("Enter a number", text: $viewModel.multipleAddField)
                         .textFieldStyle(.roundedBorder)
+                        .focused($multipleAddViewTextFieldFocused)
                         .onSubmit {
                             viewModel.addRemoveMultiple()
                         }
@@ -156,9 +167,13 @@ struct HabitDetailView: View {
             .padding(.horizontal)
         }
         .aspectRatio(2, contentMode: .fit)
+        .frame(maxWidth: 500)
         .padding(.horizontal, 30)
         .transition(.asymmetric(insertion: .scale.animation(.interpolatingSpring(stiffness: 450, damping: 28)), removal: .scale))
         .animation(.easeInOut, value: true)
+        .onDisappear {
+            multipleAddViewTextFieldFocused = false
+        }
     }
     
 //    @State private var multipleAddSelection = MultipleAddEnum.add
@@ -168,13 +183,22 @@ struct HabitDetailView: View {
     var body: some View {
         ZStack(alignment: .top) {
             VStack {
-                if habit.habitDescription != nil {
-                    HStack {
-                        Text(habit.habitDescription!)
-                            .padding(20)
-                        Spacer()
+                HStack {
+                    if let icon = habit.iconName {
+                        Image(icon)
+                            .resizable()
+                            .foregroundColor(habit.iconColor)
+                            .scaledToFit()
+                            .frame(maxWidth: 50)
                     }
+                    
+                    Text(habit.habitName)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.6)
                 }
+                .padding(.top)
                 
 //                HStack {
 //                    ForEach(habit.wrappedTags, id: \.id) { tag in
@@ -222,14 +246,30 @@ struct HabitDetailView: View {
             
             }
             #if os(iOS)
-            .navigationBarTitle(habit.habitName, displayMode: .large)
+            .navigationBarTitle("", displayMode: .inline)
             #endif
             .toolbar(content: {
                 ToolbarItem(placement: .primaryAction) {
                     Menu {
+                        Button {
+                            withAnimation {
+                                if habit.habitArchived {
+                                    habit.unarchiveHabit()
+                                } else {
+                                    habit.deleteHabit()
+                                }
+                            }
+                        } label: {
+                            if habit.habitArchived {
+                                Label("Unrchive", systemImage: "archivebox")
+                            } else {
+                                Label("Archive", systemImage: "archivebox")
+                            }
+                        }
+                        
                         Button(role: .destructive) {
                             withAnimation(.easeInOut) {
-                                viewModel.deleteActionSheet = true
+                                appViewModel.habitToDelete = habit
                             }
                         } label: {
                             Label("Delete", systemImage: "trash")
@@ -267,28 +307,17 @@ struct HabitDetailView: View {
             .sheet(isPresented: $viewModel.graphSheet) {
                 HabitSpecificGraphsView(habit: habit)
                     .accentColor(userSettings.accentColor)
+                    .environment(\.purchaseInfo, purchaseInfo)
             }
             .alert(isPresented: $viewModel.deleteActionSheet) {
                 Alert(title: Text("Do you really want to delete this habit?"), primaryButton: .destructive(Text("Delete")) {
-                    let request: NSFetchRequest<HabitItem> = HabitItem.fetchRequest()
-                    request.fetchLimit = 1
-                    request.predicate = NSPredicate(format: "%@ == id", habit.id as CVarArg)
-                    do {
-                        let habits = try viewContext.fetch(request)
-                        print(habits)
-                        for object in habits {
-                            viewContext.delete(object)
-                        }
-                        
-                        try viewContext.save()
-                    } catch {
-                        fatalError()
-                    }
+                    habit.deleteHabitPermanently()
                 }, secondaryButton: .cancel())
             }
             .zIndex(1)
             .blur(radius: viewModel.multipleAddShown ? 10 : 0)
             .contentShape(Rectangle())
+            .disabled(viewModel.multipleAddShown)
             .onTapGesture {
                 if viewModel.multipleAddShown {
                     withAnimation(.easeOut(duration: 0.15)) {
@@ -305,7 +334,15 @@ struct HabitDetailView: View {
             
         }
         .ignoresSafeArea(.keyboard)
-        
+//        .onDisappear {
+//            if viewContext.hasChanges {
+//                do {
+//                    try viewContext.save()
+//                } catch {
+//                    fatalError()
+//                }
+//            }
+//        }
     }
 }
 
@@ -314,7 +351,7 @@ struct ScrollCalendarDateView: View {
     
     func getSpecificDate(value: Int, format: String) -> String {
         let currentDate = Date()
-        let specificDate = Calendar.current.date(byAdding: .day, value: -value, to: currentDate)
+        let specificDate = Calendar.defaultCalendar.date(byAdding: .day, value: -value, to: currentDate)
         
         let formatter = DateFormatter()
         formatter.dateFormat = format
@@ -342,7 +379,7 @@ struct NewHabitDetailView_Previews: PreviewProvider {
         let habit = HabitItem(context: moc)
         habit.id = UUID()
         habit.habitName = "PreviewTest"
-        habit.iconName = iconChoices.randomElement()!
+        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
         habit.resetIntervalEnum = .daily
         habit.amountToDo = 4
         habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)

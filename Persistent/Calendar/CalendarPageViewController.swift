@@ -46,44 +46,51 @@ class CalendarViewController: UIViewController {
         monthNameLabel = UILabel()
         monthNameLabel.translatesAutoresizingMaskIntoConstraints = false
         monthNameLabel.textAlignment = .center
-        let font = UIFont.preferredFont(forTextStyle: .title1)
-        let boldFont = font.fontDescriptor.withSymbolicTraits(.traitBold)
-        monthNameLabel.font = UIFont(descriptor: boldFont!, size: font.pointSize)
+        let font = UIFont.preferredFont(forTextStyle: .title2)
+//        let boldFont = font.fontDescriptor.withSymbolicTraits(.traitBold)
+//        monthNameLabel.font = UIFont(descriptor: boldFont!, size: font.pointSize)
+        monthNameLabel.font = UIFont.systemFont(ofSize: font.pointSize, weight: .semibold)
         monthNameLabel.text = getMonthName(date: date)
         
-        //let config = UIImage.SymbolConfiguration(pointSize: 44)
-        //
-//        let image = UIImage(systemName: "chevron.backward.circle.fill", withConfiguration: config)
-//        leftButton = UIButton()
-//        leftButton.setImage(image, for: .normal)
-//        leftButton.frame = CGRect(origin: .zero, size: CGSize(width: 44, height: 44))
-//        leftButton.translatesAutoresizingMaskIntoConstraints = false
-//
-//        let imageRight = UIImage(systemName: "chevron.forward.circle.fill", withConfiguration: config)
-//        rightButton = UIButton()
-//        rightButton.setImage(imageRight, for: .normal)
-//        rightButton.frame = CGRect(origin: .zero, size: CGSize(width: 44, height: 44))
-//        rightButton.translatesAutoresizingMaskIntoConstraints = false
-//        let action = UIAction(handler: { _ in self.nextButton()})
-//        rightButton.addAction(action, for: .primaryActionTriggered)
         
+        // Button config
+        let config = UIImage.SymbolConfiguration(pointSize: 40)
+        
+        let image = UIImage(systemName: "chevron.backward.circle.fill", withConfiguration: config)
+        leftButton = UIButton()
+        leftButton.setImage(image, for: .normal)
+        leftButton.frame = CGRect(origin: .zero, size: CGSize(width: 44, height: 44))
+        leftButton.translatesAutoresizingMaskIntoConstraints = false
+        let leftAction = UIAction(handler: { _ in self.previousButton()})
+        leftButton.addAction(leftAction, for: .primaryActionTriggered)
+
+        let imageRight = UIImage(systemName: "chevron.forward.circle.fill", withConfiguration: config)
+        rightButton = UIButton()
+        rightButton.setImage(imageRight, for: .normal)
+        rightButton.frame = CGRect(origin: .zero, size: CGSize(width: 44, height: 44))
+        rightButton.translatesAutoresizingMaskIntoConstraints = false
+        let rightAction = UIAction(handler: { _ in self.nextButton()})
+        rightButton.addAction(rightAction, for: .primaryActionTriggered)
+        
+        // Allgemeines Entfernen der Autorezising Masks - ohne geht nicht
         pageController?.view.translatesAutoresizingMaskIntoConstraints = false
         
+        // Add Subviews
         view.addSubview(monthNameLabel)
-//        view.addSubview(leftButton)
-//        view.addSubview(rightButton)
+        view.addSubview(leftButton)
+        view.addSubview(rightButton)
         
         NSLayoutConstraint.activate([
-            monthNameLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            monthNameLabel.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: 10),
             monthNameLabel.centerXAnchor.constraint(equalTo: view.layoutMarginsGuide.centerXAnchor),
             
-//            leftButton.trailingAnchor.constraint(equalTo: monthNameLabel.layoutMarginsGuide.leadingAnchor, constant: -30),
-//            leftButton.centerYAnchor.constraint(equalTo: monthNameLabel.layoutMarginsGuide.centerYAnchor),
-//
-//            rightButton.leadingAnchor.constraint(equalTo: monthNameLabel.layoutMarginsGuide.trailingAnchor, constant: 30),
-//            rightButton.centerYAnchor.constraint(equalTo: monthNameLabel.layoutMarginsGuide.centerYAnchor),
+            leftButton.centerYAnchor.constraint(equalTo: monthNameLabel.layoutMarginsGuide.centerYAnchor),
+            leftButton.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor, constant: 25),
 
-            pageController!.view.topAnchor.constraint(equalTo: monthNameLabel.layoutMarginsGuide.bottomAnchor),
+            rightButton.centerYAnchor.constraint(equalTo: monthNameLabel.layoutMarginsGuide.centerYAnchor),
+            rightButton.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor, constant: -25),
+
+            pageController!.view.topAnchor.constraint(equalTo: rightButton.layoutMarginsGuide.bottomAnchor, constant: 10),
             pageController!.view.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
             pageController!.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             pageController!.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -111,7 +118,7 @@ class CalendarViewController: UIViewController {
     func getMonth(_ index: Int) -> Date {
         var date = Date()
         
-        let cal = Calendar.current as NSCalendar
+        let cal = Calendar.defaultCalendar as NSCalendar
         
         date = cal.date(byAdding: [.month], value: index, to: date, options: [])!
         
@@ -119,20 +126,31 @@ class CalendarViewController: UIViewController {
     }
     
     func nextButton() {
-        guard let controller = currentSwiftUIView else { return }
+        guard let controller = pageController?.viewControllers?.first as? UIHostingController<CalendarView> else { return }
         
         let currentDate = controller.rootView.date
         
-        let addedDate = Calendar.current.date(byAdding: .month, value: 1, to: currentDate, wrappingComponents: false)!
-        
-        print("\(currentIndex): \(date)")
+        let addedDate = Calendar.defaultCalendar.date(byAdding: .month, value: 1, to: currentDate, wrappingComponents: false)!
         
         let swiftUIView = UIHostingController(rootView: CalendarView(toggle: $toggle, habit: habit, date: addedDate, habitDate: $habitDate))
-        currentSwiftUIView = swiftUIView
         
         self.monthNameLabel.text = getMonthName(date: addedDate)
         
         self.pageController?.setViewControllers([swiftUIView], direction: .forward, animated: true, completion: nil)
+    }
+    
+    func previousButton() {
+        guard let controller = pageController?.viewControllers?.first as? UIHostingController<CalendarView> else { return }
+        
+        let currentDate = controller.rootView.date
+        
+        let addedDate = Calendar.defaultCalendar.date(byAdding: .month, value: -1, to: currentDate, wrappingComponents: false)!
+        
+        let swiftUIView = UIHostingController(rootView: CalendarView(toggle: $toggle, habit: habit, date: addedDate, habitDate: $habitDate))
+        
+        self.monthNameLabel.text = getMonthName(date: addedDate)
+        
+        self.pageController?.setViewControllers([swiftUIView], direction: .reverse, animated: true, completion: nil)
     }
 }
 
@@ -144,11 +162,11 @@ extension CalendarViewController: UIPageViewControllerDataSource, UIPageViewCont
         guard let controller = viewController as? UIHostingController<CalendarView> else { return nil }
         
         let currentDate = controller.rootView.date
-        self.monthNameLabel.text = getMonthName(date: currentDate)
+//        self.monthNameLabel.text = getMonthName(date: currentDate)
         
         //Calendar.current.date(byAdding: [DateCom], to: <#T##Date#>, wrappingComponents: <#T##Bool#>)
         
-        let date = Calendar.current.date(byAdding: .month, value: -1, to: currentDate, wrappingComponents: false)!
+        let date = Calendar.defaultCalendar.date(byAdding: .month, value: -1, to: currentDate, wrappingComponents: false)!
         
         print("\(currentIndex): \(date)")
         
@@ -169,9 +187,9 @@ extension CalendarViewController: UIPageViewControllerDataSource, UIPageViewCont
         guard let controller = viewController as? UIHostingController<CalendarView> else { return nil }
         
         let currentDate = controller.rootView.date
-        self.monthNameLabel.text = getMonthName(date: currentDate)
+//        self.monthNameLabel.text = getMonthName(date: currentDate)
         
-        let date = Calendar.current.date(byAdding: .month, value: 1, to: currentDate, wrappingComponents: false)!
+        let date = Calendar.defaultCalendar.date(byAdding: .month, value: 1, to: currentDate, wrappingComponents: false)!
         
         print("\(currentIndex): \(date)")
         
@@ -187,10 +205,16 @@ extension CalendarViewController: UIPageViewControllerDataSource, UIPageViewCont
         return swiftUIView
     }
     
+    /// Label Namen ändern, nachdem die Page gewechselt wurde
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        guard let controller = pageViewController.viewControllers?.first as? UIHostingController<CalendarView> else { return }
+        
+        let currentDate = controller.rootView.date
+        self.monthNameLabel.text = getMonthName(date: currentDate)
+    }
+    
     func getMonthName(date: Date) -> String {
-        let formatter  = DateFormatter()
-        formatter.dateFormat = "MMMM"
-        return formatter.string(from: date)
+        return "\(date.formatted(.dateTime.month(.wide))) \(date.formatted(.dateTime.year()))"
     }
 }
 
@@ -249,7 +273,7 @@ struct CalendarPageViewController_Previews: PreviewProvider {
         let habit = HabitItem(context: PersistenceController.preview.container.viewContext)
         habit.id = UUID()
         habit.habitName = "PreviewTest"
-        habit.iconName = iconChoices.randomElement()!
+        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
         habit.resetIntervalEnum = .daily
         habit.amountToDo = 4
         habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)

@@ -25,27 +25,57 @@ class UserSettings: ObservableObject {
         SettingsColor(color: Color(red: 0.659, green: 1.000, blue: 0.471, opacity: 1.000), name: "Grass")
     ]
     
+    let accentColorNames: [String] = [
+        "Persistent",
+        "Fire",
+        "Rose",
+        "Violet",
+        "Waves",
+        "Deep Sea",
+        "Grass",
+        "Sun"
+    ]
+    
     @Published var accentColorIndex: Int {
         didSet {
             UserDefaults.standard.set(accentColorIndex, forKey: "accentColorIndex")
             accentColor = colors[accentColorIndex].color
         }
     }
-    @Published var accentColor: Color
-    
-    @Published var syncEnabled: Bool {
+    @Published var accentColorName: String {
         didSet {
-            UserDefaults.standard.set(syncEnabled, forKey: "syncEnabled")
+            UserDefaults.standard.set(accentColorName, forKey: "accentColorName")
+            accentColor = Color(accentColorName)
         }
     }
+    @Published var accentColor: Color
+    
+    @Published var syncDisabled: Bool {
+        didSet {
+            UserDefaults.standard.set(syncDisabled, forKey: "syncDisabled")
+        }
+    }
+    
+    @Published var leftHandedInterface: Bool {
+        didSet {
+            UserDefaults.standard.set(leftHandedInterface, forKey: UserSettings.userDefaultsLeftHandedInterfaceString)
+        }
+    }
+    static let userDefaultsLeftHandedInterfaceString: String = "leftHandedInterface"
     
     init() {
         let index: Int = UserDefaults.standard.object(forKey: "accentColorIndex") as? Int ?? 0
         self.accentColorIndex = index
-        self.accentColor = colors[index].color
+//        self.accentColor = colors[index].color
         
-        let syncEnabled: Bool = UserDefaults.standard.bool(forKey: "syncEnabled")
-        self.syncEnabled = syncEnabled
+        let name: String = UserDefaults.standard.object(forKey: "accentColorName") as? String ?? "Persistent"
+        self.accentColorName = name
+        self.accentColor = Color(name)
+        
+        let syncDisabled: Bool = UserDefaults.standard.bool(forKey: "syncDisabled")
+        self.syncDisabled = syncDisabled
+        
+        self.leftHandedInterface = UserDefaults.standard.bool(forKey: UserSettings.userDefaultsLeftHandedInterfaceString)
     }
 }
 

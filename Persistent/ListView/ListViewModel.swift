@@ -9,9 +9,48 @@ import Foundation
 import SwiftUI
 import CoreData
 
+enum ListFilterSelectionEnum: Equatable {
+    case all
+    case daily
+    case weekly
+    case monthly
+    case tag(HabitTag)
+    
+    var name: String {
+        switch self {
+        case .all:
+            return "All Habits"
+        case .daily:
+            return "Daily Habits"
+        case .weekly:
+            return "Weekly Habits"
+        case .monthly:
+            return "Monthly Habits"
+        case .tag(let habitTag):
+            return habitTag.wrappedName
+        }
+    }
+}
+
 class ListViewModel: ObservableObject {
     enum FilterOptions: Codable {
-        case nameAscending, nameDescending
+        case nameAscending
+        case nameDescending
+        case percentageDoneAscending
+        case percentageDoneDescending
+    }
+    
+    init() {
+        if let filterOptions = UserDefaults.standard.object(forKey: "listFilterOptions") as? Data {
+            let decoder = JSONDecoder()
+            if let decodedOption = try? decoder.decode(FilterOptions.self, from: filterOptions) {
+                self.filterOptions = decodedOption
+            } else {
+                self.filterOptions = .nameAscending
+            }
+        } else {
+            self.filterOptions = .nameAscending
+        }
     }
     
     @Published var addSheetPresented: Bool = false
@@ -20,9 +59,12 @@ class ListViewModel: ObservableObject {
     
     @Published var selection = Set<UUID>()
     
-    @Published var filterOptions: FilterOptions = UserDefaults.standard.object(forKey: "listFilterOptions") as? FilterOptions ?? .nameAscending {
+    @Published var filterOptions: FilterOptions {
         didSet {
-            UserDefaults.standard.set(filterOptions, forKey: "listFilterOptions")
+            let encoder = JSONEncoder()
+            if let encoded = try? encoder.encode(filterOptions) {
+                UserDefaults.standard.set(encoded, forKey: "listFilterOptions")
+            }
         }
     }
     
