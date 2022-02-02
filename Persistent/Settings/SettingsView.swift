@@ -66,16 +66,32 @@ struct SettingsView: View {
                 Section("Interface Design") {
                     NavigationLink(destination: AccentColorSetting()) {
                         HStack {
-                            Image(systemName: "paintbrush.fill")
+                            Image(systemName: "paintbrush")
                                 .foregroundColor(userSettings.accentColor)
                             
                             Text("Accent Color")
                         }
                     }
                     
+                    VStack(alignment: .leading, spacing: 0) {
+                        HStack {
+                            Image(systemName: "paintpalette")
+                                .foregroundColor(userSettings.accentColor)
+                            
+                            Text("List cell colors")
+                                .padding(.vertical, 5)
+                        }
+                        
+                        Picker("List cell color", selection: $userSettings.simplerListCellColor) {
+                            Text("Colorful").tag(false)
+                            Text("Muted").tag(true)
+                        }
+                        .pickerStyle(.segmented)
+                    }
+                    
                     NavigationLink(destination: ChangeAppIconView()) {
                         HStack {
-                            Image(systemName: "app.fill")
+                            Image(systemName: "app")
                                 .foregroundColor(userSettings.accentColor)
                             
                             Text("App Icon")
@@ -90,6 +106,15 @@ struct SettingsView: View {
                 }
                 
                 Section("Habits") {
+                    NavigationLink(destination: NightOwlModeView()) {
+                        HStack {
+                            Image(systemName: "moon.stars")
+                                .foregroundColor(userSettings.accentColor)
+                            
+                            Text("Night Owl Mode")
+                        }
+                    }
+                    
                     NavigationLink(destination: ArchivedListView()) {
                         HStack {
                             Image(systemName: "archivebox")
@@ -238,6 +263,7 @@ struct SettingsView_Previews: PreviewProvider {
         SettingsView()
             .previewDevice("iPhone 12")
             .environmentObject(UserSettings())
+            .environmentObject(StoreManager())
     }
 }
 

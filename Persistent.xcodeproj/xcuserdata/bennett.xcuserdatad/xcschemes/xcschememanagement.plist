@@ -80,7 +80,7 @@
 		<key>PersistentMac.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>4</integer>
 		</dict>
 		<key>PersistentWatch (Complication).xcscheme_^#shared#^_</key>
 		<dict>
@@ -110,7 +110,7 @@
 		<key>PersistentWatch.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>4</integer>
+			<integer>3</integer>
 		</dict>
 		<key>PersistentWidgetExtension.xcscheme_^#shared#^_</key>
 		<dict>

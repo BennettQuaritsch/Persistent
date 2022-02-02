@@ -45,21 +45,12 @@ extension HabitDetailView {
             return CGFloat(habit.relevantCount(shownDate)) / CGFloat(habit.amountToDo)
         }
         
-        func addToHabit() {
+        func addToHabit(context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
             withAnimation(.easeInOut) {
-//                let newhabit = HabitCompletionDate(context: viewContext)
-//                newhabit.date = shownDate
-//                newhabit.item = habit
-//
-//                do {
-//                    try viewContext.save()
-//                    selectionChanged()
-//                } catch {
-//                    let nsError = error as NSError
-//                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//                }
                 
-                habit.addToHabit(1, date: shownDate, context: viewContext)
+                let habitObject = context.object(with: habit.objectID) as! HabitItem
+                
+                habitObject.addToHabit(1, date: shownDate, context: context)
                 
                 self.objectWillChange.send()
                 
@@ -67,26 +58,12 @@ extension HabitDetailView {
             }
         }
         
-        func removeFromHabit() {
+        func removeFromHabit(context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
             withAnimation(.easeInOut) {
-    //            let habitObject = habit.date?.sortedArray(using: [NSSortDescriptor(keyPath: \HabitCompletionDate.date, ascending: true)]).last
                 
-//                if let habitObject = habit.dateArray.last(where: { Calendar.current.isDate($0.date!, equalTo: shownDate, toGranularity: .day) }) {
-//                    viewContext.delete(habitObject as NSManagedObject)
-//                    selectionChanged()
-//                } else {
-//                    errorVibration()
-//                }
-//
-//                do {
-//                    try viewContext.save()
-//
-//                } catch {
-//                    let nsError = error as NSError
-//                    fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//                }
+                let habitObject = context.object(with: habit.objectID) as! HabitItem
                 
-                habit.addToHabit(-1, date: shownDate, context: viewContext)
+                habitObject.addToHabit(-1, date: shownDate, context: context)
                 
                 self.objectWillChange.send()
                 

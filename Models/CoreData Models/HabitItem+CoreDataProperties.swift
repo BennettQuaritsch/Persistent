@@ -111,6 +111,7 @@ extension HabitItem {
     @NSManaged public var habitArchived: Bool
     @NSManaged public var iconColorName: String?
     @NSManaged private var valueType: String?
+    @NSManaged public var breakHabit: Bool
 
     @NSManaged public var tags: NSSet?
 
@@ -323,7 +324,7 @@ extension HabitItem {
 
     ///Function for getting habit's progress
     func progress(_ date: Date = Date()) -> CGFloat {
-        return CGFloat(self.relevantCount()) / CGFloat(self.amountToDo)
+        return CGFloat(self.relevantCount(date)) / CGFloat(self.amountToDo)
     }
 
     public var wrappedTags: [HabitTag] {
@@ -338,6 +339,74 @@ extension HabitItem {
         return tagArray
     }
 
+}
+
+// Extension für Statistics
+extension HabitItem {
+    func getAverageForInterval(firstDate: Date, lastDate: Date) -> Double {
+        let cal = Calendar.defaultCalendar
+        
+        print("first: \(firstDate)")
+        print("last: \(lastDate)")
+        
+        var amountCompleted = 0
+        var intervalsCount = 0
+        
+        var tempDate = firstDate
+        
+        while tempDate <= lastDate {
+            amountCompleted += self.relevantCount(tempDate)
+            intervalsCount += 1
+            
+            switch self.resetIntervalEnum {
+            case .daily:
+                tempDate = cal.date(byAdding: .day, value: 1, to: tempDate)!
+            case .weekly:
+                tempDate = cal.date(byAdding: .weekOfYear, value: 1, to: tempDate)!
+            case .monthly:
+                tempDate = cal.date(byAdding: .month, value: 1, to: tempDate)!
+            }
+        }
+        
+        print("amountCompleted \(amountCompleted)")
+        print("intervalsCount \(intervalsCount)")
+        
+        return Double(amountCompleted) / Double(intervalsCount)
+    }
+    
+    func getPercentageDoneForInterval(firstDate: Date, lastDate: Date) -> Double {
+        if self.breakHabit {
+            return max(1 - getAverageForInterval(firstDate: firstDate, lastDate: lastDate) / Double(self.amountToDo), 0) * 100
+        } else {
+            return getAverageForInterval(firstDate: firstDate, lastDate: lastDate) / Double(self.amountToDo) * 100
+        }
+    }
+    
+    func getSuccessfulCompletionsForInterval(firstDate: Date, lastDate: Date) -> Int {
+        let cal = Calendar.defaultCalendar
+        
+        var amountCompleted = 0
+        
+        var tempDate = firstDate
+        
+        while tempDate <= lastDate {
+            let relevantCount = self.relevantCount(tempDate)
+            if relevantCount >= Int(self.amountToDo) {
+                amountCompleted += 1
+            }
+            
+            switch self.resetIntervalEnum {
+            case .daily:
+                tempDate = cal.date(byAdding: .day, value: 1, to: tempDate)!
+            case .weekly:
+                tempDate = cal.date(byAdding: .weekOfYear, value: 1, to: tempDate)!
+            case .monthly:
+                tempDate = cal.date(byAdding: .month, value: 1, to: tempDate)!
+            }
+        }
+        
+        return amountCompleted
+    }
 }
 
 // MARK: Generated accessors for date

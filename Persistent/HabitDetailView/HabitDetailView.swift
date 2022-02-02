@@ -12,6 +12,8 @@ import CoreData
 
 struct HabitDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.backgroundContext) private var backgroundContext
+    
     @Environment(\.presentationMode) private var presentationMode
     @EnvironmentObject private var userSettings: UserSettings
     @EnvironmentObject private var appViewModel: AppViewModel
@@ -55,7 +57,7 @@ struct HabitDetailView: View {
     var habitCircle: some View {
         GeometryReader { geo in
             ZStack {
-                ProgressBar(strokeWidth: 30, progress: viewModel.progress(), color: habit.iconColor)
+                ProgressBar(strokeWidth: 30, color: habit.iconColor, habit: habit, date: viewModel.shownDate)
                     .frame(maxWidth: .infinity)
                     .background(
                         Circle()
@@ -66,7 +68,9 @@ struct HabitDetailView: View {
                     
                 
                 HStack {
-                    Button(action: viewModel.removeFromHabit) {
+                    Button{
+                        viewModel.removeFromHabit(context: viewContext)
+                    } label: {
                         Image(systemName: "minus.circle.fill")
                             .renderingMode(.original)
                             .resizable()
@@ -99,7 +103,9 @@ struct HabitDetailView: View {
                         }
                     }
                     
-                    Button(action: viewModel.addToHabit) {
+                    Button {
+                        viewModel.addToHabit(context: viewContext)
+                    } label: {
                         Image(systemName: "plus.circle.fill")
                             .renderingMode(.original)
                             .resizable()

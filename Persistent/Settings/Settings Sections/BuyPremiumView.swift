@@ -33,9 +33,9 @@ struct BuyPremiumView: View {
     
     let premiumContents: [PremiumContent] = [
         .init(title: "More than 3 Habits", description: "You can create more than 3 habits at the same time. Time to power through them!", systemImageName: "checkmark.seal.fill"),
-        .init(title: "View graphs", description: "Get a graphical look at how you did in the past. View a habit specificly or at all of them.", systemImageName: "chart.bar.xaxis"),
-        .init(title: "Notifications", description: "Schedule notifications that remind you of your habit", systemImageName: "bell.badge.fill"),
-        .init(title: "Support", description: "With this purchase you can support me, an indie app-creator.", systemImageName: "heart.fill")
+        .init(title: "View graphs", description: "Get a graphical look at how you did in the past. Click on the graphs icon in the detail page of your habit.", systemImageName: "chart.bar.xaxis"),
+        .init(title: "Notifications", description: "Schedule notifications that remind you of your habit.", systemImageName: "bell.badge.fill"),
+        .init(title: "Support", description: "With this purchase you can support me, an indie app-creator 😊.", systemImageName: "heart.fill")
     ]
     
     var product: Product? {
@@ -88,6 +88,7 @@ struct BuyPremiumView: View {
                 Text("Purchased")
                     .font(.headline)
                     .padding()
+                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
             } else {
                 Button {
                     if let product = product {

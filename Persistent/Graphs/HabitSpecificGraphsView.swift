@@ -23,33 +23,136 @@ struct HabitSpecificGraphsView: View {
     
     @State private var buyPremiumViewSelected: Bool = false
     
-    @State var graphPickerSelection: HabitBarChartViewModel.GraphPickerSelectionEnum = .weekly
+//    @State var graphPickerSelection: HabitBarChartViewModel.GraphPickerSelectionEnum = .weekly
+    
+    func formatDoubleNumberTwoDigits(_ value: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 2
+        guard let string = formatter.string(from: value as NSNumber) else { return "" }
+        return string
+    }
+    
+    func formatDoubleNumberNoDigits(_ value: Double) -> String {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 0
+        guard let string = formatter.string(from: value as NSNumber) else { return "" }
+        return string
+    }
     
     var body: some View {
         NavigationView {
-            List {
-//                ListCellView(habit: habit, viewModel: ListViewModel())
-//                    .disabled(true)
+//            List {
+////                ListCellView(habit: habit, viewModel: ListViewModel())
+////                    .disabled(true)
+//
+//                Section {
+//                    Picker("Interval", selection: $barChartViewModel.graphPickerSelection) {
+//                        ForEach(HabitBarChartViewModel.GraphPickerSelectionEnum.allCases, id: \.self) { selection in
+//                            Text(selection.name(habit: habit)).tag(selection)
+//                        }
+//                    }
+//                    .pickerStyle(.segmented)
+//                    .onChange(of: barChartViewModel.graphPickerSelection) { selection in
+//                        switch habit.resetIntervalEnum {
+//                        case .daily:
+//                            switch selection {
+//                            case .smallView:
+//                                barChartViewModel.loadDailyHabits()
+//                            case .mediumView:
+//                                barChartViewModel.loadMonthlyHabits()
+//                            }
+//                        case .weekly:
+//                            barChartViewModel.loadHabitsForWeeklyHabit(selection)
+//                        case .monthly:
+//                            barChartViewModel.loadDataForMonthlyHabit(selection)
+//                        }
+//                    }
+//
+//                    ZStack {
+//                        HabitCompletionGraph(viewModel: barChartViewModel)
+//                            .aspectRatio(2 / 1.2, contentMode: .fit)
+//                            .blur(radius: purchaseInfo.wrappedValue ? 0 : 10)
+//
+//                        if !purchaseInfo.wrappedValue {
+//                            Button {
+//                                buyPremiumViewSelected = true
+//                            } label: {
+//                                Label("Unlock Graphs for your Widget and support me 😄", systemImage: "lock.open.fill")
+//                                    .font(.headline)
+//                                    //.multilineTextAlignment(.center)
+//                                    .foregroundColor(.primary)
+//                                    .padding(10)
+//                            }
+//                            .buttonStyle(.borderedProminent)
+//
+//                            NavigationLink(destination: BuyPremiumView(), isActive: $buyPremiumViewSelected) {
+//                                EmptyView()
+//                            }
+//                            .hidden()
+//                            //.shadow(radius: 6)
+//                        }
+//                    }
+//                }
+//            }
+            VStack {
+                HStack {
+                    if let first = barChartViewModel.shownDates.first, let last = barChartViewModel.shownDates.last {
+                        GroupBox {
+                            VStack {
+                                let successfulCompletions = habit.getSuccessfulCompletionsForInterval(firstDate: first, lastDate: last)
+                                
+                                if habit.breakHabit {
+                                    Text("Failed")
+                                }
+                                
+                                Text(String(successfulCompletions) + (successfulCompletions == 1 ? " time" : " times"))
+                                    .frame(maxWidth: .infinity)
+                                    .font(.title3.weight(.bold))
+                                
+                                if !habit.breakHabit {
+                                    Text("completed successfully")
+                                }
+                            }
+                            .frame(minHeight: 50, maxHeight: 80)
+                        }
+                        .multilineTextAlignment(.center)
+                        
+                        GroupBox {
+                            VStack {
+                                if habit.breakHabit {
+                                    Text("Succeeded")
+                                }
+                                
+                                Text(formatDoubleNumberNoDigits(habit.getPercentageDoneForInterval(firstDate: first, lastDate: last)) + "%")
+                                    .frame(maxWidth: .infinity)
+                                    .font(.title3.weight(.bold))
+                                
+                                if habit.breakHabit {
+                                    Text("on average")
+                                } else {
+                                    Text("completed on average")
+                                }
+                            }
+                            .frame(minHeight: 50, maxHeight: 80)
+                        }
+                        .multilineTextAlignment(.center)
+                    }
+                }
                 
-                Section {
-                    Picker("Interval", selection: $graphPickerSelection) {
+                GroupBox {
+                    Picker("Interval", selection: $barChartViewModel.graphPickerSelection) {
                         ForEach(HabitBarChartViewModel.GraphPickerSelectionEnum.allCases, id: \.self) { selection in
-                            Text(selection.localizedName).tag(selection)
+                            Text(selection.name(habit: habit)).tag(selection)
                         }
                     }
                     .pickerStyle(.segmented)
-                    .onChange(of: graphPickerSelection) { selection in
-                        switch selection {
-                        case .weekly:
-                            barChartViewModel.loadDailyHabits()
-                        case .monthly:
-                            barChartViewModel.loadMonthlyHabits()
-//                            barChartViewModel.loadHabitsForWeeklyHabit()
-                        }
+                    .onChange(of: barChartViewModel.graphPickerSelection) { selection in
+                        barChartViewModel.currentDate = Date()
+                        barChartViewModel.loadHabits(selection)
                     }
                     
                     ZStack {
-                        HabitCompletionGraph(viewModel: barChartViewModel, graphPickerSelection: $graphPickerSelection)
+                        HabitCompletionGraph(viewModel: barChartViewModel)
                             .aspectRatio(2 / 1.2, contentMode: .fit)
                             .blur(radius: purchaseInfo.wrappedValue ? 0 : 10)
                         
@@ -72,17 +175,17 @@ struct HabitSpecificGraphsView: View {
                             //.shadow(radius: 6)
                         }
                     }
+                    .frame(maxWidth: .infinity)
+                } label: {
+                    
                 }
+                .frame(minWidth: 300, maxWidth: .infinity)
                 
-//                Section {
-//                    HabitLineChartView(habit: habit)
-//                        .padding(.vertical)
-//                        .aspectRatio(2 / 1.2, contentMode: .fit)
-//    //                    .background(Color(UIColor.systemGray6))
-//    //                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-//    //                .padding(.horizontal)
-//                }
+                Spacer()
             }
+            // Ohne gibt es eine weirde Insert Transition
+            .transition(.move(edge: .top))
+            .padding()
             .navigationTitle("Graphs")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {

@@ -117,7 +117,7 @@
 		913614F7272B58AA004090A0 /* TestAddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913614F6272B58AA004090A0 /* TestAddHabitView.swift */; };
 		913614F9272BFA81004090A0 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913614F8272BFA81004090A0 /* Calendar.swift */; };
 		913614FC272C982E004090A0 /* CalendarPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913614FB272C982E004090A0 /* CalendarPageViewController.swift */; };
-		914BB2EB26F3CAEB00D47CC0 /* AboutPersistentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914BB2EA26F3CAEB00D47CC0 /* AboutPersistentView.swift */; };
+		914BB2EB26F3CAEB00D47CC0 /* ThanksToView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914BB2EA26F3CAEB00D47CC0 /* ThanksToView.swift */; };
 		914BB2EE26F7745500D47CC0 /* HabitDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914BB2ED26F7745500D47CC0 /* HabitDetailViewModel.swift */; };
 		91525013271B0084003DD437 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91525012271B0084003DD437 /* ListViewModel.swift */; };
 		91525014271B0084003DD437 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91525012271B0084003DD437 /* ListViewModel.swift */; };
@@ -195,6 +195,7 @@
 		91829AF52782808F001FE335 /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AF32782808E001FE335 /* AboutAppView.swift */; };
 		91829AF72783BD02001FE335 /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AF62783BD02001FE335 /* WhatsNewView.swift */; };
 		91829AF82783BD02001FE335 /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AF62783BD02001FE335 /* WhatsNewView.swift */; };
+		918882482799599C00A02377 /* ReleventCountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918882472799599C00A02377 /* ReleventCountTests.swift */; };
 		9192C2E527103F5700997D51 /* HabitSpecificGraphsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192C2E427103F5700997D51 /* HabitSpecificGraphsView.swift */; };
 		9192C2E72711FE4300997D51 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192C2E62711FE4300997D51 /* CGPointExtension.swift */; };
 		9192C2E82711FF3A00997D51 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192C2E62711FE4300997D51 /* CGPointExtension.swift */; };
@@ -207,6 +208,8 @@
 		9194120E26D819FC0042599E /* MediumWidgetMultipleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9194120D26D819FC0042599E /* MediumWidgetMultipleView.swift */; };
 		9194121026D84C3B0042599E /* ChooseWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9194120F26D84C3B0042599E /* ChooseWeekView.swift */; };
 		9194121226DFF3B30042599E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9194121126DFF3B30042599E /* CloudKit.framework */; };
+		919EB2EA27A9DAB10003E0BD /* DateNightOwlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919EB2E927A9DAB10003E0BD /* DateNightOwlExtension.swift */; };
+		919EB2EC27A9DDA60003E0BD /* NightOwlModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919EB2EB27A9DDA60003E0BD /* NightOwlModeView.swift */; };
 		91BA782B277330E3003C4982 /* FirstWeekdayPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BA782A277330E3003C4982 /* FirstWeekdayPickerView.swift */; };
 		91BA782C277330E3003C4982 /* FirstWeekdayPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BA782A277330E3003C4982 /* FirstWeekdayPickerView.swift */; };
 		91BA782E277339DB003C4982 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BA782D277339DB003C4982 /* SettingsViewModel.swift */; };
@@ -268,7 +271,7 @@
 		91F6E0AD272A053700F6024A /* BuyPremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91807CF1272209E5006208FE /* BuyPremiumView.swift */; };
 		91F6E0AE272A053700F6024A /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9105490526860C62005E80C2 /* UserSettings.swift */; };
 		91F6E0AF272A053700F6024A /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9105490426860C62005E80C2 /* SettingsView.swift */; };
-		91F6E0B0272A053700F6024A /* AboutPersistentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914BB2EA26F3CAEB00D47CC0 /* AboutPersistentView.swift */; };
+		91F6E0B0272A053700F6024A /* ThanksToView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914BB2EA26F3CAEB00D47CC0 /* ThanksToView.swift */; };
 		91F6E0B2272A05D500F6024A /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9105490B26860C62005E80C2 /* ListView.swift */; };
 		91F6E0B4272A05EE00F6024A /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91807CEF2720D883006208FE /* StoreManager.swift */; };
 		91F6E0B5272A05F800F6024A /* OldProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F45A1226C7DFB600311FD1 /* OldProgressBar.swift */; };
@@ -420,7 +423,7 @@
 		913614F6272B58AA004090A0 /* TestAddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAddHabitView.swift; sourceTree = "<group>"; };
 		913614F8272BFA81004090A0 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		913614FB272C982E004090A0 /* CalendarPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPageViewController.swift; sourceTree = "<group>"; };
-		914BB2EA26F3CAEB00D47CC0 /* AboutPersistentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutPersistentView.swift; sourceTree = "<group>"; };
+		914BB2EA26F3CAEB00D47CC0 /* ThanksToView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThanksToView.swift; sourceTree = "<group>"; };
 		914BB2ED26F7745500D47CC0 /* HabitDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailViewModel.swift; sourceTree = "<group>"; };
 		91525012271B0084003DD437 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		91561867272A0FC400C07395 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -459,6 +462,7 @@
 		91829AF32782808E001FE335 /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
 		91829AF62783BD02001FE335 /* WhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewView.swift; sourceTree = "<group>"; };
 		91829B4C27851EE1001FE335 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
+		918882472799599C00A02377 /* ReleventCountTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleventCountTests.swift; sourceTree = "<group>"; };
 		9192C2E427103F5700997D51 /* HabitSpecificGraphsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitSpecificGraphsView.swift; sourceTree = "<group>"; };
 		9192C2E62711FE4300997D51 /* CGPointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
 		9192C2EB27172E6B00997D51 /* HabitBarChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitBarChartViewModel.swift; sourceTree = "<group>"; };
@@ -466,6 +470,9 @@
 		9194120D26D819FC0042599E /* MediumWidgetMultipleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetMultipleView.swift; sourceTree = "<group>"; };
 		9194120F26D84C3B0042599E /* ChooseWeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseWeekView.swift; sourceTree = "<group>"; };
 		9194121126DFF3B30042599E /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
+		919EB2E927A9DAB10003E0BD /* DateNightOwlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateNightOwlExtension.swift; sourceTree = "<group>"; };
+		919EB2EB27A9DDA60003E0BD /* NightOwlModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightOwlModeView.swift; sourceTree = "<group>"; };
+		91A0BBDC279570E200AD0368 /* PersistentModel 1.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PersistentModel 1.8.xcdatamodel"; sourceTree = "<group>"; };
 		91A8AB1D273C189A00901845 /* PersistentModel 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PersistentModel 1.1.xcdatamodel"; sourceTree = "<group>"; };
 		91BA782A277330E3003C4982 /* FirstWeekdayPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstWeekdayPickerView.swift; sourceTree = "<group>"; };
 		91BA782D277339DB003C4982 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -655,15 +662,10 @@
 		9105490326860C62005E80C2 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				919ABC2C279CAB34008A1DB1 /* Settings Sections */,
 				9105490426860C62005E80C2 /* SettingsView.swift */,
-				91829AF32782808E001FE335 /* AboutAppView.swift */,
-				91BA782A277330E3003C4982 /* FirstWeekdayPickerView.swift */,
 				91BA782D277339DB003C4982 /* SettingsViewModel.swift */,
-				91302526273EA5E900CC91B2 /* ChangeAppIconView.swift */,
-				91302529273EA5FA00CC91B2 /* ChangeAppIconViewModel.swift */,
-				91807CF1272209E5006208FE /* BuyPremiumView.swift */,
 				9105490526860C62005E80C2 /* UserSettings.swift */,
-				914BB2EA26F3CAEB00D47CC0 /* AboutPersistentView.swift */,
 				911C832B26F7CEA40003B906 /* UICollectionView */,
 			);
 			path = Settings;
@@ -698,6 +700,7 @@
 				91D0483626FCD443005C712C /* ColorExtension.swift */,
 				91F45A1226C7DFB600311FD1 /* OldProgressBar.swift */,
 				913025692743F99E00CC91B2 /* ProgressBar.swift */,
+				919EB2E927A9DAB10003E0BD /* DateNightOwlExtension.swift */,
 				913025762757D80700CC91B2 /* Shared.xcassets */,
 				916A8C392761165400D24202 /* KeychainWrapper */,
 				917905EE27874D380001C105 /* Vibrations.swift */,
@@ -876,6 +879,7 @@
 			isa = PBXGroup;
 			children = (
 				91829AEE277DF66A001FE335 /* DeleteHabitTests.swift */,
+				918882472799599C00A02377 /* ReleventCountTests.swift */,
 			);
 			path = "Persistent Tests";
 			sourceTree = "<group>";
@@ -887,6 +891,20 @@
 				9194120D26D819FC0042599E /* MediumWidgetMultipleView.swift */,
 			);
 			path = WidgetMultipleView;
+			sourceTree = "<group>";
+		};
+		919ABC2C279CAB34008A1DB1 /* Settings Sections */ = {
+			isa = PBXGroup;
+			children = (
+				91BA782A277330E3003C4982 /* FirstWeekdayPickerView.swift */,
+				91302526273EA5E900CC91B2 /* ChangeAppIconView.swift */,
+				91302529273EA5FA00CC91B2 /* ChangeAppIconViewModel.swift */,
+				91807CF1272209E5006208FE /* BuyPremiumView.swift */,
+				91829AF32782808E001FE335 /* AboutAppView.swift */,
+				914BB2EA26F3CAEB00D47CC0 /* ThanksToView.swift */,
+				919EB2EB27A9DDA60003E0BD /* NightOwlModeView.swift */,
+			);
+			path = "Settings Sections";
 			sourceTree = "<group>";
 		};
 		91D0481A26FCD1BE005C712C /* PersistentMac */ = {
@@ -1264,6 +1282,7 @@
 			files = (
 				91F45A3326CDA08300311FD1 /* SmallWidgetMultipleView.swift in Sources */,
 				91302571274BEAE300CC91B2 /* Add-Edit-ViewModel.swift in Sources */,
+				919EB2EA27A9DAB10003E0BD /* DateNightOwlExtension.swift in Sources */,
 				91E7E5F126E3DB77004A7143 /* TagFormSection.swift in Sources */,
 				910548FA26860BF6005E80C2 /* HabitCompletionDate+CoreDataProperties.swift in Sources */,
 				914BB2EE26F7745500D47CC0 /* HabitDetailViewModel.swift in Sources */,
@@ -1317,12 +1336,13 @@
 				91BA782B277330E3003C4982 /* FirstWeekdayPickerView.swift in Sources */,
 				91BA78312775351F003C4982 /* AppDelegate.swift in Sources */,
 				91289905271015390007A0ED /* HabitLineChartView.swift in Sources */,
-				914BB2EB26F3CAEB00D47CC0 /* AboutPersistentView.swift in Sources */,
+				914BB2EB26F3CAEB00D47CC0 /* ThanksToView.swift in Sources */,
 				91829AD9277934BE001FE335 /* ArchivedListView.swift in Sources */,
 				9192C2EC27172E6B00997D51 /* HabitBarChartViewModel.swift in Sources */,
 				91F45A2A26CC6A0900311FD1 /* IntentHandler.swift in Sources */,
 				91D0483726FCD443005C712C /* ColorExtension.swift in Sources */,
 				91D0481426FCCAB9005C712C /* AppSidebarNavigation.swift in Sources */,
+				919EB2EC27A9DDA60003E0BD /* NightOwlModeView.swift in Sources */,
 				9130257E275957C300CC91B2 /* NewNotificationsViewModel.swift in Sources */,
 				9105491126860C62005E80C2 /* AddHabitView.swift in Sources */,
 				9179C97626E242020054B188 /* CoreDataBackup.swift in Sources */,
@@ -1396,6 +1416,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				918882482799599C00A02377 /* ReleventCountTests.swift in Sources */,
 				91829AEF277DF66A001FE335 /* DeleteHabitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1445,7 +1466,7 @@
 				913614F7272B58AA004090A0 /* TestAddHabitView.swift in Sources */,
 				9130252B273EA5FA00CC91B2 /* ChangeAppIconViewModel.swift in Sources */,
 				91289907271015390007A0ED /* HabitLineChartView.swift in Sources */,
-				91F6E0B0272A053700F6024A /* AboutPersistentView.swift in Sources */,
+				91F6E0B0272A053700F6024A /* ThanksToView.swift in Sources */,
 				91D0481E26FCD1BE005C712C /* ContentView.swift in Sources */,
 				91F6E0AC272A052900F6024A /* AppSidebarNavigation.swift in Sources */,
 				91F6E0B4272A05EE00F6024A /* StoreManager.swift in Sources */,
@@ -2110,6 +2131,7 @@
 		910548EE26860BC7005E80C2 /* Persistent.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				91A0BBDC279570E200AD0368 /* PersistentModel 1.8.xcdatamodel */,
 				91829AD727791D4A001FE335 /* PersistentModel 1.7.xcdatamodel */,
 				916A8C30275CDD8B00D24202 /* PersistentModel 1.6.xcdatamodel */,
 				9130257A2757F4C000CC91B2 /* PersistentModel 1. 5.xcdatamodel */,
@@ -2118,7 +2140,7 @@
 				91A8AB1D273C189A00901845 /* PersistentModel 1.1.xcdatamodel */,
 				910548EF26860BC7005E80C2 /* Persistent.xcdatamodel */,
 			);
-			currentVersion = 91829AD727791D4A001FE335 /* PersistentModel 1.7.xcdatamodel */;
+			currentVersion = 91A0BBDC279570E200AD0368 /* PersistentModel 1.8.xcdatamodel */;
 			path = Persistent.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

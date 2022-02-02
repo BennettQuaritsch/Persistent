@@ -39,6 +39,15 @@ struct EditHabitBaseView: View {
                         valueTypeTextFieldSelected: _valueTypeTextFieldSelected
                     )
                 }
+                
+                Section(header: Text("What do you want?")) {
+                    Picker("I want to", selection: $viewModel.buildOrBreakHabit) {
+                        ForEach(BuildOrBreakHabitEnum.allCases, id: \.self) { habitCase in
+                            Text(habitCase.rawValue).tag(habitCase)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                }
 
                 Section(header: Text("Icon & Color")) {
                     SymbolColorView(iconChoice: $viewModel.iconChoice, colorSelection: $viewModel.colorSelection)

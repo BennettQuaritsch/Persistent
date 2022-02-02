@@ -32,7 +32,7 @@ struct SmallWidgetView: View {
         } else {
             if let habit = habit {
                 ZStack {
-                    ProgressBar(strokeWidth: 10, progress: habit.progress(), color: habit.iconColor)
+                    ProgressBar(strokeWidth: 10, color: habit.iconColor, habit: habit)
                         .background(Circle().stroke(habit.iconColor.opacity(0.2), lineWidth: 10))
                     
                     if habit.iconName != nil {

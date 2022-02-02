@@ -19,7 +19,7 @@ struct WatchHabitDetailView: View {
                 .font(.headline)
             
             ZStack {
-                ProgressBar(strokeWidth: 10, progress: CGFloat(viewModel.habit.relevantCount()) / CGFloat(viewModel.habit.amountToDo), color: viewModel.habit.iconColor)
+                ProgressBar(strokeWidth: 10, color: viewModel.habit.iconColor, habit: viewModel.habit)
                     .frame(minWidth: 50, maxWidth: 70)
                 
 //                Image(viewModel.habit.iconName!)

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ListCellView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var userSettings: UserSettings
     
     #if os(iOS)
     @Environment(\.editMode) var editMode
@@ -21,18 +22,25 @@ struct ListCellView: View {
     
     @State var editSheetPresented: Bool = false
     
+    var listCellColor: Color {
+        if userSettings.simplerListCellColor {
+            return Color("secondarySystemGroupedBackground")
+        } else {
+            return habit.iconColor.opacity(0.9)
+        }
+    }
+    
+    var textColor: Color {
+        if userSettings.simplerListCellColor {
+            return Color.primary
+        } else {
+            return Color("systemBackground")
+        }
+    }
+    
     var body: some View {
         ZStack {
-            habit.iconColor
-//                .reverseMask {
-//                    HStack {
-//                        Spacer()
-//
-//                        Capsule()
-//                            .frame(width: 110, height: 90)
-//                            .offset(x: 12)
-//                    }
-//                }
+            listCellColor
                 .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .shadow(color: .black.opacity(0.15), radius: 15, x: 0, y: 10)
                 
@@ -41,7 +49,7 @@ struct ListCellView: View {
                 if habit.iconName != nil {
                     ZStack {
                         Circle()
-                            .fill(Color("systemBackground"))
+                            .fill(Color("systemGroupedBackground"))
                             .aspectRatio(1, contentMode: .fit)
                             .frame(width: 50, height: 50)
                         
@@ -57,34 +65,38 @@ struct ListCellView: View {
                 Text(habit.habitName)
                     .font(.title2)
                     .fontWeight(.semibold)
-                    .foregroundColor(.init("systemBackground"))
-                    .lineLimit(1)
+                    .foregroundColor(textColor)
+                    .lineLimit(2)
                     .minimumScaleFactor(0.4)
+                    .shadow(color: Color.gray.opacity(0.2) ,radius: 3)
                     .padding(.trailing, 5)
 
                 Spacer()
 
                 ZStack {
-                    Circle()
-                        .fill(Color("systemBackground").opacity(0.7))
-                        .frame(width: 68, height: 68)
-                        .shadow(color: .primary.opacity(0.125), radius: 10)
-                        .padding(.vertical, 3)
+                    if !userSettings.simplerListCellColor {
+                        Circle()
+                            .fill(Color("systemBackground").opacity(0.6))
+                            .frame(width: 68, height: 68)
+                            .shadow(color: .black.opacity(0.125), radius: 10)
+                            .padding(.vertical, 3)
+                    }
                     
                     Text("\(habit.relevantCount())")
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
                     
-                    ProgressBar(strokeWidth: 7, progress: CGFloat(habit.relevantCount()) / CGFloat(habit.amountToDo), color: habit.iconColor)
+                    ProgressBar(strokeWidth: 7, color: habit.iconColor, habit: habit)
                         .frame(height: 45)
                         .background(
                             Circle()
-                                .stroke(Color("systemBackground"), lineWidth: 7)
+                                .stroke(Color("systemGroupedBackground"), lineWidth: 7)
                         )
                         .aspectRatio(contentMode: .fit)
                         .padding(8)
                         .drawingGroup()
                 }
+                .padding(.vertical, userSettings.simplerListCellColor ? 6 : 0)
                 .onTapGesture {
                     withAnimation {
                         pressed = true
@@ -94,6 +106,7 @@ struct ListCellView: View {
                                 pressed = false
                             }
                         }
+                        habit.objectWillChange.send()
                     }
                 }
                 

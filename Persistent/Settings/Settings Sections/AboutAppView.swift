@@ -44,7 +44,9 @@ struct AboutAppView: View {
             Link("Twitter", destination: URL(string: "https://twitter.com/PersistentApp")!)
             
             Button("Leave a review 😀") {
-                if let windowScene = UIApplication.shared.keyWindow?.windowScene { SKStoreReviewController.requestReview(in: windowScene) }
+                if let windowScene = UIApplication.shared.keyWindow?.windowScene {
+                    print("test")
+                    SKStoreReviewController.requestReview(in: windowScene) }
             }
         }
         .navigationBarTitleDisplayMode(.large)

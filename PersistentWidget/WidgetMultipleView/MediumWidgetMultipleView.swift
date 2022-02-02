@@ -45,7 +45,7 @@ struct MediumWidgetMultipleView: View {
                 LazyVGrid(columns: grids) {
                     ForEach(habits, id: \.id) { habit in
                         ZStack {
-                            ProgressBar(strokeWidth: 7, progress: habit.progress(), color: habit.iconColor)
+                            ProgressBar(strokeWidth: 7, color: habit.iconColor, habit: habit)
                                 .background(Circle().stroke(habit.iconColor.opacity(0.2), lineWidth: 7))
                             
                             if habit.iconName != nil {

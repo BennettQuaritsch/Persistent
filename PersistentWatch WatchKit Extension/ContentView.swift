@@ -49,7 +49,7 @@ struct ContentView: View {
 
                             Spacer()
 
-                            ProgressBar(strokeWidth: 5, progress: CGFloat(habit.relevantCount()) / CGFloat(habit.amountToDo), color: habit.iconColor)
+                            ProgressBar(strokeWidth: 5, color: habit.iconColor, habit: habit)
                                 .frame(width: 30)
                                 .background(
                                     Circle()

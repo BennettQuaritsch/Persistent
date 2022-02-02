@@ -7,11 +7,36 @@
 
 import SwiftUI
 
+enum BuildOrBreakHabitEnum: String, CaseIterable {
+    case buildHabit = "Build habit"
+    case breakHabit = "Break habit"
+    
+    var asBool: Bool {
+        switch self {
+        case .buildHabit:
+            return false
+        case .breakHabit:
+            return true
+        }
+    }
+    
+    init(_ bool: Bool) {
+        if bool {
+            self = .breakHabit
+        } else {
+            self = .buildHabit
+        }
+    }
+}
+
 struct ProgressBar: View {
     var progress: CGFloat
     var strokeWidth: CGFloat
     
-    init(strokeWidth: CGFloat, progress: CGFloat, color: Color) {
+    var buildOrBreak: BuildOrBreakHabitEnum
+    var amountToDo: Int
+    
+    init(strokeWidth: CGFloat, progress: CGFloat, color: Color, buildOrBreak: BuildOrBreakHabitEnum = .buildHabit, amountToDo: Int = 0) {
         self.strokeWidth = strokeWidth
         self.progress = progress
         
@@ -22,6 +47,25 @@ struct ProgressBar: View {
         #endif
         
         colors = [Color(darker), color]
+        
+        self.buildOrBreak = buildOrBreak
+        self.amountToDo = amountToDo
+    }
+    
+    init(strokeWidth: CGFloat, color: Color, habit: HabitItem, date: Date = Date()) {
+        self.strokeWidth = strokeWidth
+        self.progress = habit.progress(date)
+        
+        #if os(macOS)
+        let darker = NSColor(color).usingColorSpace(.sRGB)!.makeColor(componentDelta: -0.2)
+        #else
+        let darker = UIColor(color).makeColor(componentDelta: -0.2)
+        #endif
+        
+        colors = [Color(darker), color]
+        
+        self.buildOrBreak = BuildOrBreakHabitEnum(habit.breakHabit)
+        self.amountToDo = Int(habit.amountToDo)
     }
     
     var progressDouble: Double {
@@ -39,25 +83,37 @@ struct ProgressBar: View {
 //            Circle()
 //                .stroke(colors.first!.opacity(0.3), lineWidth: strokeWidth)
             
-            Circle()
-                .trim(from: 0, to: progress)
-                .stroke(AngularGradient(
-                    gradient: Gradient(colors: colors),
-                    center: .center, angle: .degrees(progress <= 0.95 ? Double(progress) * 360 + 7 : Double(progress) * 360)),
-                    style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round)
-                )
-                .rotationEffect(.degrees(-90))
+            switch buildOrBreak {
+            case .buildHabit:
+                Circle()
+                    .trim(from: 0, to: progress)
+                    .stroke(AngularGradient(
+                        gradient: Gradient(colors: colors),
+                        center: .center, angle: .degrees(progress <= 0.95 ? Double(progress) * 360 + 7 : Double(progress) * 360)),
+                        style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round)
+                    )
+                    .rotationEffect(.degrees(-90))
+            case .breakHabit:
+                Circle()
+                    .trim(from: progress, to: CGFloat(amountToDo))
+                    .stroke(AngularGradient(
+                        gradient: Gradient(colors: colors),
+                        center: .center, angle: .degrees(progress <= 0.05 ? Double(progress) * 360 : Double(progress) * 360 - 7)),
+                        style: StrokeStyle(lineWidth: strokeWidth, lineCap: .round)
+                    )
+                    .rotationEffect(.degrees(-90))
+            }
             
             HStack {
                 Spacer()
                 
                 Circle()
-                    .foregroundColor(colors.last!)
+                    .foregroundColor(buildOrBreak == .breakHabit ? colors.first! : colors.last!)
                     .frame(width: strokeWidth, height: strokeWidth)
                     .offset(x: strokeWidth / 2)
             }
             .rotationEffect(.degrees(Double(progress) * 360 - 90))
-            .opacity(progressDouble > 0 ? 1 : 0)
+            .opacity(buildOrBreak == .breakHabit ? progressDouble <= 0 ? 1 : 0 : progressDouble > 0 ? 1 : 0)
         }
         .aspectRatio(1, contentMode: .fit)
     }

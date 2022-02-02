@@ -9,14 +9,19 @@ import Foundation
 import SwiftUI
 import CoreData
 
+
+
 class AddEditViewModel: ObservableObject {
+    
+    
     // Name
     @Published var name = ""
     @Published var description = ""
     let uuid: UUID
     
-    // Intervall
+    // Intervall und Art
     @Published var intervalChoice = "Day"
+    @Published var buildOrBreakHabit: BuildOrBreakHabitEnum = .buildHabit
     
     // Value Type und Menge
     @Published var valueTypeSelection: HabitValueTypes = .number
@@ -180,6 +185,8 @@ class AddEditViewModel: ObservableObject {
         }
         
         habit.resetIntervalEnum = habitInterval
+        
+        habit.breakHabit = buildOrBreakHabit.asBool
         
         habit.iconName = iconChoice
         

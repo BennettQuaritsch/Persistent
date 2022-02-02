@@ -13,7 +13,7 @@ struct MediumGraphWidgetView: View {
     
     var body: some View {
         if let habit = habit {
-            HabitCompletionGraph(viewModel: HabitBarChartViewModel(habit: habit), graphPickerSelection: .constant(.weekly))
+            HabitCompletionGraph(viewModel: HabitBarChartViewModel(habit: habit))
                 .padding(10)
         }
     }

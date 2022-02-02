@@ -17,3 +17,7 @@ extension Color {
         let red = Color("red")
     }
 }
+
+extension Color {
+    static let systemGroupedBackground = Self.init("secondarySystemGroupedBackground")
+}

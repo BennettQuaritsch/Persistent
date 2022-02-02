@@ -281,6 +281,20 @@ struct ListView: View {
                 habitListMenu
             }
             #endif
+            
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    if habitLimitReached {
+                        purchaseAlert = true
+                        warningVibration()
+                    } else {
+                        viewModel.addSheetPresented = true
+                    }
+                } label: {
+                    Label("Add habit", systemImage: "plus")
+                        .labelStyle(.iconOnly)
+                }
+            }
         }
         .sheet(isPresented: $viewModel.addSheetPresented, content: {
             AddHabitView(accentColor: userSettings.accentColor)

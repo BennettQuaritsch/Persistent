@@ -42,7 +42,7 @@ struct NewNotificationsView: View {
             ToolbarItem(placement: .primaryAction) {
                 Button {
                     withAnimation {
-                        viewModel.notifcationArray.append(.init(message: "Notification", date: Date(), weekdays: [getDateIndex()]))
+                        viewModel.notifcationArray.append(.init(message: "", date: Date(), weekdays: [getDateIndex()]))
                     }
                 } label: {
                     Label("Add", systemImage: "plus")

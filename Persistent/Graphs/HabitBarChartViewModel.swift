@@ -10,17 +10,65 @@ import SwiftUI
 
 class HabitBarChartViewModel: ObservableObject {
     enum GraphPickerSelectionEnum: String, Equatable, CaseIterable {
-        case weekly = "Week"
-        case monthly = "Month"
+        case smallView
+        case mediumView
         
-        var localizedName: LocalizedStringKey { LocalizedStringKey(rawValue) }
+        func name(habit: HabitItem) -> String {
+            switch habit.resetIntervalEnum {
+            case .daily:
+                switch self {
+                case .smallView:
+                    return "Weekly"
+                case .mediumView:
+                    return "Monthly"
+                }
+            case .weekly:
+                switch self {
+                case .smallView:
+                    return "Last 7 weeks"
+                case .mediumView:
+                    return "Last 25 weeks"
+                }
+            case .monthly:
+                switch self {
+                case .smallView:
+                    return "Last 6 months"
+                case .mediumView:
+                    return "Last 12 months"
+                }
+            }
+        }
     }
+    
+    var localizedName: LocalizedStringKey {
+        switch habit.resetIntervalEnum {
+        case .daily:
+            switch graphPickerSelection {
+            case .smallView:
+                return "Week"
+            case .mediumView:
+                return "month"
+            }
+        case .weekly:
+            switch graphPickerSelection {
+            case .smallView:
+                return "Last 7 Weeks"
+            case .mediumView:
+                return "Last 25 Weeks"
+            }
+        default:
+            return "Test"
+        }
+    }
+    
+    @Published var graphPickerSelection: HabitBarChartViewModel.GraphPickerSelectionEnum = .smallView
     
     @Published var data: [Int] = [0, 0, 0, 0, 0, 0, 0]
     @Published var maxValue: Int = 1
     
     @Published var dates: [Date]
     
+    var currentDate = Date()
     @Published var shownDates: [Date]
     
     @Published var habit: HabitItem
@@ -47,115 +95,71 @@ class HabitBarChartViewModel: ObservableObject {
         self.habit = habit
     }
     
-    func loadDailyHabits() {
-        let cal = Calendar.defaultCalendar
-        
-        var dates: [Date] = []
-        
-        let startOfWeek = cal.dateComponents([.calendar, .yearForWeekOfYear, .weekOfYear], from: Date()).date
-        
-        if let startOfWeek = startOfWeek {
-            dates.append(startOfWeek)
-            
-            for index in 1...6 {
-                dates.append(cal.date(byAdding: .day, value: index, to: startOfWeek)!)
-            }
-        }
-        
-        self.dates = dates
-        self.shownDates = dates
-        
-        var countArray: [Int] = []
-        
-        for date in dates {
-            countArray.append(habit.relevantCountDaily(date))
-        }
-        
-        if let max = countArray.max() {
-            if max > 0 && max > habit.amountToDo{
-                maxValue = max
-            } else {
-                maxValue = Int(habit.amountToDo)
-            }
-        }
-        
-        data = countArray.map { _ in return 0 }
-        
-        withAnimation(.easeInOut) {
-            data = countArray
-        }
-    }
     
-    func loadMonthlyHabits() {
-        let cal = Calendar.defaultCalendar
-        
-        var dates: [Date] = []
-        
-        let startOfMonth = cal.dateComponents([.calendar, .year, .month], from: Date()).date!
-        let endOfMonth = cal.date(byAdding: DateComponents(month: 1, day: -1), to: startOfMonth)!
-        
-        self.shownDates = [startOfMonth, endOfMonth]
-        
-        var date = startOfMonth
-        
-        while date <= endOfMonth {
-            dates.append(date)
-            
-            guard let newDate = cal.date(byAdding: .day, value: 1, to: date) else { break }
-            
-            date = newDate
-        }
-        
-        print("monthly: \(dates)")
-        
-        self.dates = dates
-        
-        var countArray: [Int] = []
-        
-        for date in dates {
-//            let filteredDates = habit.dateArray.filter { Calendar.current.isDate($0.date!, equalTo: date, toGranularity: .day) }
-//            print(filteredDates)
-//            countArray.append(filteredDates.count)
-            if let date = habit.date?.first(where: { Calendar.defaultCalendar.isDate($0.date!, equalTo: date, toGranularity: .day) }) {
-                countArray.append(Int(date.habitValue))
-            } else {
-                countArray.append(0)
-            }
-        }
-        
-        print("countarray: \(countArray)")
-        
-        if let max = countArray.max() {
-            if max > 0 && max > habit.amountToDo{
-                maxValue = max
-            } else {
-                maxValue = Int(habit.amountToDo)
-            }
-        }
-        
-        data = countArray.map { _ in return 0 }
-        
-        withAnimation(.easeInOut) {
-            data = countArray
-            
-            
-        }
-    }
-    
-    func loadHabitsForWeeklyHabit() {
+    func loadHabits(_ selection: GraphPickerSelectionEnum = .smallView, animated: Bool = true) {
         let cal = Calendar.defaultCalendar
         var countArray: [Int] = []
         
-        let year = cal.component(.year, from: Date())
-        // Get the first day of next year
-        if let firstOfYear = Calendar.current.date(from: DateComponents(year: year, month: 1, day: 1)) {
-            var currentDate = firstOfYear
+        if selection == .smallView {
+            var currentDate = self.currentDate
             
-            for _ in 1 ... weeks(in: year) {
-                countArray.append(habit.relevantCount(currentDate))
-                currentDate = cal.date(byAdding: .weekOfYear, value: 1, to: currentDate)!
+            self.shownDates = []
+            
+            var barCount: Int
+            var calendarCompnent: Calendar.Component
+            
+            switch habit.resetIntervalEnum {
+            case .daily:
+                barCount = 7
+                calendarCompnent = .day
+            case .weekly:
+                barCount = 6
+                calendarCompnent = .weekOfYear
+            case .monthly:
+                barCount = 6
+                calendarCompnent = .month
             }
+            
+            for _ in 1 ... barCount {
+                self.shownDates.append(currentDate)
+//                countArray.append(habit.relevantCount(currentDate))
+                currentDate = cal.date(byAdding: calendarCompnent, value: -1, to: currentDate)!
+            }
+            
+            self.shownDates = self.shownDates.reversed()
+            
+            countArray = self.shownDates.map { return habit.relevantCount($0) }
+        } else {
+            var currentDate = self.currentDate
+            
+            self.shownDates = []
+            
+            var barCount: Int
+            var calendarCompnent: Calendar.Component
+            
+            switch habit.resetIntervalEnum {
+            case .daily:
+                barCount = 31
+                calendarCompnent = .day
+            case .weekly:
+                barCount = 25
+                calendarCompnent = .weekOfYear
+            case .monthly:
+                barCount = 12
+                calendarCompnent = .month
+            }
+            
+            for _ in 1 ... barCount {
+                self.shownDates.append(currentDate)
+//                countArray.append(habit.relevantCount(currentDate))
+                currentDate = cal.date(byAdding: calendarCompnent, value: -1, to: currentDate)!
+            }
+            
+            self.shownDates = self.shownDates.reversed()
+            
+            countArray = self.shownDates.map { return habit.relevantCount($0) }
         }
+        
         
         if let max = countArray.max() {
             if max > 0 && max > habit.amountToDo {
@@ -167,25 +171,54 @@ class HabitBarChartViewModel: ObservableObject {
         
         data = countArray.map { _ in return 0 }
         
-        withAnimation(.easeInOut) {
+        if animated {
+            withAnimation {
+                data = countArray
+            }
+        } else {
             data = countArray
         }
     }
     
-    private func weeks(in year: Int) -> Int {
-        func p(_ year: Int) -> Int {
-            return (year + year/4 - year/100 + year/400) % 7
+    func changeSelectedInterval(negative: Bool = false) {
+        let cal = Calendar.defaultCalendar
+        
+        var component: Calendar.Component
+        var value: Int
+        
+        switch self.habit.resetIntervalEnum {
+        case .daily:
+            component = .day
+            switch self.graphPickerSelection {
+            case .smallView:
+                value = 7
+            case .mediumView:
+                value = 31
+            }
+        case .weekly:
+            component = .weekOfYear
+            switch self.graphPickerSelection {
+            case .smallView:
+                value = 6
+            case .mediumView:
+                value = 25
+            }
+        case .monthly:
+            component = .month
+            switch self.graphPickerSelection {
+            case .smallView:
+                value = 6
+            case .mediumView:
+                value = 12
+            }
         }
-        return (p(year) == 4 || p(year-1) == 3) ? 53 : 52
-    }
-    
-    //
-    func numberOfWeeksInMonth(_ date: Date) -> Int {
-         var calendar = Calendar(identifier: .gregorian)
-         calendar.firstWeekday = 1
-         let weekRange = calendar.range(of: .weekOfMonth,
-                                        in: .month,
-                                        for: date)
-         return weekRange!.count
+        
+        var transaction = Transaction()
+        transaction.disablesAnimations = true
+        
+        if let date = cal.date(byAdding: component, value: negative ? -value : value, to: self.currentDate) {
+            self.currentDate = date
+            self.loadHabits(self.graphPickerSelection, animated: false)
+        }
     }
 }

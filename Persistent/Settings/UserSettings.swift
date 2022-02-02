@@ -63,6 +63,20 @@ class UserSettings: ObservableObject {
     }
     static let userDefaultsLeftHandedInterfaceString: String = "leftHandedInterface"
     
+    @Published var simplerListCellColor: Bool {
+        didSet {
+            UserDefaults.standard.set(simplerListCellColor, forKey: UserSettings.simplerListCellColorKeyString)
+        }
+    }
+    static let simplerListCellColorKeyString: String = "simplerListCellColor"
+    
+    @Published var nightOwlHourSelection: Int {
+        didSet {
+            UserDefaults.standard.set(nightOwlHourSelection, forKey: UserSettings.nightOwlHourSelectionKeyString)
+        }
+    }
+    static let nightOwlHourSelectionKeyString: String = "nightOwlHourSelection"
+    
     init() {
         let index: Int = UserDefaults.standard.object(forKey: "accentColorIndex") as? Int ?? 0
         self.accentColorIndex = index
@@ -76,6 +90,10 @@ class UserSettings: ObservableObject {
         self.syncDisabled = syncDisabled
         
         self.leftHandedInterface = UserDefaults.standard.bool(forKey: UserSettings.userDefaultsLeftHandedInterfaceString)
+        
+        self.simplerListCellColor = UserDefaults.standard.bool(forKey: UserSettings.simplerListCellColorKeyString)
+        
+        self.nightOwlHourSelection = UserDefaults.standard.integer(forKey: UserSettings.nightOwlHourSelectionKeyString)
     }
 }
 

@@ -50,7 +50,11 @@ class NewNotificationsViewModel: ObservableObject {
             newNotificationItem.id = UUID()
             newNotificationItem.date = notificationDate.date
             newNotificationItem.habit = habit
-            newNotificationItem.wrappedMessage = notificationDate.message
+            if notificationDate.message.trimmingCharacters(in: .whitespacesAndNewlines) != "" {
+                newNotificationItem.wrappedMessage = notificationDate.message
+            } else {
+                newNotificationItem.wrappedMessage = "Remember your habit!"
+            }
             newNotificationItem.wrappedIntSet = notificationDate.weekdays
             
             var components = calendar.dateComponents([.hour, .minute], from: notificationDate.date)
