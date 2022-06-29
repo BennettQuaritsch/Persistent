@@ -45,23 +45,25 @@ class IntentHandler: INExtension, SelectHabitIntentHandling, SelectMultipleHabit
         
         let result: [HabitItem]? = try? PersistenceController.shared.container.viewContext.fetch(request)
         
-        var collection: INObjectCollection<ChosenHabit>
+        var section: INObjectSection<ChosenHabit>
         
         if let result = result {
             let filteredResults = result.filter { !$0.habitArchived }
             
             let mappedResults: [ChosenHabit] = filteredResults.map {
-                let chosenHabit = ChosenHabit(identifier: $0.id.uuidString, display: $0.habitName)
+                let chosenHabit = ChosenHabit(identifier: $0.id.uuidString, display: $0.habitName, subtitle: nil, image: INImage(named: $0.iconName ?? ""))
                 chosenHabit.name = $0.habitName
                 return chosenHabit
             }
             
-            collection = INObjectCollection(items: mappedResults)
+            section = INObjectSection(title: "Your habits", items: mappedResults)
         } else {
-            let habits: [ChosenHabit] = [test, test2]
-            
-            collection = INObjectCollection(items: habits)
+            section = INObjectSection(title: "Your habits", items: [])
         }
+        
+        let noneSection = INObjectSection(title: "", items: [ChosenHabit(identifier: "NONE", display: "None")])
+        
+        let collection = INObjectCollection(sections: [noneSection, section])
         
         completion(collection, nil)
     }
@@ -98,7 +100,7 @@ class IntentHandler: INExtension, SelectHabitIntentHandling, SelectMultipleHabit
             let filteredResults = result.filter { !$0.habitArchived }
             
             let mappedResults: [ChosenHabit] = filteredResults.map {
-                let chosenHabit = ChosenHabit(identifier: $0.id.uuidString, display: $0.habitName)
+                let chosenHabit = ChosenHabit(identifier: $0.id.uuidString, display: $0.habitName, subtitle: nil, image: INImage(named: $0.iconName ?? ""))
                 chosenHabit.name = $0.habitName
                 return chosenHabit
             }

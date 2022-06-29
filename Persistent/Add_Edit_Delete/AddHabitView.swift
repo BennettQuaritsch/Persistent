@@ -26,7 +26,7 @@ struct AddHabitView: View {
                 viewModel.addHabit(viewContext: viewContext, dismiss: dismiss)
             })
             #if os(iOS)
-            .navigationBarTitle("Create a Habit")
+            .navigationTitle(viewModel.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Create a Habit" : viewModel.name)
             #endif
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
@@ -57,60 +57,6 @@ struct AddHabitView: View {
         Button("Add your Habit") {
             viewModel.addHabit(viewContext: viewContext, dismiss: dismiss)
         }
-    }
-}
-
-/// View for choosing Icons from a grid.
-struct ChooseIconView: View {
-    @Environment(\.presentationMode) var presentationMode
-    
-    let columns = [GridItem(.adaptive(minimum: 60, maximum: 80))]
-    
-    @Binding var iconChoice: String
-    
-    var body: some View {
-        ZStack {
-            Color("systemGray6")
-                .edgesIgnoringSafeArea(.all)
-            
-            ScrollView {
-                ForEach(iconSections, id: \.self) { section in
-                    HStack {
-                        Text(section.name)
-                            .font(.title2)
-                            .fontWeight(.bold)
-                        
-                        Spacer()
-                    }
-                    
-                    LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
-                        ForEach(section.iconArray, id: \.self) { icon in
-                            ZStack {
-                                ZStack {
-                                    Image(icon)
-                                        .resizable()
-                                        .scaledToFit()
-                                        .foregroundColor(.primary.opacity(0.7))
-                                        .padding(8)
-                                        .accessibility(label: Text(icon))
-                                    
-                                    //Color.primary.blendMode(.sourceAtop)
-                                }
-                                .onTapGesture {
-                                    iconChoice = icon
-                                    presentationMode.wrappedValue.dismiss()
-                                }
-                            }
-                        }
-                    }
-                }
-                .padding()
-            }
-        }
-        #if os(iOS)
-        .navigationBarTitleDisplayMode(.inline)
-        #endif
-        .navigationTitle("Choose Icon")
     }
 }
 

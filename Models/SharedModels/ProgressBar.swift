@@ -54,6 +54,7 @@ struct ProgressBar: View {
     
     init(strokeWidth: CGFloat, color: Color, habit: HabitItem, date: Date = Date()) {
         self.strokeWidth = strokeWidth
+        
         self.progress = habit.progress(date)
         
         #if os(macOS)
@@ -65,7 +66,7 @@ struct ProgressBar: View {
         colors = [Color(darker), color]
         
         self.buildOrBreak = BuildOrBreakHabitEnum(habit.breakHabit)
-        self.amountToDo = Int(habit.amountToDo)
+        self.amountToDo = habit.wrappedAmountToDo
     }
     
     var progressDouble: Double {

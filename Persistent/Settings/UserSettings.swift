@@ -15,16 +15,6 @@ struct SettingsColor {
 }
 
 class UserSettings: ObservableObject {
-    let colors: [SettingsColor] = [
-        SettingsColor(color: Color(red: 0.769, green: 0.443, blue: 0.929, opacity: 1.000), name: "Light Purple"),
-        SettingsColor(color: Color(red: 0.969, green: 0.475, blue: 0.490, opacity: 1.000), name: "Rose"),
-        SettingsColor(color: Color(red: 1.000, green: 0.255, blue: 0.424, opacity: 1.000), name: "Pinkest Pink"),
-        SettingsColor(color: Color(red: 1.000, green: 0.294, blue: 0.169, opacity: 1.000), name: "Fire"),
-        SettingsColor(color: Color(red: 0.941, green: 0.596, blue: 0.098, opacity: 1.000), name: "Mandarine"),
-        SettingsColor(color: Color(red: 0.471, green: 1.000, blue: 0.839, opacity: 1.000), name: "Baby Blue"),
-        SettingsColor(color: Color(red: 0.659, green: 1.000, blue: 0.471, opacity: 1.000), name: "Grass")
-    ]
-    
     let accentColorNames: [String] = [
         "Persistent",
         "Fire",
@@ -36,12 +26,49 @@ class UserSettings: ObservableObject {
         "Sun"
     ]
     
-    @Published var accentColorIndex: Int {
-        didSet {
-            UserDefaults.standard.set(accentColorIndex, forKey: "accentColorIndex")
-            accentColor = colors[accentColorIndex].color
+    enum ThemeSelectionEnum: String, CaseIterable, Hashable {
+        case automatic
+        case light
+        case dark
+        
+        var name: String {
+            self.rawValue
+        }
+        
+        var shownName: String {
+            switch self {
+            case .automatic:
+                return "Automatic"
+            case .light:
+                return "Light Mode"
+            case .dark:
+                return "Dark Mode"
+            }
+        }
+        
+        var relevantColorScheme: ColorScheme? {
+            switch self {
+            case .automatic:
+                return nil
+            case .light:
+                return .light
+            case .dark:
+                return.dark
+            }
+        }
+        
+        init(_ name: String?) {
+            switch name {
+            case "light":
+                self = .light
+            case "dark":
+                self = .dark
+            default:
+                self = .automatic
+            }
         }
     }
+    
     @Published var accentColorName: String {
         didSet {
             UserDefaults.standard.set(accentColorName, forKey: "accentColorName")
@@ -70,18 +97,23 @@ class UserSettings: ObservableObject {
     }
     static let simplerListCellColorKeyString: String = "simplerListCellColor"
     
+    /// Night Mode hour settings variable
     @Published var nightOwlHourSelection: Int {
         didSet {
-            UserDefaults.standard.set(nightOwlHourSelection, forKey: UserSettings.nightOwlHourSelectionKeyString)
+            let userDefaults = UserDefaults(suiteName: "group.persistentData") ?? UserDefaults.standard
+            userDefaults.set(nightOwlHourSelection, forKey: UserSettings.nightOwlHourSelectionKeyString)
         }
     }
     static let nightOwlHourSelectionKeyString: String = "nightOwlHourSelection"
     
+    @Published var themeSelection: ThemeSelectionEnum {
+        didSet {
+            UserDefaults.standard.set(themeSelection.name, forKey: UserSettings.themeSelectionKeyString)
+        }
+    }
+    static let themeSelectionKeyString: String = "themeSelection"
+    
     init() {
-        let index: Int = UserDefaults.standard.object(forKey: "accentColorIndex") as? Int ?? 0
-        self.accentColorIndex = index
-//        self.accentColor = colors[index].color
-        
         let name: String = UserDefaults.standard.object(forKey: "accentColorName") as? String ?? "Persistent"
         self.accentColorName = name
         self.accentColor = Color(name)
@@ -93,7 +125,11 @@ class UserSettings: ObservableObject {
         
         self.simplerListCellColor = UserDefaults.standard.bool(forKey: UserSettings.simplerListCellColorKeyString)
         
-        self.nightOwlHourSelection = UserDefaults.standard.integer(forKey: UserSettings.nightOwlHourSelectionKeyString)
+        let userDefaults = UserDefaults(suiteName: "group.persistentData") ?? UserDefaults.standard
+        self.nightOwlHourSelection = userDefaults.integer(forKey: UserSettings.nightOwlHourSelectionKeyString)
+        
+        let themeSelectionString = UserDefaults.standard.string(forKey: UserSettings.themeSelectionKeyString)
+        self.themeSelection = .init(themeSelectionString)
     }
 }
 

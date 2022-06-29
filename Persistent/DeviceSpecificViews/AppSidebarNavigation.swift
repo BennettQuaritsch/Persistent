@@ -22,6 +22,8 @@ struct AppSidebarNavigation: View {
     #endif
     
     @Environment(\.purchaseInfo) var purchaseInfo
+    @Environment(\.colorScheme) var colorScheme
+//    @Environment(\.persistenceController) var persistenceController
     
     @EnvironmentObject private var userSettings: UserSettings
     @EnvironmentObject private var appViewModel: AppViewModel
@@ -95,6 +97,7 @@ struct AppSidebarNavigation: View {
                     .environmentObject(appViewModel)
                     .environment(\.horizontalSizeClass, horizontalSizeClass)
                     .environment(\.purchaseInfo, purchaseInfo)
+                    .preferredColorScheme(colorScheme)
             }
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {

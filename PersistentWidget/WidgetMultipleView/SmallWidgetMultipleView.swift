@@ -12,7 +12,14 @@ struct SmallWidgetMultipleView: View {
     @Environment(\.redactionReasons) var redactionReasons
     
     init(chosenHabits: [HabitItem]) {
-        self.habits = chosenHabits
+        if chosenHabits.count > 4 {
+            var habits = chosenHabits
+            habits.removeLast(chosenHabits.count - 4)
+            self.habits = habits
+        } else {
+            self.habits = chosenHabits
+        }
+        
     }
     
     let grids = [
@@ -44,7 +51,7 @@ struct SmallWidgetMultipleView: View {
                 LazyVGrid(columns: grids) {
                     ForEach(habits, id: \.id) { habit in
                         ZStack {
-                            ProgressBar(strokeWidth: 7, color: habit.iconColor, habit: habit)
+                            ProgressBar(strokeWidth: 7, color: habit.iconColor, habit: habit, date: Date().adjustedForNightOwl())
                                 .background(Circle().stroke(habit.iconColor.opacity(0.2), lineWidth: 7))
                             
                             if habit.iconName != nil {
@@ -53,7 +60,7 @@ struct SmallWidgetMultipleView: View {
                                     .foregroundColor(habit.iconColor)
                                     .aspectRatio(contentMode: .fit)
                                     //.frame(height: 45)
-                                    .padding(10)
+                                    .padding(12)
                             }
                         }
                         .padding(4)
@@ -72,22 +79,6 @@ struct SmallWidgetMultipleView: View {
 
 struct SmallWidgetMultipleView_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController().container.viewContext
-        
-        let habit = HabitItem(context: moc)
-        habit.id = UUID()
-        habit.habitName = "PreviewTest"
-        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
-        habit.resetIntervalEnum = .daily
-        habit.amountToDo = 4
-        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
-        
-        for _ in 1...Int.random(in: 1...6) {
-            let date = HabitCompletionDate(context: moc)
-            date.date = Date()
-            date.item = habit
-        }
-        
-        return SmallWidgetMultipleView(chosenHabits: [habit])
+        return SmallWidgetMultipleView(chosenHabits: [HabitItem.testHabit])
     }
 }

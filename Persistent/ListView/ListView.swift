@@ -21,17 +21,21 @@ struct ListView: View {
     @Environment(\.parentSizeClass) var parentSizeClass
     #endif
     
+    @State private var showSettings: Bool = false
+    
     @State private var purchaseAlert = false
     
     @EnvironmentObject private var userSettings: UserSettings
     @EnvironmentObject private var appViewModel: AppViewModel
     
-    @State private var filterSelection: ListFilterSelectionEnum = .all
+    @State private var filterOption: ListFilterSelectionEnum
+    
+//    @SceneStorage
     
     @FetchRequest(entity: HabitTag.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \HabitTag.name, ascending: true)]) var tags: FetchedResults<HabitTag>
     
     var predicate: NSPredicate? {
-        switch filterSelection {
+        switch filterOption {
         case .all:
             return nil
         case .daily:
@@ -69,29 +73,29 @@ struct ListView: View {
         _items = FetchRequest(
             sortDescriptors: [NSSortDescriptor(keyPath: \HabitItem.habitName, ascending: true)],
             predicate: tempPredicate,
-            animation: .default)
+            animation: .easeInOut)
+        
+        self._filterOption = State(initialValue: filter)
     }
     
     @FetchRequest private var items: FetchedResults<HabitItem>
-    
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \HabitItem.habitName, ascending: true)], predicate: nil, animation: .easeInOut) var test: FetchedResults<HabitItem>
-    
-    //@FetchRequest(entity: HabitItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \HabitItem.habitName, ascending: true)], predicate: NSCompoundPredicate(andPredicateWithSubpredicates: []), animation: .default) var test: FetchedResults<HabitItem>
     
     @StateObject var viewModel: ListViewModel = .init()
     
     var shownItems: [HabitItem] {
         var tempItems: [HabitItem] = []
+        
+        let adjustedDate: Date = Date().adjustedForNightOwl()
 
-        switch viewModel.filterOptions {
+        switch viewModel.sortingOption {
         case .nameAscending:
             tempItems = items.sorted(by: { $0.habitName < $1.habitName })
         case .nameDescending:
             tempItems = items.sorted(by: { $0.habitName > $1.habitName })
         case .percentageDoneAscending:
-            tempItems = items.sorted(by: { (CGFloat($0.relevantCount()) / CGFloat($0.amountToDo)) < (CGFloat($1.relevantCount()) / CGFloat($1.amountToDo)) })
+            tempItems = items.sorted(by: { $0.progress(adjustedDate) < $1.progress(adjustedDate) })
         case .percentageDoneDescending:
-            tempItems = items.sorted(by: { (CGFloat($0.relevantCount()) / CGFloat($0.amountToDo)) > (CGFloat($1.relevantCount()) / CGFloat($1.amountToDo)) })
+            tempItems = items.sorted(by: { $0.progress(adjustedDate) > $1.progress(adjustedDate) })
         }
         
         if viewModel.searchText.isEmpty {
@@ -119,72 +123,55 @@ struct ListView: View {
     }
     
     @State private var selectedID: UUID?
+    @SceneStorage("selectedHabit") private var selectedIDString: String?
+    
+    @SceneStorage("listViewFilterOption") private var filterOptionString: String = "All Habits"
+    
+    @State private var habitDeleteAlertActive: Bool = false
+    @State private var habitToDelete: HabitItem?
     
     var body: some View {
-//        List(selection: $viewModel.selection) {
-//            ForEach(shownItems, id: \.id) { item in
-//                if !item.habitDeleted {
-//                    NavigationLink(destination: HabitDetailView(habit: item)) {
-//                        ListCellView(habit: item, viewModel: viewModel)
-//                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-//                                Button(role: .destructive) {
-//                                    item.deleteHabit()
-//
-//                                    do {
-//                                        try viewContext.save()
-//                                    } catch {
-//                                        fatalError()
-//                                    }
-//                                } label: {
-//                                    Label("Delete Habit", systemImage: "trash")
-//                                        .labelStyle(.iconOnly)
-//                                }
-//                                .tint(.red)
-//                            }
-//                    }
-//                }
-//            }
-//            #if os(iOS)
-//            .onChange(of: editMode) { _ in
-//                viewModel.selection = []
-//                print("change")
-//            }
-//            #endif
-//            //.listRowSeparator(.hidden)
-//        }
         ScrollView {
             if !shownItems.isEmpty {
-                ForEach(shownItems, id: \.id) { item in
-                    if !item.habitArchived {
-                        NavigationLink(tag: item.id, selection: $selectedID, destination: { HabitDetailView(habit: item) }) {
-                            ListCellView(habit: item, viewModel: viewModel)
-//                                .drawingGroup()
-//                                .shadow(color: .black.opacity(0.08), radius: 15, x: 0, y: 10)
-                        }
-                        .buttonStyle(.plain)
-                        .contentShape(ContentShapeKinds.contextMenuPreview, RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        .contextMenu {
-                            Button {
-                                withAnimation {
-                                    item.deleteHabit()
-                                }
-                            } label: {
-                                Label("Archive", systemImage: "archivebox")
+                VStack {
+                    ForEach(shownItems, id: \.id) { item in
+                        if !item.habitArchived {
+                            NavigationLink(tag: item.id, selection: $selectedID, destination: {
+                                HabitDetailView(habit: item, listViewModel: viewModel)
+                                    .environmentObject(appViewModel)
+                            }) {
+                                ListCellView(habit: item, viewModel: viewModel)
+                                    .habitDeleteAlert(isPresented: $habitDeleteAlertActive, habit: habitToDelete, context: viewContext)
+                                    .contentShape(ContentShapeKinds.contextMenuPreview, RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                    .contextMenu {
+                                        Button {
+                                            withAnimation {
+                                                item.deleteHabit()
+                                            }
+                                        } label: {
+                                            Label("Archive", systemImage: "archivebox")
+                                        }
+                                        
+                                        Button(role: .destructive) {
+                                            withAnimation {
+                                                habitToDelete = item
+                                                habitDeleteAlertActive = true
+                                            }
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
+                                    
                             }
-                            
-                            Button(role: .destructive) {
-                                appViewModel.habitToDelete = item
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
+                            .buttonStyle(.plain)
+                            .padding(.top)
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
-                        .padding(.top)
                     }
+                    
+                    Spacer()
+                        .frame(height: 100)
                 }
-                
-                Spacer()
-                    .frame(height: 100)
             } else {
                 VStack {
                     Text("It's empty here ☹️")
@@ -201,41 +188,27 @@ struct ListView: View {
             }
         }
         .background(Color("systemGroupedBackground"))
-        .onChange(of: filterSelection) { selection in
+        .onChange(of: filterOption) { selection in
             items.nsPredicate = predicate
+            
+            filterOptionString = selection.codingID
+        }
+        .onAppear {
+            if parentSizeClass == .compact {
+                filterOption = ListFilterSelectionEnum(from: filterOptionString, context: viewContext)
+            }
+        }
+        .onChange(of: selectedID) { id in
+            selectedIDString = id?.uuidString
+        }
+        .onAppear {
+            if parentSizeClass != .compact {
+                if let selectedIDString = selectedIDString {
+                    selectedID = UUID(uuidString: selectedIDString)
+                }
+            }
         }
         .tint(.accentColor)
-//        .safeAreaInset(edge: .bottom, alignment: .trailing) {
-//            HStack {
-//                if !userSettings.leftHandedInterface {
-//                    Spacer()
-//                }
-//
-//                ZStack {
-//                    Circle()
-//                        .fill(habitLimitReached ? Color.gray : Color.accentColor)
-//                        .shadow(radius: 8)
-//
-//                    Image(systemName: "plus")
-//                        .resizable()
-//                        .foregroundColor(Color("systemBackground"))
-//                        .frame(width: 25, height: 25)
-//                }
-//                .frame(width: 60, height: 60)
-//                .onTapGesture {
-//                    if habitLimitReached {
-//                        purchaseAlert = true
-//                    } else {
-//                        viewModel.addSheetPresented = true
-//                    }
-//                }
-//                .padding(EdgeInsets(top: 0, leading: 25, bottom: 25, trailing: 25))
-//
-//                if userSettings.leftHandedInterface {
-//                    Spacer()
-//                }
-//            }
-//        }
         .overlay(
             HStack {
                 if !userSettings.leftHandedInterface {
@@ -271,13 +244,21 @@ struct ListView: View {
         //.listStyle(InsetGroupedListStyle())
         .searchable(text: $viewModel.searchText, prompt: "Search for a habit")
         #if os(iOS)
-        .navigationBarTitle(filterSelection.name)
+        .navigationTitle(filterOption.name)
         #endif
         .toolbar {
             #if os(iOS)
 //            editAndDeleteButton
             
-            ToolbarItem(placement: .navigationBarLeading) {
+            ToolbarItemGroup(placement: .navigationBarLeading) {
+                if parentSizeClass == .compact {
+                    Button {
+                        showSettings = true
+                    } label: {
+                        Label("Settings", systemImage: "gear")
+                    }
+                }
+                
                 habitListMenu
             }
             #endif
@@ -298,16 +279,26 @@ struct ListView: View {
         }
         .sheet(isPresented: $viewModel.addSheetPresented, content: {
             AddHabitView(accentColor: userSettings.accentColor)
+                .accentColor(userSettings.accentColor)
             .environment(\.managedObjectContext, self.viewContext)
             .environment(\.purchaseInfo, purchaseInfo)
         })
+        .sheet(isPresented: $showSettings) {
+            SettingsView()
+                .accentColor(userSettings.accentColor)
+                .environmentObject(userSettings)
+                .environmentObject(appViewModel)
+                .environment(\.horizontalSizeClass, horizontalSizeClass)
+                .environment(\.purchaseInfo, purchaseInfo)
+                .preferredColorScheme(colorScheme)
+        }
         .environment(\.editMode, $editMode)
-        .alert("Your have reached your limit", isPresented: $purchaseAlert) {
+        .alert("Your have reached your limit of habits", isPresented: $purchaseAlert) {
             Button("OK", role: .cancel) {
                 purchaseAlert = false
             }
         } message: {
-            Text("Purchase Premium to add unlimited habits and to support me 😊")
+            Text("Purchase Persistent Premium to add unlimited habits and to support me 😊")
         }
     }
     
@@ -339,7 +330,7 @@ struct ListView: View {
     func predicateButton(filter: ListFilterSelectionEnum, text: String, imageName: String? = nil) -> some View {
         Button {
             withAnimation(.easeInOut) {
-                filterSelection = filter
+                filterOption = filter
             }
         } label: {
             if let imageName = imageName {
@@ -356,13 +347,13 @@ struct ListView: View {
                 Menu {
                     Button("Ascending") {
                         withAnimation {
-                            viewModel.filterOptions = .nameAscending
+                            viewModel.sortingOption = .nameAscending
                         }
                     }
 
                     Button("Descending") {
                         withAnimation {
-                            viewModel.filterOptions = .nameDescending
+                            viewModel.sortingOption = .nameDescending
                         }
                     }
                 } label: {
@@ -372,13 +363,13 @@ struct ListView: View {
                 Menu {
                     Button("Ascending") {
                         withAnimation {
-                            viewModel.filterOptions = .percentageDoneAscending
+                            viewModel.sortingOption = .percentageDoneAscending
                         }
                     }
                     
                     Button("Descending") {
                         withAnimation {
-                            viewModel.filterOptions = .percentageDoneDescending
+                            viewModel.sortingOption = .percentageDoneDescending
                         }
                     }
                 } label: {
@@ -417,8 +408,6 @@ struct ListView: View {
         }
     }
 }
-
-
 
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {

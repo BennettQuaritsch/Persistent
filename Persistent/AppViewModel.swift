@@ -9,18 +9,10 @@ import Foundation
 import CoreData
 import UserNotifications
 
+
+
 class AppViewModel: ObservableObject {
-    @Published var habitToDelete: HabitItem? {
-        didSet {
-            if habitToDelete != nil {
-                deleteActionSheet = true
-            } else {
-                deleteActionSheet = false
-            }
-        }
-    }
-    
-    @Published var deleteActionSheet = false
+    @Published var saveErrorActionSheet = false
     
     static let versionBuildUserDefaultsKey: String = "versionBuildKey"
     @Published var showLaunchscreenSheet: Bool = false

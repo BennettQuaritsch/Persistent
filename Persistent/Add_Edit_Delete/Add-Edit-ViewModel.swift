@@ -12,29 +12,36 @@ import CoreData
 
 
 class AddEditViewModel: ObservableObject {
+    var numberFormatter: NumberFormatter {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 3
+        return formatter
+    }
     
     
     // Name
     @Published var name = ""
-    @Published var description = ""
     let uuid: UUID
     
     // Intervall und Art
-    @Published var intervalChoice = "Day"
+    @Published var intervalChoice: ResetIntervals = .daily
     @Published var buildOrBreakHabit: BuildOrBreakHabitEnum = .buildHabit
     
     // Value Type und Menge
     @Published var valueTypeSelection: HabitValueTypes = .number
-    @Published var amountToDo: Int32 = 3
+    @Published var amountToDo: Int = 3
     @Published var valueString: String = ""
     @Published var valueTypeTextFieldSelectedWrapper: Bool = false
+    @Published var standardAddValueTextField: String = ""
     
     // Tags
     @Published var tagSelection = Set<UUID>()
     
     //Werte für das Icon
-    @Published var iconChoice: String = "person"
+    @Published var iconChoice: String = IconSection.sections.randomElement()?.iconArray.randomElement() ?? "person"
     @Published var colorSelection: Int = 0
+    @Published var iconColorName: String
     
     @Published var notificationsViewModel = NewNotificationsViewModel()
     
@@ -44,6 +51,7 @@ class AddEditViewModel: ObservableObject {
     
     init() {
         self.uuid = UUID()
+        self.iconColorName = Color.iconColors.randomElement()?.name ?? "Primary"
     }
     
     init(habit: HabitItem) {
@@ -51,11 +59,16 @@ class AddEditViewModel: ObservableObject {
         
         self.name = habit.habitName
         self.uuid = habit.id
-        self.description = habit.habitDescription ?? ""
-        self.amountToDo = habit.amountToDo
-        self.intervalChoice = habit.resetIntervalEnum.getString()
-        self.colorSelection = Int(habit.iconColorIndex)
+        
+        self.amountToDo = habit.wrappedAmountToDo
+        print("amount: \(habit.amountToDo)")
+        self.valueString = NumberFormatter.habitValueNumberFormatter.string(from: habit.amountToDoForType() as NSNumber) ?? ""
+        self.standardAddValueTextField = NumberFormatter.habitValueNumberFormatter.string(from: habit.standardAddValueForType() as NSNumber) ?? ""
+        
+        self.intervalChoice = habit.resetIntervalEnum
         self.iconChoice = habit.iconName ?? "None"
+        self.iconColorName = habit.wrappedIconColorName
+        self.buildOrBreakHabit = BuildOrBreakHabitEnum(habit.breakHabit)
         
         //self.accentColor = accentColor
         
@@ -66,8 +79,7 @@ class AddEditViewModel: ObservableObject {
         }
         
         self.tagSelection = selection
-        
-        self.valueString = "\(habit.amountToDo)"
+
         self.valueTypeSelection =  habit.valueTypeEnum
     }
     
@@ -153,7 +165,14 @@ class AddEditViewModel: ObservableObject {
             throw HabitValidationError.validationError
         }
         
-        if self.amountToDo < 1 {
+        guard let number = numberFormatter.number(from: self.valueString) else  { throw HabitValidationError.validationError }
+        
+        if number.decimalValue <= 0 {
+            throw HabitValidationError.validationError
+        }
+        
+        let rawAmountToDo = HabitValueTypes.rawAmountToDo(for: number.doubleValue, valueType: valueTypeSelection)
+        guard rawAmountToDo <= Double(Int64.max) && rawAmountToDo >= Double(Int64.min) else {
             throw HabitValidationError.validationError
         }
         
@@ -171,26 +190,13 @@ class AddEditViewModel: ObservableObject {
         
         habit.habitArchived = false
         
-        let habitInterval: ResetIntervals
-        
-        switch intervalChoice {
-        case "Day":
-            habitInterval = .daily
-        case "Week":
-            habitInterval = .weekly
-        case "Month":
-            habitInterval = .monthly
-        default:
-            habitInterval = .daily
-        }
-        
-        habit.resetIntervalEnum = habitInterval
+        habit.resetIntervalEnum = intervalChoice
         
         habit.breakHabit = buildOrBreakHabit.asBool
         
         habit.iconName = iconChoice
         
-        habit.iconColorIndex = Int16(colorSelection)
+        habit.wrappedIconColorName = self.iconColorName
         
         let tags = try? viewContext.fetch(NSFetchRequest<HabitTag>(entityName: "HabitTag"))
         if let tags = tags {
@@ -205,13 +211,19 @@ class AddEditViewModel: ObservableObject {
         
         habit.valueTypeEnum = self.valueTypeSelection
         
-        switch valueTypeSelection {
-        case .number:
-            habit.amountToDo = self.amountToDo
-        case .time, .volume:
-            if let intValue = Int32(self.valueString) {
-                habit.amountToDo = intValue
-            }
+        if let number = numberFormatter.number(from: self.valueString) {
+            print("number: \(number.doubleValue)")
+            habit.setAmountToDoForType(number: number)
+        } else {
+            habit.wrappedAmountToDo = 1
+        }
+        
+        // Set StandardAddValue
+        if let number = numberFormatter.number(from: self.standardAddValueTextField) {
+            print("standard:", number.doubleValue)
+            habit.setStandardAddValue(number: number)
+        } else {
+            habit.setStandardAddValue(number: 1)
         }
         
         

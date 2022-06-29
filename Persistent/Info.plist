@@ -137,7 +137,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSUserActivityTypes</key>
@@ -162,13 +162,6 @@
 	<dict>
 		<key>UIColorName</key>
 		<string>LaunchscreenColor</string>
-		<key>UITabBar</key>
-		<dict/>
-		<key>UIToolbar</key>
-		<dict>
-			<key>UIImageName</key>
-			<string></string>
-		</dict>
 	</dict>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>

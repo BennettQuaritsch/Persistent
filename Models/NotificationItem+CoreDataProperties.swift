@@ -129,6 +129,34 @@ extension NotificationItem {
         }
     }
     
+    public var wrappedIntSetForCalendar: Set<Int> {
+        get {
+            let calendar = Calendar.defaultCalendar
+
+            if let weekdayIntSet = weekdayIntSet {
+                return Set(weekdayIntSet.map { int in
+                    let transformed = (int - (calendar.firstWeekday - 1)) % 7
+                    if transformed <= 0 {
+                        return transformed + 7
+                    } else {
+                        return transformed
+                    }
+                })
+            }
+            
+            return []
+        }
+
+        set {
+            let calendar = Calendar.defaultCalendar
+            
+            weekdayIntSet = Set(newValue.map { int in
+                return ((int - 1) + (calendar.firstWeekday - 1)) % 7 + 1
+            })
+        }
+    }
+    
+    
     public var wrappedDate: Date {
         get {
             return date ?? Date()

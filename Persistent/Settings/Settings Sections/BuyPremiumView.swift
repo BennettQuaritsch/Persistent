@@ -54,29 +54,27 @@ struct BuyPremiumView: View {
                 .frame(minWidth: 80, maxWidth: 120)
                 .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
 
-            GeometryReader { geo in
-                ScrollView(.vertical, showsIndicators: false) {
-                    VStack(alignment: .leading, spacing: 30) {
-                        ForEach(premiumContents, id: \.self) { content in
-                            HStack(spacing: 0) {
-                                Image(systemName: content.systemImageName)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundColor(.accentColor)
-                                #if os(iOS)
-                                    .frame(width: horizontalSizeClass == .regular ? geo.size.width * 0.1 : geo.size.width * 0.2)
-                                    .padding(.trailing)
-                                #endif
+            ScrollView(.vertical, showsIndicators: false) {
+                VStack(alignment: .leading, spacing: 30) {
+                    ForEach(premiumContents, id: \.self) { content in
+                        HStack(spacing: 0) {
+                            Image(systemName: content.systemImageName)
+                                .resizable()
+                                .scaledToFit()
+                                .foregroundColor(.accentColor)
+                            #if os(iOS)
+                                .frame(width: 40)
+                                .padding(.trailing)
+                            #endif
+                            
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text(content.title)
+                                    .font(.headline)
+                                    .foregroundColor(.primary)
                                 
-                                VStack(alignment: .leading, spacing: 5) {
-                                    Text(content.title)
-                                        .font(.headline)
-                                        .foregroundColor(.primary)
-                                    
-                                    Text(content.description)
-                                        .foregroundColor(.secondary)
-                                        .fixedSize(horizontal: false, vertical: true)
-                                }
+                                Text(content.description)
+                                    .foregroundColor(.secondary)
+                                    .fixedSize(horizontal: false, vertical: true)
                             }
                         }
                     }
@@ -160,7 +158,19 @@ struct BuyPremiumView: View {
 
 struct BuyPremiumView_Previews: PreviewProvider {
     static var previews: some View {
-        BuyPremiumView()
-            .environmentObject(StoreManager())
+        Group {
+            BuyPremiumView()
+                .environmentObject(StoreManager())
+            
+            VStack {
+                
+            }
+                .sheet(isPresented: .constant(true), content: {
+                    BuyPremiumView()
+                })
+                .previewDevice("iPad Pro (12.9-inch) (5th generation)")
+                .environmentObject(StoreManager())
+.previewInterfaceOrientation(.landscapeLeft)
+        }
     }
 }

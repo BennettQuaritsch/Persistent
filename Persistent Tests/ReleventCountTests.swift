@@ -32,7 +32,7 @@ class ReleventCountTests: XCTestCase {
         
         habit.iconName = "tennis"
         
-        habit.iconColorIndex = Int16(0)
+        habit.wrappedIconColorName = "Primary"
         
         var date = Date()
         

@@ -55,7 +55,7 @@ class NewNotificationsViewModel: ObservableObject {
             } else {
                 newNotificationItem.wrappedMessage = "Remember your habit!"
             }
-            newNotificationItem.wrappedIntSet = notificationDate.weekdays
+            newNotificationItem.wrappedIntSetForCalendar = notificationDate.weekdays
             
             var components = calendar.dateComponents([.hour, .minute], from: notificationDate.date)
             
@@ -128,7 +128,7 @@ class NewNotificationsViewModel: ObservableObject {
         
         for notification in habitNotifications {
             print(notification.wrappedDate)
-            tempNotificationArray.append(NotificationDate(message: notification.wrappedMessage, date: notification.wrappedDate, weekdays: notification.wrappedIntSet))
+            tempNotificationArray.append(NotificationDate(message: notification.wrappedMessage, date: notification.wrappedDate, weekdays: notification.wrappedIntSetForCalendar))
         }
         
         self.notifcationArray = tempNotificationArray

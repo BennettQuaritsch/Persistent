@@ -10,16 +10,28 @@ import CoreData
 
 struct HabitCompletionGraph: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.parentSizeClass) var parentSizeClass
     
     @ObservedObject var viewModel: HabitBarChartViewModel
+    
+    let headerActivated: Bool
+    let backgroundColor: Color
+    
+    init(viewModel: HabitBarChartViewModel, headerActivated: Bool = true, backgroundColor: Color = .systemBackground) {
+        self.viewModel = viewModel
+        
+        self.headerActivated = headerActivated
+        
+        self.backgroundColor = backgroundColor
+    }
     
 //    @Binding var graphPickerSelection: HabitBarChartViewModel.GraphPickerSelectionEnum
     
     var spacing: Double {
         if viewModel.graphPickerSelection == .smallView {
-            return 10
+            return parentSizeClass == .regular ? 20 : 10
         } else {
-            return 5
+            return parentSizeClass == .regular ? 10 : 5
         }
     }
     
@@ -31,7 +43,7 @@ struct HabitCompletionGraph: View {
                 Label("Backward", systemImage: "chevron.left")
                     .labelStyle(.iconOnly)
                     .padding(8)
-                    .background(Color.systemGroupedBackground, in: Circle())
+                    .background(Color.systemBackground, in: Circle())
             }
             
             Spacer()
@@ -106,7 +118,7 @@ struct HabitCompletionGraph: View {
                 Label("Forward", systemImage: "chevron.right")
                     .labelStyle(.iconOnly)
                     .padding(8)
-                    .background(Color.systemGroupedBackground, in: Circle())
+                    .background(Color.systemBackground, in: Circle())
             }
         }
         .font(.headline)
@@ -175,37 +187,44 @@ struct HabitCompletionGraph: View {
     
     var body: some View {
         VStack {
-            headerView
+            if headerActivated {
+                headerView
+            }
             
             GeometryReader { geo in
                 HStack(alignment: .bottom, spacing: spacing) {
                     ForEach(viewModel.data.indices, id: \.self) { index in
                         
                         ZStack(alignment: .bottom) {
-                            RoundedRectangle(cornerRadius: 10, style: .continuous)
-                                .foregroundColor(Color("systemBackground"))
+                            RoundedRectangle(cornerRadius: parentSizeClass == .regular ? 20 : 10, style: .continuous)
+                                .foregroundColor(backgroundColor)
                             
-                            RoundedRectangle(cornerRadius: 10, style: .continuous)
+                            RoundedRectangle(cornerRadius: parentSizeClass == .regular ? 20 : 10, style: .continuous)
                                 .foregroundColor(viewModel.habit.iconColor)
                                 .frame(height: CGFloat(viewModel.data[index]) / CGFloat(viewModel.maxValue) * geo.size.height)
+                        }
+                        .overlay(alignment: .bottom) {
+                            if viewModel.graphPickerSelection == .smallView {
+                                if viewModel.valuesShown {
+                                    Text("\(NumberFormatter.stringFormattedForHabitTypeShort(value: viewModel.data[index], habit: viewModel.habit))")
+                                        .minimumScaleFactor(0.7)
+                                        .foregroundStyle(.secondary)
+                                        .padding(.bottom, 5)
+                                }
+                            }
                         }
                             
                     }
                 }
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .bottom)
+                .onTapGesture {
+                    viewModel.valuesShown.toggle()
+                }
             }
-            
+        
             footerView
         }
         .onAppear {
-//            switch viewModel.habit.resetIntervalEnum {
-//            case .daily:
-//                viewModel.loadDailyHabits()
-//            case .weekly:
-//                viewModel.loadHabitsForWeeklyHabit()
-//            case .monthly:
-//                viewModel.loadDataForMonthlyHabit()
-//            }
             withAnimation(.easeInOut(duration: 0.2)) {
                 viewModel.loadHabits()
             }
@@ -217,23 +236,7 @@ struct HabitCompletionGraph: View {
 
 struct HabitCompletionGraph_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController().container.viewContext
-        
-        let habit = HabitItem(context: moc)
-        habit.id = UUID()
-        habit.habitName = "PreviewTest"
-        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
-        habit.resetIntervalEnum = .daily
-        habit.amountToDo = 4
-        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
-        
-        for _ in 1...Int.random(in: 1...6) {
-            let date = HabitCompletionDate(context: moc)
-            date.date = Date()
-            date.item = habit
-        }
-        
-        return HabitCompletionGraph(viewModel: HabitBarChartViewModel(habit: habit))
+        return HabitCompletionGraph(viewModel: HabitBarChartViewModel(habit: HabitItem.testHabit))
             .aspectRatio(1.5/1, contentMode: .fit)
             .previewLayout(.sizeThatFits)
     }

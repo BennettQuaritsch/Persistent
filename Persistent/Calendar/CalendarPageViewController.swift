@@ -268,22 +268,6 @@ struct CalendarPageViewController: View {
 
 struct CalendarPageViewController_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController().container.viewContext
-        
-        let habit = HabitItem(context: PersistenceController.preview.container.viewContext)
-        habit.id = UUID()
-        habit.habitName = "PreviewTest"
-        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
-        habit.resetIntervalEnum = .daily
-        habit.amountToDo = 4
-        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
-        
-        for _ in 1...Int.random(in: 1...6) {
-            let date = HabitCompletionDate(context: moc)
-            date.date = Date()
-            date.item = habit
-        }
-        
-        return CalendarPageViewController(toggle: .constant(true), habitDate: .constant(Date()), date: Date(), habit: habit)
+        return CalendarPageViewController(toggle: .constant(true), habitDate: .constant(Date()), date: Date(), habit: HabitItem.testHabit)
     }
 }

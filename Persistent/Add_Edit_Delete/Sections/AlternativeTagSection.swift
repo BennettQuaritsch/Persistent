@@ -115,10 +115,13 @@ struct TagDetail: View {
                 
                 if selectedTags.contains(tag.wrappedId) {
                     Image(systemName: "checkmark.circle")
+                        .imageScale(.large)
                 } else {
                     Image(systemName: "circle")
+                        .imageScale(.large)
                 }
             }
+            .contentShape(Rectangle())
             .onTapGesture {
                 if selectedTags.contains(tag.wrappedId) {
                     selectedTags.remove(tag.wrappedId)

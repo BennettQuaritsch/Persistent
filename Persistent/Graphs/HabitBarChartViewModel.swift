@@ -68,10 +68,12 @@ class HabitBarChartViewModel: ObservableObject {
     
     @Published var dates: [Date]
     
-    var currentDate = Date()
+    var currentDate = Date().adjustedForNightOwl()
     @Published var shownDates: [Date]
     
     @Published var habit: HabitItem
+    
+    @Published var valuesShown: Bool = false
     
     init(habit: HabitItem) {
         // Datum des Wochenanfangs heraussuchen, zusammen mit den nächsten sechs Tagen in einen Array

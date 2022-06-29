@@ -18,11 +18,18 @@ extension HabitDetailView {
     
     class HabitDetailViewModel: ObservableObject {
         let viewContext = PersistenceController.shared.container.viewContext
+        var appViewModel: AppViewModel?
         
         @Published var habit: HabitItem
         
-        init(habit: HabitItem) {
+        @Published var selectedHabitTypeForMultipleAdd: HabitValueTypes
+        
+        var listViewModel: ListViewModel
+        
+        init(habit: HabitItem, listViewModel: ListViewModel) {
             self.habit = habit
+            selectedHabitTypeForMultipleAdd = habit.valueTypeEnum
+            self.listViewModel = listViewModel
         }
         
         @Published var deleteActionSheet: Bool = false
@@ -35,27 +42,31 @@ extension HabitDetailView {
     //    }
 
         @Published var chosenDateNumber: Int = 0
-        @Published var shownDate: Date = Date()
+        @Published var shownDate: Date = Date().adjustedForNightOwl()
         
         @Published var multipleAddSelection = MultipleAddEnum.add
         @Published var multipleAddField = ""
         @Published var multipleAddShown = false
         
-        func progress() -> CGFloat {
-            return CGFloat(habit.relevantCount(shownDate)) / CGFloat(habit.amountToDo)
-        }
+//        func progress() -> CGFloat {
+//            return CGFloat(habit.relevantCount(shownDate)) / CGFloat(habit.amountToDo)
+//        }
         
         func addToHabit(context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
             withAnimation(.easeInOut) {
                 
                 let habitObject = context.object(with: habit.objectID) as! HabitItem
                 
-                habitObject.addToHabit(1, date: shownDate, context: context)
+                habitObject.addToHabit(habitObject.wrappedStandardAddValue, date: shownDate, context: context, appViewModel: appViewModel)
                 
                 self.objectWillChange.send()
                 
                 habit.objectWillChange.send()
+                
+                listViewModel.objectWillChange.send()
             }
+            
+            selectionChangedVibration()
         }
         
         func removeFromHabit(context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
@@ -63,26 +74,41 @@ extension HabitDetailView {
                 
                 let habitObject = context.object(with: habit.objectID) as! HabitItem
                 
-                habitObject.addToHabit(-1, date: shownDate, context: context)
+                habitObject.addToHabit(-habitObject.wrappedStandardAddValue, date: shownDate, context: context)
                 
                 self.objectWillChange.send()
                 
                 habit.objectWillChange.send()
+                
+                listViewModel.objectWillChange.send()
             }
+            
+            selectionChangedVibration()
         }
         
-        func addRemoveMultiple() {
+        func addRemoveMultiple(context: NSManagedObjectContext = PersistenceController.shared.container.viewContext, fieldAnmation: Animation = .easeInOut) {
+            let habitObject = context.object(with: habit.objectID) as! HabitItem
+            
             withAnimation(.easeInOut) {
-                if let toAdd: Int32 = Int32(multipleAddField) {
+                if let number = NumberFormatter.habitValueNumberFormatter.number(from: multipleAddField) {
+                    let toAdd: Double = number.doubleValue
+                    
+                    let rawAmountToDo = HabitValueTypes.rawAmountToDo(for: toAdd, valueType: habit.valueTypeEnum)
+                    guard rawAmountToDo <= Double(Int64.max) && rawAmountToDo >= Double(Int64.min) + 1 else { return }
+                    
+//                    switch habit.valueTypeEnum {
+//                    case .volumeLitres:
+//                        toAdd = Int32(number.doubleValue * 1000)
+//                    default:
+//                        toAdd = number.int32Value
+//                    }
+                    
                     switch multipleAddSelection {
                     case .add:
-                        habit.addToHabit(toAdd, date: shownDate, context: viewContext)
+                        habitObject.addToHabitForValueType(toAdd, valueType: selectedHabitTypeForMultipleAdd, date: shownDate, context: context)
                     case .remove:
-                        habit.addToHabit(-toAdd, date: shownDate, context: viewContext)
+                        habitObject.addToHabitForValueType(-toAdd, valueType: selectedHabitTypeForMultipleAdd, date: shownDate, context: context)
                     }
-                    
-                    self.multipleAddField = ""
-                    self.multipleAddShown = false
                 } else {
                     errorVibration()
                 }
@@ -91,20 +117,13 @@ extension HabitDetailView {
                 
                 habit.objectWillChange.send()
             }
-        }
-        
-        func selectionChanged() {
-            #if os(iOS)
-            let generator = UISelectionFeedbackGenerator()
-            generator.selectionChanged()
-            #endif
-        }
-        
-        func errorVibration() {
-            #if os(iOS)
-            let generator = UINotificationFeedbackGenerator()
-            generator.notificationOccurred(.error)
-            #endif
+            
+            withAnimation(fieldAnmation) {
+                self.multipleAddField = ""
+                self.multipleAddShown = false
+            }
+            
+            selectionChangedVibration()
         }
     }
     

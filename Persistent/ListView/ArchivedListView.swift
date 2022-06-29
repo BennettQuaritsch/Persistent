@@ -20,6 +20,9 @@ struct ArchivedListView: View {
     @State private var selection = Set<UUID>()
     
     @StateObject var viewModel: ListViewModel = .init()
+    
+    @State private var habitDeleteAlertActive: Bool = false
+    @State private var habitToDelete: HabitItem?
 
     var body: some View {
 //        List(selection: $selection) {
@@ -69,32 +72,36 @@ struct ArchivedListView: View {
 //        }
         ScrollView {
             if !items.filter({ $0.habitArchived == true }).isEmpty {
-                ForEach(items) { item in
-                    if item.habitArchived {
-                        NavigationLink(destination: HabitDetailView(habit: item)) {
-                            ListCellView(habit: item, viewModel: viewModel)
-                        }
-                        .buttonStyle(.plain)
-                        .contentShape(ContentShapeKinds.contextMenuPreview, RoundedRectangle(cornerRadius: 20, style: .continuous))
-                        .contextMenu {
-                            Button {
-                                withAnimation {
-                                    item.unarchiveHabit()
-                                }
-                            } label: {
-                                Label("Unrchive", systemImage: "archivebox")
+                VStack {
+                    ForEach(items) { item in
+                        if item.habitArchived {
+                            NavigationLink(destination: HabitDetailView(habit: item, listViewModel: ListViewModel())) {
+                                ListCellView(habit: item, viewModel: viewModel)
+                                    .habitDeleteAlert(isPresented: $habitDeleteAlertActive, habit: habitToDelete, context: viewContext)
+                                    .contentShape(ContentShapeKinds.contextMenuPreview, RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                    .contextMenu {
+                                        Button {
+                                            withAnimation {
+                                                item.unarchiveHabit()
+                                            }
+                                        } label: {
+                                            Label("Unrchive", systemImage: "archivebox")
+                                        }
+                                        
+                                        Button(role: .destructive) {
+                                            withAnimation {
+                                                habitToDelete = item
+                                                habitDeleteAlertActive = true
+                                            }
+                                        } label: {
+                                            Label("Delete", systemImage: "trash")
+                                        }
+                                    }
                             }
-                            
-                            Button(role: .destructive) {
-                                withAnimation {
-                                    appViewModel.habitToDelete = item
-                                }
-                            } label: {
-                                Label("Delete", systemImage: "trash")
-                            }
+                            .buttonStyle(.plain)
+                            .padding(.top)
+                            .padding(.horizontal)
                         }
-                        .padding(.horizontal)
-                        .padding(.top)
                     }
                 }
             } else {

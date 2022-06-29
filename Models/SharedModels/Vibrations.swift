@@ -17,3 +17,8 @@ func warningVibration() {
     let generator = UINotificationFeedbackGenerator()
     generator.notificationOccurred(.warning)
 }
+
+func selectionChangedVibration() {
+    let generator = UISelectionFeedbackGenerator()
+    generator.selectionChanged()
+}

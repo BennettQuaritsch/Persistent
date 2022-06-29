@@ -41,59 +41,6 @@ struct HabitSpecificGraphsView: View {
     
     var body: some View {
         NavigationView {
-//            List {
-////                ListCellView(habit: habit, viewModel: ListViewModel())
-////                    .disabled(true)
-//
-//                Section {
-//                    Picker("Interval", selection: $barChartViewModel.graphPickerSelection) {
-//                        ForEach(HabitBarChartViewModel.GraphPickerSelectionEnum.allCases, id: \.self) { selection in
-//                            Text(selection.name(habit: habit)).tag(selection)
-//                        }
-//                    }
-//                    .pickerStyle(.segmented)
-//                    .onChange(of: barChartViewModel.graphPickerSelection) { selection in
-//                        switch habit.resetIntervalEnum {
-//                        case .daily:
-//                            switch selection {
-//                            case .smallView:
-//                                barChartViewModel.loadDailyHabits()
-//                            case .mediumView:
-//                                barChartViewModel.loadMonthlyHabits()
-//                            }
-//                        case .weekly:
-//                            barChartViewModel.loadHabitsForWeeklyHabit(selection)
-//                        case .monthly:
-//                            barChartViewModel.loadDataForMonthlyHabit(selection)
-//                        }
-//                    }
-//
-//                    ZStack {
-//                        HabitCompletionGraph(viewModel: barChartViewModel)
-//                            .aspectRatio(2 / 1.2, contentMode: .fit)
-//                            .blur(radius: purchaseInfo.wrappedValue ? 0 : 10)
-//
-//                        if !purchaseInfo.wrappedValue {
-//                            Button {
-//                                buyPremiumViewSelected = true
-//                            } label: {
-//                                Label("Unlock Graphs for your Widget and support me 😄", systemImage: "lock.open.fill")
-//                                    .font(.headline)
-//                                    //.multilineTextAlignment(.center)
-//                                    .foregroundColor(.primary)
-//                                    .padding(10)
-//                            }
-//                            .buttonStyle(.borderedProminent)
-//
-//                            NavigationLink(destination: BuyPremiumView(), isActive: $buyPremiumViewSelected) {
-//                                EmptyView()
-//                            }
-//                            .hidden()
-//                            //.shadow(radius: 6)
-//                        }
-//                    }
-//                }
-//            }
             VStack {
                 HStack {
                     if let first = barChartViewModel.shownDates.first, let last = barChartViewModel.shownDates.last {
@@ -114,6 +61,7 @@ struct HabitSpecificGraphsView: View {
                                 }
                             }
                             .frame(minHeight: 50, maxHeight: 80)
+                            .blur(radius: purchaseInfo.wrappedValue ? 0 : 10)
                         }
                         .multilineTextAlignment(.center)
                         
@@ -134,6 +82,7 @@ struct HabitSpecificGraphsView: View {
                                 }
                             }
                             .frame(minHeight: 50, maxHeight: 80)
+                            .blur(radius: purchaseInfo.wrappedValue ? 0 : 10)
                         }
                         .multilineTextAlignment(.center)
                     }
@@ -150,6 +99,8 @@ struct HabitSpecificGraphsView: View {
                         barChartViewModel.currentDate = Date()
                         barChartViewModel.loadHabits(selection)
                     }
+                    .disabled(!purchaseInfo.wrappedValue)
+                    .blur(radius: purchaseInfo.wrappedValue ? 0 : 10)
                     
                     ZStack {
                         HabitCompletionGraph(viewModel: barChartViewModel)
@@ -160,7 +111,12 @@ struct HabitSpecificGraphsView: View {
                             Button {
                                 buyPremiumViewSelected = true
                             } label: {
-                                Label("Unlock Graphs for your Widget and support me 😄", systemImage: "lock.open.fill")
+                                HStack {
+                                    Image(systemName: "lock.open.fill")
+                                    
+                                    Text("Unlock Graphs for your Widget and support me 😄")
+                                        .multilineTextAlignment(.leading)
+                                }
                                     .font(.headline)
                                     //.multilineTextAlignment(.center)
                                     .foregroundColor(.primary)
@@ -202,22 +158,6 @@ struct HabitSpecificGraphsView: View {
 
 struct HabitSpecificGraphsView_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController().container.viewContext
-        
-        let habit = HabitItem(context: moc)
-        habit.id = UUID()
-        habit.habitName = "PreviewTest"
-        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
-        habit.resetIntervalEnum = .daily
-        habit.amountToDo = 4
-        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
-        
-        for _ in 1...Int.random(in: 1...6) {
-            let date = HabitCompletionDate(context: moc)
-            date.date = Date()
-            date.item = habit
-        }
-        
-        return HabitSpecificGraphsView(habit: habit)
+        return HabitSpecificGraphsView(habit: HabitItem.testHabit)
     }
 }

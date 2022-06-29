@@ -38,9 +38,17 @@
 		91183CA626B095AA00413BB4 /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9105490526860C62005E80C2 /* UserSettings.swift */; };
 		911C832D26F7CEC90003B906 /* HabitListUICollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911C832C26F7CEC90003B906 /* HabitListUICollectionView.swift */; };
 		911C833026F8D2610003B906 /* HabitCompletionGraph.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911C832F26F8D2610003B906 /* HabitCompletionGraph.swift */; };
-		91289905271015390007A0ED /* HabitLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91289904271015390007A0ED /* HabitLineChartView.swift */; };
-		91289906271015390007A0ED /* HabitLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91289904271015390007A0ED /* HabitLineChartView.swift */; };
-		91289907271015390007A0ED /* HabitLineChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91289904271015390007A0ED /* HabitLineChartView.swift */; };
+		9125BC6327FFA1160058032E /* NumberFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9125BC6227FFA1160058032E /* NumberFormatterExtension.swift */; };
+		9125BC6527FFA11C0058032E /* NumberFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9125BC6227FFA1160058032E /* NumberFormatterExtension.swift */; };
+		9125BC6627FFA11E0058032E /* NumberFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9125BC6227FFA1160058032E /* NumberFormatterExtension.swift */; };
+		9125BC6727FFA2A70058032E /* NumberFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9125BC6227FFA1160058032E /* NumberFormatterExtension.swift */; };
+		9125BC692803A1BA0058032E /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9125BC682803A1BA0058032E /* Timer.swift */; };
+		9125BC6A2803A1BA0058032E /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9125BC682803A1BA0058032E /* Timer.swift */; };
+		9125BC74280614D60058032E /* DecimalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9125BC73280614D60058032E /* DecimalExtension.swift */; };
+		9125BC75280614D60058032E /* DecimalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9125BC73280614D60058032E /* DecimalExtension.swift */; };
+		9125BC772806159C0058032E /* DecimalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9125BC73280614D60058032E /* DecimalExtension.swift */; };
+		9125BC782806159D0058032E /* DecimalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9125BC73280614D60058032E /* DecimalExtension.swift */; };
+		9125BC792806159E0058032E /* DecimalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9125BC73280614D60058032E /* DecimalExtension.swift */; };
 		91302509273C494D00CC91B2 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910548F026860BC7005E80C2 /* Persistence.swift */; };
 		9130250B273E83C100CC91B2 /* ListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9130250A273E83C100CC91B2 /* ListCellView.swift */; };
 		9130250E273E83C100CC91B2 /* ListCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9130250A273E83C100CC91B2 /* ListCellView.swift */; };
@@ -114,9 +122,15 @@
 		9130257C275957A300CC91B2 /* NewNotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9130257B275957A300CC91B2 /* NewNotificationsView.swift */; };
 		9130257E275957C300CC91B2 /* NewNotificationsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9130257D275957C300CC91B2 /* NewNotificationsViewModel.swift */; };
 		91302580275A3A5B00CC91B2 /* NewChooseWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9130257F275A3A5B00CC91B2 /* NewChooseWeekView.swift */; };
+		9132403627C4DE7B00EAEE7B /* ThemeSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9132403527C4DE7B00EAEE7B /* ThemeSelectionView.swift */; };
 		913614F7272B58AA004090A0 /* TestAddHabitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913614F6272B58AA004090A0 /* TestAddHabitView.swift */; };
 		913614F9272BFA81004090A0 /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913614F8272BFA81004090A0 /* Calendar.swift */; };
 		913614FC272C982E004090A0 /* CalendarPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913614FB272C982E004090A0 /* CalendarPageViewController.swift */; };
+		913BF4A827E3C57B00693B04 /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913BF4A727E3C57B00693B04 /* EnvironmentValues.swift */; };
+		913BF4A927E3C59900693B04 /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913BF4A727E3C57B00693B04 /* EnvironmentValues.swift */; };
+		913BF4AA27E3C59900693B04 /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913BF4A727E3C57B00693B04 /* EnvironmentValues.swift */; };
+		9144D27D27C69E1D00702B42 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829ADB277B5A6F001FE335 /* AppViewModel.swift */; };
+		9144D27E27C69E1D00702B42 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829ADB277B5A6F001FE335 /* AppViewModel.swift */; };
 		914BB2EB26F3CAEB00D47CC0 /* ThanksToView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914BB2EA26F3CAEB00D47CC0 /* ThanksToView.swift */; };
 		914BB2EE26F7745500D47CC0 /* HabitDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914BB2ED26F7745500D47CC0 /* HabitDetailViewModel.swift */; };
 		91525013271B0084003DD437 /* ListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91525012271B0084003DD437 /* ListViewModel.swift */; };
@@ -130,6 +144,7 @@
 		915250692720275F003DD437 /* ChooseWeekView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9194120F26D84C3B0042599E /* ChooseWeekView.swift */; };
 		9152506A2720275F003DD437 /* ResertIntervalPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D0485226FF0CA3005C712C /* ResertIntervalPickerView.swift */; };
 		9152506D2720350A003DD437 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 91183C9026B087FD00413BB4 /* Assets.xcassets */; };
+		9154EA4C27FA4E7200A06755 /* Shared.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 913025762757D80700CC91B2 /* Shared.xcassets */; };
 		91561868272A0FC400C07395 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91561867272A0FC400C07395 /* StoreKit.framework */; };
 		91561869272A114600C07395 /* HabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9105490126860C62005E80C2 /* HabitDetailView.swift */; };
 		9156186A272A114600C07395 /* HabitDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914BB2ED26F7745500D47CC0 /* HabitDetailViewModel.swift */; };
@@ -137,36 +152,11 @@
 		9156186C272A11AE00C07395 /* HabitSpecificGraphsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192C2E427103F5700997D51 /* HabitSpecificGraphsView.swift */; };
 		9156186D272A11AE00C07395 /* HabitBarChartMonthlyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192C2EF2717386900997D51 /* HabitBarChartMonthlyView.swift */; };
 		9156186E272A11B800C07395 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9105490226860C62005E80C2 /* CalendarView.swift */; };
+		9169CC8A27DA590A0029287A /* AlternativeEditHabitBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169CC8927DA590A0029287A /* AlternativeEditHabitBaseView.swift */; };
+		9169CC8B27DA590A0029287A /* AlternativeEditHabitBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9169CC8927DA590A0029287A /* AlternativeEditHabitBaseView.swift */; };
 		916A8C382761161C00D24202 /* SwiftKeychainWrapper in Frameworks */ = {isa = PBXBuildFile; productRef = 916A8C372761161C00D24202 /* SwiftKeychainWrapper */; };
 		916BDCC426E7ED4000F069AC /* AlternativeTagSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916BDCC326E7ED4000F069AC /* AlternativeTagSection.swift */; };
-		917905B3278667110001C105 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 917905B2278667110001C105 /* Assets.xcassets */; };
-		917905B9278667110001C105 /* PersistentWatch WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 917905B8278667110001C105 /* PersistentWatch WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		917905BE278667110001C105 /* PersistentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917905BD278667110001C105 /* PersistentApp.swift */; };
-		917905C0278667110001C105 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917905BF278667110001C105 /* ContentView.swift */; };
-		917905C2278667110001C105 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917905C1278667110001C105 /* NotificationController.swift */; };
-		917905C4278667110001C105 /* NotificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917905C3278667110001C105 /* NotificationView.swift */; };
-		917905C6278667110001C105 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917905C5278667110001C105 /* ComplicationController.swift */; };
-		917905C8278667120001C105 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 917905C7278667120001C105 /* Assets.xcassets */; };
-		917905CB278667120001C105 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 917905CA278667120001C105 /* Preview Assets.xcassets */; };
-		917905D0278667120001C105 /* PersistentWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 917905B0278667100001C105 /* PersistentWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		917905D9278667500001C105 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91829B4C27851EE1001FE335 /* CloudKit.framework */; };
-		917905DA278667D20001C105 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910548F026860BC7005E80C2 /* Persistence.swift */; };
-		917905DB278667D80001C105 /* Persistent.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 910548EE26860BC7005E80C2 /* Persistent.xcdatamodeld */; };
-		917905DC278667EC0001C105 /* HabitItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D0486927045D0E005C712C /* HabitItem+CoreDataProperties.swift */; };
-		917905DD278667EC0001C105 /* HabitTag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9179C96D26E241CA0054B188 /* HabitTag+CoreDataClass.swift */; };
-		917905DE278667EC0001C105 /* NotificationItem+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D0485F27036BE8005C712C /* NotificationItem+CoreDataProperties.swift */; };
-		917905DF278667EC0001C105 /* NotificationItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D0485E27036BE8005C712C /* NotificationItem+CoreDataClass.swift */; };
-		917905E0278667EC0001C105 /* HabitCompletionDate+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910548F426860BF6005E80C2 /* HabitCompletionDate+CoreDataClass.swift */; };
-		917905E1278667EC0001C105 /* HabitTag+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9179C96E26E241CA0054B188 /* HabitTag+CoreDataProperties.swift */; };
-		917905E2278667EC0001C105 /* HabitCompletionDate+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 910548F626860BF6005E80C2 /* HabitCompletionDate+CoreDataProperties.swift */; };
-		917905E3278667EC0001C105 /* HabitItem+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D0486827045D0E005C712C /* HabitItem+CoreDataClass.swift */; };
-		917905E4278669810001C105 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 913025692743F99E00CC91B2 /* ProgressBar.swift */; };
-		917905E5278669860001C105 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D0483626FCD443005C712C /* ColorExtension.swift */; };
-		917905E627866A190001C105 /* OldProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F45A1226C7DFB600311FD1 /* OldProgressBar.swift */; };
 		917905E727866A430001C105 /* OldProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F45A1226C7DFB600311FD1 /* OldProgressBar.swift */; };
-		917905E8278671A20001C105 /* Shared.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 913025762757D80700CC91B2 /* Shared.xcassets */; };
-		917905EB27872D5B0001C105 /* WatchHabitDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917905EA27872D5B0001C105 /* WatchHabitDetailView.swift */; };
-		917905ED27872D670001C105 /* WatchHabitDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917905EC27872D670001C105 /* WatchHabitDetailViewModel.swift */; };
 		917905EF27874D380001C105 /* Vibrations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917905EE27874D380001C105 /* Vibrations.swift */; };
 		9179C96F26E241CA0054B188 /* HabitTag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9179C96D26E241CA0054B188 /* HabitTag+CoreDataClass.swift */; };
 		9179C97026E241CA0054B188 /* HabitTag+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9179C96D26E241CA0054B188 /* HabitTag+CoreDataClass.swift */; };
@@ -188,14 +178,22 @@
 		91829ADA277936FF001FE335 /* ArchivedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AD8277934BE001FE335 /* ArchivedListView.swift */; };
 		91829ADC277B5A6F001FE335 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829ADB277B5A6F001FE335 /* AppViewModel.swift */; };
 		91829ADD277B5A6F001FE335 /* AppViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829ADB277B5A6F001FE335 /* AppViewModel.swift */; };
-		91829AEF277DF66A001FE335 /* DeleteHabitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AEE277DF66A001FE335 /* DeleteHabitTests.swift */; };
 		91829AF1277E1862001FE335 /* EditHabitBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AF0277E1862001FE335 /* EditHabitBaseView.swift */; };
 		91829AF2277E1862001FE335 /* EditHabitBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AF0277E1862001FE335 /* EditHabitBaseView.swift */; };
 		91829AF42782808F001FE335 /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AF32782808E001FE335 /* AboutAppView.swift */; };
 		91829AF52782808F001FE335 /* AboutAppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AF32782808E001FE335 /* AboutAppView.swift */; };
-		91829AF72783BD02001FE335 /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AF62783BD02001FE335 /* WhatsNewView.swift */; };
-		91829AF82783BD02001FE335 /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AF62783BD02001FE335 /* WhatsNewView.swift */; };
+		91829AF72783BD02001FE335 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AF62783BD02001FE335 /* WelcomeView.swift */; };
+		91829AF82783BD02001FE335 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91829AF62783BD02001FE335 /* WelcomeView.swift */; };
 		918882482799599C00A02377 /* ReleventCountTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918882472799599C00A02377 /* ReleventCountTests.swift */; };
+		918895D627CEB5AD00F5E2BE /* QuickAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A493C927CD5478009755EB /* QuickAddView.swift */; };
+		918895DA27CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918895D827CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift */; };
+		918895DB27CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918895D927CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift */; };
+		918895DD27CEBD9A00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918895D927CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift */; };
+		918895DE27CEBD9A00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918895D827CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift */; };
+		918895DF27CEBD9A00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918895D927CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift */; };
+		918895E027CEBD9A00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918895D827CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift */; };
+		918895E127CEBD9B00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918895D927CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift */; };
+		918895E227CEBD9B00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918895D827CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift */; };
 		9192C2E527103F5700997D51 /* HabitSpecificGraphsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192C2E427103F5700997D51 /* HabitSpecificGraphsView.swift */; };
 		9192C2E72711FE4300997D51 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192C2E62711FE4300997D51 /* CGPointExtension.swift */; };
 		9192C2E82711FF3A00997D51 /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9192C2E62711FE4300997D51 /* CGPointExtension.swift */; };
@@ -210,6 +208,21 @@
 		9194121226DFF3B30042599E /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9194121126DFF3B30042599E /* CloudKit.framework */; };
 		919EB2EA27A9DAB10003E0BD /* DateNightOwlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919EB2E927A9DAB10003E0BD /* DateNightOwlExtension.swift */; };
 		919EB2EC27A9DDA60003E0BD /* NightOwlModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919EB2EB27A9DDA60003E0BD /* NightOwlModeView.swift */; };
+		919EB2ED27AB2C5A0003E0BD /* DateNightOwlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919EB2E927A9DAB10003E0BD /* DateNightOwlExtension.swift */; };
+		919EB2EF27AB2C7D0003E0BD /* DateNightOwlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919EB2E927A9DAB10003E0BD /* DateNightOwlExtension.swift */; };
+		919EB2F027AB2C7D0003E0BD /* DateNightOwlExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 919EB2E927A9DAB10003E0BD /* DateNightOwlExtension.swift */; };
+		919EB2F227AB2CA70003E0BD /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9105490526860C62005E80C2 /* UserSettings.swift */; };
+		91A493CA27CD5478009755EB /* QuickAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A493C927CD5478009755EB /* QuickAddView.swift */; };
+		91A6FF4C2838180C00E1954D /* AnimationTransitionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A6FF4B2838180C00E1954D /* AnimationTransitionExtension.swift */; };
+		91A6FF4D2838180C00E1954D /* AnimationTransitionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91A6FF4B2838180C00E1954D /* AnimationTransitionExtension.swift */; };
+		91AA253B280E14F60062D219 /* ComparableHabitTypesPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AA253A280E14F60062D219 /* ComparableHabitTypesPicker.swift */; };
+		91AA253D2810AE8F0062D219 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AA253C2810AE8F0062D219 /* ViewModifiers.swift */; };
+		91AA253E2810AE8F0062D219 /* ViewModifiers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AA253C2810AE8F0062D219 /* ViewModifiers.swift */; };
+		91AA25402823FB3F0062D219 /* AddRemoveMultipleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AA253F2823FB3F0062D219 /* AddRemoveMultipleView.swift */; };
+		91AA25412823FB3F0062D219 /* AddRemoveMultipleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91AA253F2823FB3F0062D219 /* AddRemoveMultipleView.swift */; };
+		91B6D7A027B1BC5200B18E15 /* ChooseIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B6D79F27B1BC5200B18E15 /* ChooseIconView.swift */; };
+		91B6D7A127B1BC8D00B18E15 /* ChooseIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B6D79F27B1BC5200B18E15 /* ChooseIconView.swift */; };
+		91B6D7A527BDA36900B18E15 /* CloudKitSyncMonitor in Frameworks */ = {isa = PBXBuildFile; productRef = 91B6D7A427BDA36900B18E15 /* CloudKitSyncMonitor */; };
 		91BA782B277330E3003C4982 /* FirstWeekdayPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BA782A277330E3003C4982 /* FirstWeekdayPickerView.swift */; };
 		91BA782C277330E3003C4982 /* FirstWeekdayPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BA782A277330E3003C4982 /* FirstWeekdayPickerView.swift */; };
 		91BA782E277339DB003C4982 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91BA782D277339DB003C4982 /* SettingsViewModel.swift */; };
@@ -285,20 +298,6 @@
 			remoteGlobalIDString = 91183C8726B087F900413BB4;
 			remoteInfo = PersistentWidgetExtension;
 		};
-		917905BA278667110001C105 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 910548D126860ADE005E80C2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 917905B7278667110001C105;
-			remoteInfo = "PersistentWatch WatchKit Extension";
-		};
-		917905CE278667120001C105 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 910548D126860ADE005E80C2 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 917905AF278667100001C105;
-			remoteInfo = PersistentWatch;
-		};
 		91829AE9277DF613001FE335 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 910548D126860ADE005E80C2 /* Project object */;
@@ -328,24 +327,12 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		917905D4278667120001C105 /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				917905B9278667110001C105 /* PersistentWatch WatchKit Extension.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		91829B3927851502001FE335 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				917905D0278667120001C105 /* PersistentWatch.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -384,7 +371,11 @@
 		91183CA426B0892400413BB4 /* PersistentWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PersistentWidgetExtension.entitlements; sourceTree = "<group>"; };
 		911C832C26F7CEC90003B906 /* HabitListUICollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitListUICollectionView.swift; sourceTree = "<group>"; };
 		911C832F26F8D2610003B906 /* HabitCompletionGraph.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCompletionGraph.swift; sourceTree = "<group>"; };
-		91289904271015390007A0ED /* HabitLineChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitLineChartView.swift; sourceTree = "<group>"; };
+		9125BC6227FFA1160058032E /* NumberFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberFormatterExtension.swift; sourceTree = "<group>"; };
+		9125BC682803A1BA0058032E /* Timer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
+		9125BC6B2803A69A0058032E /* PersistentModel 1.11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PersistentModel 1.11.xcdatamodel"; sourceTree = "<group>"; };
+		9125BC6E28060E2F0058032E /* PersistentModel 1.12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PersistentModel 1.12.xcdatamodel"; sourceTree = "<group>"; };
+		9125BC73280614D60058032E /* DecimalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecimalExtension.swift; sourceTree = "<group>"; };
 		9130250A273E83C100CC91B2 /* ListCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCellView.swift; sourceTree = "<group>"; };
 		91302512273E8C3E00CC91B2 /* 08-15-AppIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "08-15-AppIcon@2x.png"; sourceTree = "<group>"; };
 		91302513273E8C3E00CC91B2 /* 08-15-AppIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "08-15-AppIcon@3x.png"; sourceTree = "<group>"; };
@@ -420,31 +411,19 @@
 		9130257B275957A300CC91B2 /* NewNotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNotificationsView.swift; sourceTree = "<group>"; };
 		9130257D275957C300CC91B2 /* NewNotificationsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewNotificationsViewModel.swift; sourceTree = "<group>"; };
 		9130257F275A3A5B00CC91B2 /* NewChooseWeekView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewChooseWeekView.swift; sourceTree = "<group>"; };
+		9132403527C4DE7B00EAEE7B /* ThemeSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSelectionView.swift; sourceTree = "<group>"; };
 		913614F6272B58AA004090A0 /* TestAddHabitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestAddHabitView.swift; sourceTree = "<group>"; };
 		913614F8272BFA81004090A0 /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		913614FB272C982E004090A0 /* CalendarPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarPageViewController.swift; sourceTree = "<group>"; };
+		913BF4A727E3C57B00693B04 /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		914BB2EA26F3CAEB00D47CC0 /* ThanksToView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThanksToView.swift; sourceTree = "<group>"; };
 		914BB2ED26F7745500D47CC0 /* HabitDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitDetailViewModel.swift; sourceTree = "<group>"; };
 		91525012271B0084003DD437 /* ListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListViewModel.swift; sourceTree = "<group>"; };
 		91561867272A0FC400C07395 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX12.0.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		9169CC8927DA590A0029287A /* AlternativeEditHabitBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternativeEditHabitBaseView.swift; sourceTree = "<group>"; };
 		916A8C30275CDD8B00D24202 /* PersistentModel 1.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PersistentModel 1.6.xcdatamodel"; sourceTree = "<group>"; };
 		916BDCC326E7ED4000F069AC /* AlternativeTagSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlternativeTagSection.swift; sourceTree = "<group>"; };
 		917905AC27852A820001C105 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.0.sdk/System/Library/Frameworks/CoreData.framework; sourceTree = DEVELOPER_DIR; };
-		917905B0278667100001C105 /* PersistentWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PersistentWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		917905B2278667110001C105 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		917905B8278667110001C105 /* PersistentWatch WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "PersistentWatch WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		917905BD278667110001C105 /* PersistentApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentApp.swift; sourceTree = "<group>"; };
-		917905BF278667110001C105 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; usesTabs = 0; };
-		917905C1278667110001C105 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
-		917905C3278667110001C105 /* NotificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationView.swift; sourceTree = "<group>"; };
-		917905C5278667110001C105 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
-		917905C7278667120001C105 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		917905CA278667120001C105 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		917905CC278667120001C105 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		917905CD278667120001C105 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
-		917905D8278667490001C105 /* PersistentWatch WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "PersistentWatch WatchKit Extension.entitlements"; sourceTree = "<group>"; };
-		917905EA27872D5B0001C105 /* WatchHabitDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchHabitDetailView.swift; sourceTree = "<group>"; };
-		917905EC27872D670001C105 /* WatchHabitDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchHabitDetailViewModel.swift; sourceTree = "<group>"; };
 		917905EE27874D380001C105 /* Vibrations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vibrations.swift; sourceTree = "<group>"; };
 		9179C96D26E241CA0054B188 /* HabitTag+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HabitTag+CoreDataClass.swift"; sourceTree = "<group>"; };
 		9179C96E26E241CA0054B188 /* HabitTag+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HabitTag+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -457,12 +436,15 @@
 		91829AD8277934BE001FE335 /* ArchivedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArchivedListView.swift; sourceTree = "<group>"; };
 		91829ADB277B5A6F001FE335 /* AppViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppViewModel.swift; sourceTree = "<group>"; };
 		91829AE5277DF613001FE335 /* Persistent Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Persistent Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		91829AEE277DF66A001FE335 /* DeleteHabitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteHabitTests.swift; sourceTree = "<group>"; };
 		91829AF0277E1862001FE335 /* EditHabitBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditHabitBaseView.swift; sourceTree = "<group>"; };
 		91829AF32782808E001FE335 /* AboutAppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutAppView.swift; sourceTree = "<group>"; };
-		91829AF62783BD02001FE335 /* WhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewView.swift; sourceTree = "<group>"; };
+		91829AF62783BD02001FE335 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
 		91829B4C27851EE1001FE335 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS8.0.sdk/System/Library/Frameworks/CloudKit.framework; sourceTree = DEVELOPER_DIR; };
+		9187277928369475009FEF2B /* PersistentModel 1.14.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PersistentModel 1.14.xcdatamodel"; sourceTree = "<group>"; };
 		918882472799599C00A02377 /* ReleventCountTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReleventCountTests.swift; sourceTree = "<group>"; };
+		918895D727CEB9B600F5E2BE /* PersistentModel 1.10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PersistentModel 1.10.xcdatamodel"; sourceTree = "<group>"; };
+		918895D827CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HabitQuickAddAction+CoreDataClass.swift"; sourceTree = "<group>"; };
+		918895D927CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "HabitQuickAddAction+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		9192C2E427103F5700997D51 /* HabitSpecificGraphsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitSpecificGraphsView.swift; sourceTree = "<group>"; };
 		9192C2E62711FE4300997D51 /* CGPointExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
 		9192C2EB27172E6B00997D51 /* HabitBarChartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitBarChartViewModel.swift; sourceTree = "<group>"; };
@@ -473,7 +455,15 @@
 		919EB2E927A9DAB10003E0BD /* DateNightOwlExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateNightOwlExtension.swift; sourceTree = "<group>"; };
 		919EB2EB27A9DDA60003E0BD /* NightOwlModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightOwlModeView.swift; sourceTree = "<group>"; };
 		91A0BBDC279570E200AD0368 /* PersistentModel 1.8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PersistentModel 1.8.xcdatamodel"; sourceTree = "<group>"; };
+		91A493C927CD5478009755EB /* QuickAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickAddView.swift; sourceTree = "<group>"; };
+		91A6FF4B2838180C00E1954D /* AnimationTransitionExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationTransitionExtension.swift; sourceTree = "<group>"; };
 		91A8AB1D273C189A00901845 /* PersistentModel 1.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PersistentModel 1.1.xcdatamodel"; sourceTree = "<group>"; };
+		91AA2539280A3C660062D219 /* PersistentModel 1.13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PersistentModel 1.13.xcdatamodel"; sourceTree = "<group>"; };
+		91AA253A280E14F60062D219 /* ComparableHabitTypesPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparableHabitTypesPicker.swift; sourceTree = "<group>"; };
+		91AA253C2810AE8F0062D219 /* ViewModifiers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifiers.swift; sourceTree = "<group>"; };
+		91AA253F2823FB3F0062D219 /* AddRemoveMultipleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRemoveMultipleView.swift; sourceTree = "<group>"; };
+		91B6D79F27B1BC5200B18E15 /* ChooseIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseIconView.swift; sourceTree = "<group>"; };
+		91B6D7A227BC31B700B18E15 /* PersistentModel 1.9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PersistentModel 1.9.xcdatamodel"; sourceTree = "<group>"; };
 		91BA782A277330E3003C4982 /* FirstWeekdayPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstWeekdayPickerView.swift; sourceTree = "<group>"; };
 		91BA782D277339DB003C4982 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		91BA78302775351F003C4982 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -513,6 +503,7 @@
 				91807CEC2720D83B006208FE /* StoreKit.framework in Frameworks */,
 				9194121226DFF3B30042599E /* CloudKit.framework in Frameworks */,
 				916A8C382761161C00D24202 /* SwiftKeychainWrapper in Frameworks */,
+				91B6D7A527BDA36900B18E15 /* CloudKitSyncMonitor in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -522,14 +513,6 @@
 			files = (
 				91183C8B26B087F900413BB4 /* SwiftUI.framework in Frameworks */,
 				91183C8A26B087F900413BB4 /* WidgetKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		917905B5278667110001C105 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				917905D9278667500001C105 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,6 +546,7 @@
 		910548D026860ADE005E80C2 = {
 			isa = PBXGroup;
 			children = (
+				9183DBB227E386D8009F7E62 /* ChartAdditions */,
 				91807CF42726059C006208FE /* ProductsTest.storekit */,
 				91183CA426B0892400413BB4 /* PersistentWidgetExtension.entitlements */,
 				910548ED26860BAE005E80C2 /* Data */,
@@ -573,8 +557,6 @@
 				91F45A1C26CC5F1800311FD1 /* PersistentIntent */,
 				91D0481A26FCD1BE005C712C /* PersistentMac */,
 				91829AE6277DF613001FE335 /* Persistent Tests */,
-				917905B1278667100001C105 /* PersistentWatch */,
-				917905BC278667110001C105 /* PersistentWatch WatchKit Extension */,
 				9105491F26860D5C005E80C2 /* Frameworks */,
 				910548DA26860ADE005E80C2 /* Products */,
 			);
@@ -588,8 +570,6 @@
 				91F45A1926CC5F1800311FD1 /* PersistentIntent.appex */,
 				91D0481926FCD1BE005C712C /* PersistentMac.app */,
 				91829AE5277DF613001FE335 /* Persistent Tests.xctest */,
-				917905B0278667100001C105 /* PersistentWatch.app */,
-				917905B8278667110001C105 /* PersistentWatch WatchKit Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -607,7 +587,8 @@
 				9105490A26860C62005E80C2 /* ListView */,
 				910548DE26860ADE005E80C2 /* ContentView.swift */,
 				9105490926860C62005E80C2 /* PersistentApp.swift */,
-				91829AF62783BD02001FE335 /* WhatsNewView.swift */,
+				913BF4A727E3C57B00693B04 /* EnvironmentValues.swift */,
+				91829AF62783BD02001FE335 /* WelcomeView.swift */,
 				91829ADB277B5A6F001FE335 /* AppViewModel.swift */,
 				91BA78302775351F003C4982 /* AppDelegate.swift */,
 				910548E026860ADF005E80C2 /* Assets.xcassets */,
@@ -637,14 +618,15 @@
 		910548F326860BDA005E80C2 /* CoreData Models */ = {
 			isa = PBXGroup;
 			children = (
+				918895D827CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift */,
+				918895D927CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift */,
 				91D0485E27036BE8005C712C /* NotificationItem+CoreDataClass.swift */,
 				91D0485F27036BE8005C712C /* NotificationItem+CoreDataProperties.swift */,
 				9179C96D26E241CA0054B188 /* HabitTag+CoreDataClass.swift */,
 				9179C96E26E241CA0054B188 /* HabitTag+CoreDataProperties.swift */,
 				910548F426860BF6005E80C2 /* HabitCompletionDate+CoreDataClass.swift */,
 				910548F626860BF6005E80C2 /* HabitCompletionDate+CoreDataProperties.swift */,
-				91D0486827045D0E005C712C /* HabitItem+CoreDataClass.swift */,
-				91D0486927045D0E005C712C /* HabitItem+CoreDataProperties.swift */,
+				918895DC27CEBAF800F5E2BE /* HabitItem */,
 				9179C97526E242020054B188 /* CoreDataBackup.swift */,
 			);
 			path = "CoreData Models";
@@ -675,8 +657,9 @@
 			isa = PBXGroup;
 			children = (
 				9105490726860C62005E80C2 /* AddHabitView.swift */,
-				91829AF0277E1862001FE335 /* EditHabitBaseView.swift */,
 				9105490826860C62005E80C2 /* EditView.swift */,
+				91829AF0277E1862001FE335 /* EditHabitBaseView.swift */,
+				9169CC8927DA590A0029287A /* AlternativeEditHabitBaseView.swift */,
 				91302570274BEAE300CC91B2 /* Add-Edit-ViewModel.swift */,
 				91E7E5EF26E3DB51004A7143 /* Sections */,
 			);
@@ -698,12 +681,16 @@
 			isa = PBXGroup;
 			children = (
 				91D0483626FCD443005C712C /* ColorExtension.swift */,
+				9125BC73280614D60058032E /* DecimalExtension.swift */,
+				91A6FF4B2838180C00E1954D /* AnimationTransitionExtension.swift */,
 				91F45A1226C7DFB600311FD1 /* OldProgressBar.swift */,
 				913025692743F99E00CC91B2 /* ProgressBar.swift */,
 				919EB2E927A9DAB10003E0BD /* DateNightOwlExtension.swift */,
+				9125BC6227FFA1160058032E /* NumberFormatterExtension.swift */,
 				913025762757D80700CC91B2 /* Shared.xcassets */,
 				916A8C392761165400D24202 /* KeychainWrapper */,
 				917905EE27874D380001C105 /* Vibrations.swift */,
+				91AA253C2810AE8F0062D219 /* ViewModifiers.swift */,
 			);
 			path = SharedModels;
 			sourceTree = "<group>";
@@ -742,7 +729,11 @@
 			isa = PBXGroup;
 			children = (
 				9105490126860C62005E80C2 /* HabitDetailView.swift */,
+				9125BC682803A1BA0058032E /* Timer.swift */,
 				914BB2ED26F7745500D47CC0 /* HabitDetailViewModel.swift */,
+				91A493C927CD5478009755EB /* QuickAddView.swift */,
+				91AA253F2823FB3F0062D219 /* AddRemoveMultipleView.swift */,
+				91AA253A280E14F60062D219 /* ComparableHabitTypesPicker.swift */,
 			);
 			path = HabitDetailView;
 			sourceTree = "<group>";
@@ -758,11 +749,10 @@
 		911C832E26F8D24B0003B906 /* Graphs */ = {
 			isa = PBXGroup;
 			children = (
+				9192C2E427103F5700997D51 /* HabitSpecificGraphsView.swift */,
 				911C832F26F8D2610003B906 /* HabitCompletionGraph.swift */,
 				9192C2EB27172E6B00997D51 /* HabitBarChartViewModel.swift */,
-				91289904271015390007A0ED /* HabitLineChartView.swift */,
 				9192C2EF2717386900997D51 /* HabitBarChartMonthlyView.swift */,
-				9192C2E427103F5700997D51 /* HabitSpecificGraphsView.swift */,
 				9192C2E62711FE4300997D51 /* CGPointExtension.swift */,
 			);
 			path = Graphs;
@@ -824,49 +814,6 @@
 			path = KeychainWrapper;
 			sourceTree = "<group>";
 		};
-		917905B1278667100001C105 /* PersistentWatch */ = {
-			isa = PBXGroup;
-			children = (
-				917905B2278667110001C105 /* Assets.xcassets */,
-			);
-			path = PersistentWatch;
-			sourceTree = "<group>";
-		};
-		917905BC278667110001C105 /* PersistentWatch WatchKit Extension */ = {
-			isa = PBXGroup;
-			children = (
-				917905D8278667490001C105 /* PersistentWatch WatchKit Extension.entitlements */,
-				917905BD278667110001C105 /* PersistentApp.swift */,
-				917905BF278667110001C105 /* ContentView.swift */,
-				917905E927872D430001C105 /* WatchHabitDetailView */,
-				917905C1278667110001C105 /* NotificationController.swift */,
-				917905C3278667110001C105 /* NotificationView.swift */,
-				917905C5278667110001C105 /* ComplicationController.swift */,
-				917905C7278667120001C105 /* Assets.xcassets */,
-				917905CC278667120001C105 /* Info.plist */,
-				917905CD278667120001C105 /* PushNotificationPayload.apns */,
-				917905C9278667120001C105 /* Preview Content */,
-			);
-			path = "PersistentWatch WatchKit Extension";
-			sourceTree = "<group>";
-		};
-		917905C9278667120001C105 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				917905CA278667120001C105 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		917905E927872D430001C105 /* WatchHabitDetailView */ = {
-			isa = PBXGroup;
-			children = (
-				917905EA27872D5B0001C105 /* WatchHabitDetailView.swift */,
-				917905EC27872D670001C105 /* WatchHabitDetailViewModel.swift */,
-			);
-			path = WatchHabitDetailView;
-			sourceTree = "<group>";
-		};
 		91807CEE2720D866006208FE /* InAppPurchase */ = {
 			isa = PBXGroup;
 			children = (
@@ -878,10 +825,25 @@
 		91829AE6277DF613001FE335 /* Persistent Tests */ = {
 			isa = PBXGroup;
 			children = (
-				91829AEE277DF66A001FE335 /* DeleteHabitTests.swift */,
 				918882472799599C00A02377 /* ReleventCountTests.swift */,
 			);
 			path = "Persistent Tests";
+			sourceTree = "<group>";
+		};
+		9183DBB227E386D8009F7E62 /* ChartAdditions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ChartAdditions;
+			sourceTree = "<group>";
+		};
+		918895DC27CEBAF800F5E2BE /* HabitItem */ = {
+			isa = PBXGroup;
+			children = (
+				91D0486827045D0E005C712C /* HabitItem+CoreDataClass.swift */,
+				91D0486927045D0E005C712C /* HabitItem+CoreDataProperties.swift */,
+			);
+			path = HabitItem;
 			sourceTree = "<group>";
 		};
 		9194120C26D819AA0042599E /* WidgetMultipleView */ = {
@@ -903,6 +865,7 @@
 				91829AF32782808E001FE335 /* AboutAppView.swift */,
 				914BB2EA26F3CAEB00D47CC0 /* ThanksToView.swift */,
 				919EB2EB27A9DDA60003E0BD /* NightOwlModeView.swift */,
+				9132403527C4DE7B00EAEE7B /* ThemeSelectionView.swift */,
 			);
 			path = "Settings Sections";
 			sourceTree = "<group>";
@@ -932,6 +895,8 @@
 		91E7E5EF26E3DB51004A7143 /* Sections */ = {
 			isa = PBXGroup;
 			children = (
+				9130256C2746BDE800CC91B2 /* ValueTypeSelectionView.swift */,
+				91D0485226FF0CA3005C712C /* ResertIntervalPickerView.swift */,
 				91D0485426FF10B9005C712C /* NotificationsView.swift */,
 				9130257B275957A300CC91B2 /* NewNotificationsView.swift */,
 				9130257F275A3A5B00CC91B2 /* NewChooseWeekView.swift */,
@@ -939,10 +904,9 @@
 				91D0485626FF10CA005C712C /* NotificationsViewModel.swift */,
 				9194120F26D84C3B0042599E /* ChooseWeekView.swift */,
 				91D0485026FCE07A005C712C /* SymbolColorView.swift */,
-				91D0485226FF0CA3005C712C /* ResertIntervalPickerView.swift */,
+				91B6D79F27B1BC5200B18E15 /* ChooseIconView.swift */,
 				91E7E5F026E3DB77004A7143 /* TagFormSection.swift */,
 				916BDCC326E7ED4000F069AC /* AlternativeTagSection.swift */,
-				9130256C2746BDE800CC91B2 /* ValueTypeSelectionView.swift */,
 			);
 			path = Sections;
 			sourceTree = "<group>";
@@ -975,11 +939,11 @@
 			dependencies = (
 				91183C9626B087FD00413BB4 /* PBXTargetDependency */,
 				91F45A2126CC5F1800311FD1 /* PBXTargetDependency */,
-				917905CF278667120001C105 /* PBXTargetDependency */,
 			);
 			name = Persistent;
 			packageProductDependencies = (
 				916A8C372761161C00D24202 /* SwiftKeychainWrapper */,
+				91B6D7A427BDA36900B18E15 /* CloudKitSyncMonitor */,
 			);
 			productName = Persistent;
 			productReference = 910548D926860ADE005E80C2 /* Persistent.app */;
@@ -1003,40 +967,6 @@
 			productName = PersistentWidgetExtension;
 			productReference = 91183C8826B087F900413BB4 /* PersistentWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
-		};
-		917905AF278667100001C105 /* PersistentWatch */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 917905D5278667120001C105 /* Build configuration list for PBXNativeTarget "PersistentWatch" */;
-			buildPhases = (
-				917905AE278667100001C105 /* Resources */,
-				917905D4278667120001C105 /* Embed App Extensions */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				917905BB278667110001C105 /* PBXTargetDependency */,
-			);
-			name = PersistentWatch;
-			productName = PersistentWatch;
-			productReference = 917905B0278667100001C105 /* PersistentWatch.app */;
-			productType = "com.apple.product-type.application.watchapp2";
-		};
-		917905B7278667110001C105 /* PersistentWatch WatchKit Extension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 917905D1278667120001C105 /* Build configuration list for PBXNativeTarget "PersistentWatch WatchKit Extension" */;
-			buildPhases = (
-				917905B4278667110001C105 /* Sources */,
-				917905B5278667110001C105 /* Frameworks */,
-				917905B6278667110001C105 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "PersistentWatch WatchKit Extension";
-			productName = "PersistentWatch WatchKit Extension";
-			productReference = 917905B8278667110001C105 /* PersistentWatch WatchKit Extension.appex */;
-			productType = "com.apple.product-type.watchkit2-extension";
 		};
 		91829AE4277DF613001FE335 /* Persistent Tests */ = {
 			isa = PBXNativeTarget;
@@ -1109,12 +1039,6 @@
 					91183C8726B087F900413BB4 = {
 						CreatedOnToolsVersion = 12.5.1;
 					};
-					917905AF278667100001C105 = {
-						CreatedOnToolsVersion = 13.1;
-					};
-					917905B7278667110001C105 = {
-						CreatedOnToolsVersion = 13.1;
-					};
 					91829AE4277DF613001FE335 = {
 						CreatedOnToolsVersion = 13.1;
 						TestTargetID = 910548D826860ADE005E80C2;
@@ -1138,6 +1062,7 @@
 			mainGroup = 910548D026860ADE005E80C2;
 			packageReferences = (
 				916A8C362761161C00D24202 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */,
+				91B6D7A327BDA36800B18E15 /* XCRemoteSwiftPackageReference "CloudKitSyncMonitor" */,
 			);
 			productRefGroup = 910548DA26860ADE005E80C2 /* Products */;
 			projectDirPath = "";
@@ -1148,8 +1073,6 @@
 				91F45A1826CC5F1800311FD1 /* PersistentIntent */,
 				91D0481826FCD1BE005C712C /* PersistentMac */,
 				91829AE4277DF613001FE335 /* Persistent Tests */,
-				917905AF278667100001C105 /* PersistentWatch */,
-				917905B7278667110001C105 /* PersistentWatch WatchKit Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -1199,24 +1122,6 @@
 				91183C9126B087FD00413BB4 /* Assets.xcassets in Resources */,
 				91302519273E8C3E00CC91B2 /* 08-15-AppIcon@3x.png in Resources */,
 				913025782757D80700CC91B2 /* Shared.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		917905AE278667100001C105 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				917905B3278667110001C105 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		917905B6278667110001C105 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				917905CB278667120001C105 /* Preview Assets.xcassets in Resources */,
-				917905C8278667120001C105 /* Assets.xcassets in Resources */,
-				917905E8278671A20001C105 /* Shared.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1270,6 +1175,7 @@
 				91302524273E8F2600CC91B2 /* Classic-AppIcon@3x.png in Resources */,
 				9152506D2720350A003DD437 /* Assets.xcassets in Resources */,
 				9130251A273E8C3E00CC91B2 /* 08-15-AppIcon@3x.png in Resources */,
+				9154EA4C27FA4E7200A06755 /* Shared.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1280,21 +1186,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				918895DB27CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift in Sources */,
 				91F45A3326CDA08300311FD1 /* SmallWidgetMultipleView.swift in Sources */,
+				9169CC8A27DA590A0029287A /* AlternativeEditHabitBaseView.swift in Sources */,
 				91302571274BEAE300CC91B2 /* Add-Edit-ViewModel.swift in Sources */,
 				919EB2EA27A9DAB10003E0BD /* DateNightOwlExtension.swift in Sources */,
 				91E7E5F126E3DB77004A7143 /* TagFormSection.swift in Sources */,
 				910548FA26860BF6005E80C2 /* HabitCompletionDate+CoreDataProperties.swift in Sources */,
 				914BB2EE26F7745500D47CC0 /* HabitDetailViewModel.swift in Sources */,
 				916BDCC426E7ED4000F069AC /* AlternativeTagSection.swift in Sources */,
+				9125BC692803A1BA0058032E /* Timer.swift in Sources */,
 				91F45A1326C7DFB600311FD1 /* OldProgressBar.swift in Sources */,
+				913BF4A827E3C57B00693B04 /* EnvironmentValues.swift in Sources */,
 				911C832D26F7CEC90003B906 /* HabitListUICollectionView.swift in Sources */,
 				911C833026F8D2610003B906 /* HabitCompletionGraph.swift in Sources */,
 				9105490E26860C62005E80C2 /* CalendarView.swift in Sources */,
+				9125BC74280614D60058032E /* DecimalExtension.swift in Sources */,
 				910548DF26860ADE005E80C2 /* ContentView.swift in Sources */,
 				9130257C275957A300CC91B2 /* NewNotificationsView.swift in Sources */,
 				910548F826860BF6005E80C2 /* HabitCompletionDate+CoreDataClass.swift in Sources */,
 				9105490D26860C62005E80C2 /* HabitDetailView.swift in Sources */,
+				91AA25402823FB3F0062D219 /* AddRemoveMultipleView.swift in Sources */,
 				9130252A273EA5FA00CC91B2 /* ChangeAppIconViewModel.swift in Sources */,
 				9105491426860C62005E80C2 /* ListView.swift in Sources */,
 				9194121026D84C3B0042599E /* ChooseWeekView.swift in Sources */,
@@ -1302,7 +1214,8 @@
 				91D0486027036BE8005C712C /* NotificationItem+CoreDataClass.swift in Sources */,
 				910548F226860BC7005E80C2 /* Persistence.swift in Sources */,
 				9105491226860C62005E80C2 /* EditView.swift in Sources */,
-				91829AF72783BD02001FE335 /* WhatsNewView.swift in Sources */,
+				91A493CA27CD5478009755EB /* QuickAddView.swift in Sources */,
+				91829AF72783BD02001FE335 /* WelcomeView.swift in Sources */,
 				910548F126860BC7005E80C2 /* Persistent.xcdatamodeld in Sources */,
 				9130256A2743F99E00CC91B2 /* ProgressBar.swift in Sources */,
 				91807CF02720D883006208FE /* StoreManager.swift in Sources */,
@@ -1311,8 +1224,10 @@
 				9105491026860C62005E80C2 /* UserSettings.swift in Sources */,
 				917905EF27874D380001C105 /* Vibrations.swift in Sources */,
 				91D0486127036BE8005C712C /* NotificationItem+CoreDataProperties.swift in Sources */,
+				9125BC6327FFA1160058032E /* NumberFormatterExtension.swift in Sources */,
 				9179C97226E241CA0054B188 /* HabitTag+CoreDataProperties.swift in Sources */,
 				9192C2E72711FE4300997D51 /* CGPointExtension.swift in Sources */,
+				918895DA27CEBAEA00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift in Sources */,
 				91302580275A3A5B00CC91B2 /* NewChooseWeekView.swift in Sources */,
 				9105490026860C3F005E80C2 /* iPhoneView.swift in Sources */,
 				913614F9272BFA81004090A0 /* Calendar.swift in Sources */,
@@ -1322,9 +1237,11 @@
 				91829AF42782808F001FE335 /* AboutAppView.swift in Sources */,
 				9192C2E527103F5700997D51 /* HabitSpecificGraphsView.swift in Sources */,
 				9130250B273E83C100CC91B2 /* ListCellView.swift in Sources */,
+				91A6FF4C2838180C00E1954D /* AnimationTransitionExtension.swift in Sources */,
 				9105490F26860C62005E80C2 /* SettingsView.swift in Sources */,
 				91D0485726FF10CA005C712C /* NotificationsViewModel.swift in Sources */,
 				913614FC272C982E004090A0 /* CalendarPageViewController.swift in Sources */,
+				9132403627C4DE7B00EAEE7B /* ThemeSelectionView.swift in Sources */,
 				91807CF2272209E5006208FE /* BuyPremiumView.swift in Sources */,
 				91D0486A27045D0E005C712C /* HabitItem+CoreDataClass.swift in Sources */,
 				91829ADC277B5A6F001FE335 /* AppViewModel.swift in Sources */,
@@ -1333,18 +1250,20 @@
 				91D0485526FF10B9005C712C /* NotificationsView.swift in Sources */,
 				9130256D2746BDE800CC91B2 /* ValueTypeSelectionView.swift in Sources */,
 				91302527273EA5E900CC91B2 /* ChangeAppIconView.swift in Sources */,
+				91B6D7A027B1BC5200B18E15 /* ChooseIconView.swift in Sources */,
 				91BA782B277330E3003C4982 /* FirstWeekdayPickerView.swift in Sources */,
 				91BA78312775351F003C4982 /* AppDelegate.swift in Sources */,
-				91289905271015390007A0ED /* HabitLineChartView.swift in Sources */,
 				914BB2EB26F3CAEB00D47CC0 /* ThanksToView.swift in Sources */,
 				91829AD9277934BE001FE335 /* ArchivedListView.swift in Sources */,
 				9192C2EC27172E6B00997D51 /* HabitBarChartViewModel.swift in Sources */,
 				91F45A2A26CC6A0900311FD1 /* IntentHandler.swift in Sources */,
 				91D0483726FCD443005C712C /* ColorExtension.swift in Sources */,
+				91AA253D2810AE8F0062D219 /* ViewModifiers.swift in Sources */,
 				91D0481426FCCAB9005C712C /* AppSidebarNavigation.swift in Sources */,
 				919EB2EC27A9DDA60003E0BD /* NightOwlModeView.swift in Sources */,
 				9130257E275957C300CC91B2 /* NewNotificationsViewModel.swift in Sources */,
 				9105491126860C62005E80C2 /* AddHabitView.swift in Sources */,
+				91AA253B280E14F60062D219 /* ComparableHabitTypesPicker.swift in Sources */,
 				9179C97626E242020054B188 /* CoreDataBackup.swift in Sources */,
 				91D0485326FF0CA3005C712C /* ResertIntervalPickerView.swift in Sources */,
 				9179C96F26E241CA0054B188 /* HabitTag+CoreDataClass.swift in Sources */,
@@ -1356,6 +1275,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				91D0486327036EC1005C712C /* NotificationItem+CoreDataClass.swift in Sources */,
+				919EB2EF27AB2C7D0003E0BD /* DateNightOwlExtension.swift in Sources */,
+				918895DD27CEBD9A00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift in Sources */,
+				9144D27E27C69E1D00702B42 /* AppViewModel.swift in Sources */,
 				9192C2ED27172E6B00997D51 /* HabitBarChartViewModel.swift in Sources */,
 				91183C9E26B0890400413BB4 /* Persistence.swift in Sources */,
 				91183CA326B0890C00413BB4 /* HabitCompletionDate+CoreDataClass.swift in Sources */,
@@ -1371,12 +1293,15 @@
 				9179C97026E241CA0054B188 /* HabitTag+CoreDataClass.swift in Sources */,
 				91D0486227036EC1005C712C /* NotificationItem+CoreDataProperties.swift in Sources */,
 				91525014271B0084003DD437 /* ListViewModel.swift in Sources */,
-				91289906271015390007A0ED /* HabitLineChartView.swift in Sources */,
+				9125BC782806159D0058032E /* DecimalExtension.swift in Sources */,
+				918895DE27CEBD9A00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift in Sources */,
 				91302572274EA05800CC91B2 /* ProgressBar.swift in Sources */,
 				9179C97726E242020054B188 /* CoreDataBackup.swift in Sources */,
+				913BF4A927E3C59900693B04 /* EnvironmentValues.swift in Sources */,
 				91183CA026B0890C00413BB4 /* HabitCompletionDate+CoreDataProperties.swift in Sources */,
 				913025662741A5E300CC91B2 /* MediumGraphWidgetView.swift in Sources */,
 				9179C97326E241CA0054B188 /* HabitTag+CoreDataProperties.swift in Sources */,
+				9125BC6627FFA11E0058032E /* NumberFormatterExtension.swift in Sources */,
 				91183CA526B08E1D00413BB4 /* SmallWidgetView.swift in Sources */,
 				9194120E26D819FC0042599E /* MediumWidgetMultipleView.swift in Sources */,
 				91183C9326B087FD00413BB4 /* PersistentWidget.intentdefinition in Sources */,
@@ -1385,39 +1310,12 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		917905B4278667110001C105 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				917905E2278667EC0001C105 /* HabitCompletionDate+CoreDataProperties.swift in Sources */,
-				917905DB278667D80001C105 /* Persistent.xcdatamodeld in Sources */,
-				917905DD278667EC0001C105 /* HabitTag+CoreDataClass.swift in Sources */,
-				917905EB27872D5B0001C105 /* WatchHabitDetailView.swift in Sources */,
-				917905E0278667EC0001C105 /* HabitCompletionDate+CoreDataClass.swift in Sources */,
-				917905E3278667EC0001C105 /* HabitItem+CoreDataClass.swift in Sources */,
-				917905E1278667EC0001C105 /* HabitTag+CoreDataProperties.swift in Sources */,
-				917905E627866A190001C105 /* OldProgressBar.swift in Sources */,
-				917905ED27872D670001C105 /* WatchHabitDetailViewModel.swift in Sources */,
-				917905E5278669860001C105 /* ColorExtension.swift in Sources */,
-				917905E4278669810001C105 /* ProgressBar.swift in Sources */,
-				917905C2278667110001C105 /* NotificationController.swift in Sources */,
-				917905C0278667110001C105 /* ContentView.swift in Sources */,
-				917905DC278667EC0001C105 /* HabitItem+CoreDataProperties.swift in Sources */,
-				917905C6278667110001C105 /* ComplicationController.swift in Sources */,
-				917905DF278667EC0001C105 /* NotificationItem+CoreDataClass.swift in Sources */,
-				917905DA278667D20001C105 /* Persistence.swift in Sources */,
-				917905BE278667110001C105 /* PersistentApp.swift in Sources */,
-				917905C4278667110001C105 /* NotificationView.swift in Sources */,
-				917905DE278667EC0001C105 /* NotificationItem+CoreDataProperties.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		91829AE1277DF613001FE335 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9125BC792806159E0058032E /* DecimalExtension.swift in Sources */,
 				918882482799599C00A02377 /* ReleventCountTests.swift in Sources */,
-				91829AEF277DF66A001FE335 /* DeleteHabitTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1425,12 +1323,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9125BC75280614D60058032E /* DecimalExtension.swift in Sources */,
 				91829ADD277B5A6F001FE335 /* AppViewModel.swift in Sources */,
 				91F6E0B2272A05D500F6024A /* ListView.swift in Sources */,
 				91D0483426FCD2BA005C712C /* HabitTag+CoreDataProperties.swift in Sources */,
 				915250682720275F003DD437 /* AddHabitView.swift in Sources */,
 				91829AF52782808F001FE335 /* AboutAppView.swift in Sources */,
 				91302509273C494D00CC91B2 /* Persistence.swift in Sources */,
+				9169CC8B27DA590A0029287A /* AlternativeEditHabitBaseView.swift in Sources */,
 				91D0483126FCD2BA005C712C /* CoreDataBackup.swift in Sources */,
 				9156186A272A114600C07395 /* HabitDetailViewModel.swift in Sources */,
 				9192C2EA2711FF3B00997D51 /* CGPointExtension.swift in Sources */,
@@ -1438,18 +1338,23 @@
 				915250662720275F003DD437 /* SymbolColorView.swift in Sources */,
 				9130250E273E83C100CC91B2 /* ListCellView.swift in Sources */,
 				91D0482526FCD1C0005C712C /* Persistence.swift in Sources */,
+				9125BC6527FFA11C0058032E /* NumberFormatterExtension.swift in Sources */,
 				91829AF2277E1862001FE335 /* EditHabitBaseView.swift in Sources */,
 				915250672720275F003DD437 /* NotificationsViewModel.swift in Sources */,
+				9125BC6A2803A1BA0058032E /* Timer.swift in Sources */,
 				915250692720275F003DD437 /* ChooseWeekView.swift in Sources */,
+				91AA25412823FB3F0062D219 /* AddRemoveMultipleView.swift in Sources */,
 				9156186E272A11B800C07395 /* CalendarView.swift in Sources */,
 				91829ADA277936FF001FE335 /* ArchivedListView.swift in Sources */,
 				91BA782F277339DB003C4982 /* SettingsViewModel.swift in Sources */,
 				91D0487127045DD3005C712C /* HabitItem+CoreDataClass.swift in Sources */,
 				91D0484F26FCDA7E005C712C /* ColorExtension.swift in Sources */,
 				91D0487027045DD3005C712C /* HabitItem+CoreDataProperties.swift in Sources */,
-				91829AF82783BD02001FE335 /* WhatsNewView.swift in Sources */,
+				91829AF82783BD02001FE335 /* WelcomeView.swift in Sources */,
 				91F6E0AD272A053700F6024A /* BuyPremiumView.swift in Sources */,
 				91D0483326FCD2BA005C712C /* HabitCompletionDate+CoreDataProperties.swift in Sources */,
+				91B6D7A127B1BC8D00B18E15 /* ChooseIconView.swift in Sources */,
+				919EB2ED27AB2C5A0003E0BD /* DateNightOwlExtension.swift in Sources */,
 				91D0482F26FCD2BA005C712C /* HabitTag+CoreDataClass.swift in Sources */,
 				915250642720275F003DD437 /* EditView.swift in Sources */,
 				91D0482E26FCD2BA005C712C /* HabitCompletionDate+CoreDataClass.swift in Sources */,
@@ -1459,21 +1364,26 @@
 				91F6E0B5272A05F800F6024A /* OldProgressBar.swift in Sources */,
 				91D0486727036EC2005C712C /* NotificationItem+CoreDataClass.swift in Sources */,
 				91302528273EA5E900CC91B2 /* ChangeAppIconView.swift in Sources */,
+				918895E227CEBD9B00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift in Sources */,
 				91F6E0AF272A053700F6024A /* SettingsView.swift in Sources */,
 				91561869272A114600C07395 /* HabitDetailView.swift in Sources */,
+				918895D627CEB5AD00F5E2BE /* QuickAddView.swift in Sources */,
 				91D0482D26FCD2AB005C712C /* Persistent.xcdatamodeld in Sources */,
 				9156186B272A11AE00C07395 /* HabitCompletionGraph.swift in Sources */,
 				913614F7272B58AA004090A0 /* TestAddHabitView.swift in Sources */,
 				9130252B273EA5FA00CC91B2 /* ChangeAppIconViewModel.swift in Sources */,
-				91289907271015390007A0ED /* HabitLineChartView.swift in Sources */,
 				91F6E0B0272A053700F6024A /* ThanksToView.swift in Sources */,
 				91D0481E26FCD1BE005C712C /* ContentView.swift in Sources */,
 				91F6E0AC272A052900F6024A /* AppSidebarNavigation.swift in Sources */,
+				918895E127CEBD9B00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift in Sources */,
 				91F6E0B4272A05EE00F6024A /* StoreManager.swift in Sources */,
 				9152506A2720275F003DD437 /* ResertIntervalPickerView.swift in Sources */,
 				9156186C272A11AE00C07395 /* HabitSpecificGraphsView.swift in Sources */,
+				91A6FF4D2838180C00E1954D /* AnimationTransitionExtension.swift in Sources */,
 				91BA782C277330E3003C4982 /* FirstWeekdayPickerView.swift in Sources */,
 				91525015271B0084003DD437 /* ListViewModel.swift in Sources */,
+				91AA253E2810AE8F0062D219 /* ViewModifiers.swift in Sources */,
+				913BF4AA27E3C59900693B04 /* EnvironmentValues.swift in Sources */,
 				9192C2EE27172E6B00997D51 /* HabitBarChartViewModel.swift in Sources */,
 				91F6E0AE272A053700F6024A /* UserSettings.swift in Sources */,
 				91D0481C26FCD1BE005C712C /* PersistentMacApp.swift in Sources */,
@@ -1487,16 +1397,23 @@
 			files = (
 				9179C97426E241CA0054B188 /* HabitTag+CoreDataProperties.swift in Sources */,
 				91F45A3026CD967500311FD1 /* Persistent.xcdatamodeld in Sources */,
+				918895DF27CEBD9A00F5E2BE /* HabitQuickAddAction+CoreDataProperties.swift in Sources */,
+				9144D27D27C69E1D00702B42 /* AppViewModel.swift in Sources */,
 				9192C2E92711FF3B00997D51 /* CGPointExtension.swift in Sources */,
+				9125BC6727FFA2A70058032E /* NumberFormatterExtension.swift in Sources */,
 				9179C97126E241CA0054B188 /* HabitTag+CoreDataClass.swift in Sources */,
 				91D0486F27045DD2005C712C /* HabitItem+CoreDataClass.swift in Sources */,
 				91D0484E26FCDA7D005C712C /* ColorExtension.swift in Sources */,
+				9125BC772806159C0058032E /* DecimalExtension.swift in Sources */,
 				91D0486E27045DD2005C712C /* HabitItem+CoreDataProperties.swift in Sources */,
 				91F45A1E26CC5F1800311FD1 /* IntentHandler.swift in Sources */,
+				918895E027CEBD9A00F5E2BE /* HabitQuickAddAction+CoreDataClass.swift in Sources */,
+				919EB2F027AB2C7D0003E0BD /* DateNightOwlExtension.swift in Sources */,
 				917905E727866A430001C105 /* OldProgressBar.swift in Sources */,
 				91F45A2B26CD966600311FD1 /* HabitCompletionDate+CoreDataProperties.swift in Sources */,
 				91F45A2F26CD967200311FD1 /* Persistence.swift in Sources */,
 				91D0486527036EC1005C712C /* NotificationItem+CoreDataClass.swift in Sources */,
+				919EB2F227AB2CA70003E0BD /* UserSettings.swift in Sources */,
 				91F45A2C26CD966600311FD1 /* HabitCompletionDate+CoreDataClass.swift in Sources */,
 				9179C97826E242020054B188 /* CoreDataBackup.swift in Sources */,
 				91F45A2626CC5FA500311FD1 /* PersistentWidget.intentdefinition in Sources */,
@@ -1511,16 +1428,6 @@
 			isa = PBXTargetDependency;
 			target = 91183C8726B087F900413BB4 /* PersistentWidgetExtension */;
 			targetProxy = 91183C9526B087FD00413BB4 /* PBXContainerItemProxy */;
-		};
-		917905BB278667110001C105 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 917905B7278667110001C105 /* PersistentWatch WatchKit Extension */;
-			targetProxy = 917905BA278667110001C105 /* PBXContainerItemProxy */;
-		};
-		917905CF278667120001C105 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 917905AF278667100001C105 /* PersistentWatch */;
-			targetProxy = 917905CE278667120001C105 /* PBXContainerItemProxy */;
 		};
 		91829AEA277DF613001FE335 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1661,6 +1568,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Persistent/Persistent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"Persistent/Preview Content\"";
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				ENABLE_PREVIEWS = YES;
@@ -1670,7 +1578,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = quaritsch.bennnett.Persistent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1686,6 +1594,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Persistent/Persistent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"Persistent/Preview Content\"";
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				ENABLE_PREVIEWS = YES;
@@ -1695,7 +1604,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = quaritsch.bennnett.Persistent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -1710,6 +1619,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = PersistentWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				INFOPLIST_FILE = PersistentWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1718,7 +1628,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = quaritsch.bennnett.Persistent.PersistentWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1734,6 +1644,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = PersistentWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				INFOPLIST_FILE = PersistentWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1742,134 +1653,12 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = quaritsch.bennnett.Persistent.PersistentWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		917905D2278667120001C105 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_ENTITLEMENTS = "PersistentWatch WatchKit Extension/PersistentWatch WatchKit Extension.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"PersistentWatch WatchKit Extension/Preview Content\"";
-				DEVELOPMENT_TEAM = PBR8289HNX;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "PersistentWatch WatchKit Extension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "PersistentWatch WatchKit Extension";
-				INFOPLIST_KEY_CLKComplicationPrincipalClass = PersistentWatch_WatchKit_Extension.ComplicationController;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 0.9;
-				PRODUCT_BUNDLE_IDENTIFIER = quaritsch.bennnett.Persistent.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
-			};
-			name = Debug;
-		};
-		917905D3278667120001C105 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_ENTITLEMENTS = "PersistentWatch WatchKit Extension/PersistentWatch WatchKit Extension.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"PersistentWatch WatchKit Extension/Preview Content\"";
-				DEVELOPMENT_TEAM = PBR8289HNX;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "PersistentWatch WatchKit Extension/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "PersistentWatch WatchKit Extension";
-				INFOPLIST_KEY_CLKComplicationPrincipalClass = PersistentWatch_WatchKit_Extension.ComplicationController;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				INFOPLIST_KEY_WKRunsIndependentlyOfCompanionApp = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 0.9;
-				PRODUCT_BUNDLE_IDENTIFIER = quaritsch.bennnett.Persistent.watchkitapp.watchkitextension;
-				PRODUCT_NAME = "${TARGET_NAME}";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
-			};
-			name = Release;
-		};
-		917905D6278667120001C105 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = PBR8289HNX;
-				GENERATE_INFOPLIST_FILE = YES;
-				IBSC_MODULE = PersistentWatch_WatchKit_Extension;
-				INFOPLIST_KEY_CFBundleDisplayName = PersistentWatch;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = quaritsch.bennnett.Persistent;
-				MARKETING_VERSION = 0.9;
-				PRODUCT_BUNDLE_IDENTIFIER = quaritsch.bennnett.Persistent.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
-			};
-			name = Debug;
-		};
-		917905D7278667120001C105 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = PBR8289HNX;
-				GENERATE_INFOPLIST_FILE = YES;
-				IBSC_MODULE = PersistentWatch_WatchKit_Extension;
-				INFOPLIST_KEY_CFBundleDisplayName = PersistentWatch;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = quaritsch.bennnett.Persistent;
-				MARKETING_VERSION = 0.9;
-				PRODUCT_BUNDLE_IDENTIFIER = quaritsch.bennnett.Persistent.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 8.0;
 			};
 			name = Release;
 		};
@@ -1931,7 +1720,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"PersistentMac/Preview Content\"";
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1944,7 +1733,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = quaritsch.bennnett.PersistentMac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1963,7 +1752,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"PersistentMac/Preview Content\"";
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1976,7 +1765,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = quaritsch.bennnett.PersistentMac;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -1990,7 +1779,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PersistentIntent/PersistentIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				INFOPLIST_FILE = PersistentIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -1999,7 +1788,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = quaritsch.bennnett.Persistent.PersistentIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2013,7 +1802,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PersistentIntent/PersistentIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				INFOPLIST_FILE = PersistentIntent/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
@@ -2022,7 +1811,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 1;
 				PRODUCT_BUNDLE_IDENTIFIER = quaritsch.bennnett.Persistent.PersistentIntent;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2057,24 +1846,6 @@
 			buildConfigurations = (
 				91183C9926B087FD00413BB4 /* Debug */,
 				91183C9A26B087FD00413BB4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		917905D1278667120001C105 /* Build configuration list for PBXNativeTarget "PersistentWatch WatchKit Extension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				917905D2278667120001C105 /* Debug */,
-				917905D3278667120001C105 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		917905D5278667120001C105 /* Build configuration list for PBXNativeTarget "PersistentWatch" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				917905D6278667120001C105 /* Debug */,
-				917905D7278667120001C105 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2117,6 +1888,14 @@
 				minimumVersion = 4.0.0;
 			};
 		};
+		91B6D7A327BDA36800B18E15 /* XCRemoteSwiftPackageReference "CloudKitSyncMonitor" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ggruen/CloudKitSyncMonitor";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2125,12 +1904,23 @@
 			package = 916A8C362761161C00D24202 /* XCRemoteSwiftPackageReference "SwiftKeychainWrapper" */;
 			productName = SwiftKeychainWrapper;
 		};
+		91B6D7A427BDA36900B18E15 /* CloudKitSyncMonitor */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 91B6D7A327BDA36800B18E15 /* XCRemoteSwiftPackageReference "CloudKitSyncMonitor" */;
+			productName = CloudKitSyncMonitor;
+		};
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		910548EE26860BC7005E80C2 /* Persistent.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				9187277928369475009FEF2B /* PersistentModel 1.14.xcdatamodel */,
+				91AA2539280A3C660062D219 /* PersistentModel 1.13.xcdatamodel */,
+				9125BC6E28060E2F0058032E /* PersistentModel 1.12.xcdatamodel */,
+				9125BC6B2803A69A0058032E /* PersistentModel 1.11.xcdatamodel */,
+				918895D727CEB9B600F5E2BE /* PersistentModel 1.10.xcdatamodel */,
+				91B6D7A227BC31B700B18E15 /* PersistentModel 1.9.xcdatamodel */,
 				91A0BBDC279570E200AD0368 /* PersistentModel 1.8.xcdatamodel */,
 				91829AD727791D4A001FE335 /* PersistentModel 1.7.xcdatamodel */,
 				916A8C30275CDD8B00D24202 /* PersistentModel 1.6.xcdatamodel */,
@@ -2140,7 +1930,7 @@
 				91A8AB1D273C189A00901845 /* PersistentModel 1.1.xcdatamodel */,
 				910548EF26860BC7005E80C2 /* Persistent.xcdatamodel */,
 			);
-			currentVersion = 91A0BBDC279570E200AD0368 /* PersistentModel 1.8.xcdatamodel */;
+			currentVersion = 9187277928369475009FEF2B /* PersistentModel 1.14.xcdatamodel */;
 			path = Persistent.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -12,18 +12,20 @@ struct ContentView: View {
     
     var body: some View {
         if horizontalSizeClass == .compact {
-            TabView {
-                iPhoneView()
-                    .tabItem {
-                        Label("Habits", systemImage: "checkmark.circle.fill")
-                }
-                    .environment(\.parentSizeClass, horizontalSizeClass)
-
-                SettingsView()
-                    .tabItem {
-                        Label("Settings", systemImage: "gear")
-                    }
-            }
+//            TabView {
+//                iPhoneView()
+//                    .tabItem {
+//                        Label("Habits", systemImage: "checkmark.circle.fill")
+//                }
+//                    .environment(\.parentSizeClass, horizontalSizeClass)
+//
+//                SettingsView()
+//                    .tabItem {
+//                        Label("Settings", systemImage: "gear")
+//                    }
+//            }
+            iPhoneView()
+                .environment(\.parentSizeClass, horizontalSizeClass)
         } else if horizontalSizeClass == .regular {
             AppSidebarNavigation()
                 .environment(\.parentSizeClass, horizontalSizeClass)

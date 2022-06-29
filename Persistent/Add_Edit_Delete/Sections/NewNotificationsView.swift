@@ -14,16 +14,25 @@ struct NewNotificationsView: View {
             ForEach($viewModel.notifcationArray) { $notificationDate in
                 VStack {
                     HStack {
-                        TextField("Notification name", text: $notificationDate.message, prompt: Text("Name your notification"))
+//                        ZStack {
+//                            Color(UIColor.tertiarySystemFill)
+//                                .clipShape(Capsule(style: .continuous))
+//
+//
+//                        }
+                        
+                        TextField("Message for your notification", text: $notificationDate.message, prompt: Text("Message"))
+                            .padding(6)
+                            .background(Color(UIColor.quaternarySystemFill), in: RoundedRectangle(cornerRadius: 7, style: .continuous))
                         
                         DatePicker("Select a time", selection: $notificationDate.date, displayedComponents: .hourAndMinute)
                             .labelsHidden()
                     }
                     
                     NewChooseWeekView(notificationDate: $notificationDate)
-                    
                 }
-                .frame(height: 90)
+                .padding(.top, 5)
+                .frame(height: 100)
                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                     Button(role: .destructive) {
                         withAnimation {
@@ -49,6 +58,8 @@ struct NewNotificationsView: View {
                 }
             }
         }
+        .navigationTitle("Notifications")
+        .navigationBarTitleDisplayMode(.inline)
     }
     
     func getDateIndex() -> Int {

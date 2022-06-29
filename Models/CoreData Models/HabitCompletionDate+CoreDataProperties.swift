@@ -18,7 +18,16 @@ extension HabitCompletionDate {
 
     @NSManaged public var date: Date?
     @NSManaged public var item: HabitItem?
-    @NSManaged public var habitValue: Int32
+    @NSManaged public var habitValue: Int64
+    
+    public var wrappedHabitValue: Int {
+        get {
+            Int(habitValue)
+        }
+        set {
+            habitValue = Int64(newValue)
+        }
+    }
 
 }
 

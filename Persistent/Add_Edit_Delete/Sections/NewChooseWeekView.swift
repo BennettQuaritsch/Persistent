@@ -18,8 +18,7 @@ struct NewChooseWeekView: View {
             ForEach(1...7, id: \.self) { index in
                 ZStack {
                     Circle()
-                        .fill(.thickMaterial)
-                        .shadow(color: colorScheme == .dark ? .white.opacity(0.2) : .black.opacity(0.25), radius: 5)
+                        .fill(Color("tertiaryGroupedBackground"))
                     
                     Circle()
                         .fill(
@@ -34,6 +33,7 @@ struct NewChooseWeekView: View {
                                 .padding(.horizontal, 2)
                         )
                 }
+                .frame(height: 50)
                 
                 .onTapGesture {
                     if notificationDate.weekdays.contains(where: { $0 == index }) {

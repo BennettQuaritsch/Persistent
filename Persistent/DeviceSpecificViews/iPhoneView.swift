@@ -28,6 +28,9 @@ struct iPhoneView: View {
 struct iPhoneView_Previews: PreviewProvider {
     static var previews: some View {
         iPhoneView()
-            //.environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environment(\.purchaseInfo, .constant(true))
+            .environmentObject(UserSettings())
+            .environmentObject(AppViewModel())
     }
 }

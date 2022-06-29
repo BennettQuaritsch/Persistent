@@ -153,7 +153,7 @@ struct CalendarView: View {
                             .foregroundColor(calendar.isDate(date, equalTo: self.date, toGranularity: .month) ? .primary : .gray)
                         
                         Circle()
-                            .trim(from: 0, to: CGFloat(habit.relevantCountDaily(date)) / CGFloat(habit.amountToDo))
+                            .trim(from: 0, to: CGFloat(habit.relevantCountDaily(date)) / CGFloat(habit.wrappedAmountToDo))
                             .stroke(style: StrokeStyle(lineWidth: horizontalSizeClass == .regular ? 6 : 3, lineCap: .round))
                             .rotation(.degrees(270))
                             .foregroundColor(habit.iconColor)
@@ -179,22 +179,6 @@ struct CalendarView: View {
 
 struct CalendarView_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController().container.viewContext
-        
-        let habit = HabitItem(context: moc)
-        habit.id = UUID()
-        habit.habitName = "PreviewTest"
-        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
-        habit.resetIntervalEnum = .daily
-        habit.amountToDo = 4
-        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
-        
-        for _ in 1...Int.random(in: 1...6) {
-            let date = HabitCompletionDate(context: moc)
-            date.date = Date()
-            date.item = habit
-        }
-        
-        return CalendarView(toggle: .constant(true), habit: habit, date: Date(), habitDate: .constant(Date()))
+        return CalendarView(toggle: .constant(true), habit: HabitItem.testHabit, date: Date(), habitDate: .constant(Date()))
     }
 }

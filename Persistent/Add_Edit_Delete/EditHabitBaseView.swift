@@ -15,22 +15,29 @@ struct EditHabitBaseView: View {
     @ObservedObject var viewModel: AddEditViewModel
     
     @FocusState private var valueTypeTextFieldSelected: Bool
+    @FocusState private var standardAddTextFieldSelected: Bool
     
     let saveButtonAction: () -> Void
     
     @State private var buyPremiumViewSelected: Bool = false
     @State private var buyPremiumAlert: Bool = false
     
+    @State private var valueTypePickerNavigationActive: Bool = false
+    
     var body: some View {
         ZStack {
             List {
                 TextField("Name", text: $viewModel.name)
 
-//                Section(header: Text("Value Types")) {
-//                    ValueTypeSelectionView(selection: $viewModel.valueTypeSelection)
-//                }
-
                 Section(header: Text("How often?")) {
+                    NavigationLink(destination: ValueTypeSelectionView(viewActive: $valueTypePickerNavigationActive, selection: $viewModel.valueTypeSelection), isActive: $valueTypePickerNavigationActive) {
+                        Text("Value Type")
+                        
+                        Spacer()
+                        
+                        Text(viewModel.valueTypeSelection.localizedNameString)
+                    }
+                    
                     ResertIntervalPickerView(
                         intervalChoice: $viewModel.intervalChoice,
                         valueString: $viewModel.valueString,
@@ -38,6 +45,10 @@ struct EditHabitBaseView: View {
                         valueTypeSelection: $viewModel.valueTypeSelection,
                         valueTypeTextFieldSelected: _valueTypeTextFieldSelected
                     )
+                    
+                    TextField("Standard Add-Value", text: $viewModel.standardAddValueTextField, prompt: Text("Standard Add-Value (optional)"))
+                        .keyboardType(.decimalPad)
+                        .focused($standardAddTextFieldSelected)
                 }
                 
                 Section(header: Text("What do you want?")) {
@@ -50,7 +61,7 @@ struct EditHabitBaseView: View {
                 }
 
                 Section(header: Text("Icon & Color")) {
-                    SymbolColorView(iconChoice: $viewModel.iconChoice, colorSelection: $viewModel.colorSelection)
+                    SymbolColorView(iconChoice: $viewModel.iconChoice, colorSelection: $viewModel.colorSelection, colorSelectionName: $viewModel.iconColorName)
                 }
 
                 Section(header: Text("Tags")) {
@@ -102,79 +113,14 @@ struct EditHabitBaseView: View {
                     buyPremiumAlert = false
                 }
                 
-                Button("Ok") {
+                Button("Show me!") {
                     buyPremiumViewSelected = true
                 }
             } message: {
-                Text("If you want to set notifications, buy Persistent Premium")
+                Text("If you want to set notifications, you will need Persistent Premium.")
             }
             
-//            ScrollView(.vertical) {
-//                VStack {
-//                    TextField("Name", text: $viewModel.name)
-////                        .textFieldStyle(.roundedBorder)
-//                        .padding()
-//                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-//                        .padding(.bottom)
-//
-//                    VStack {
-//                        ResertIntervalPickerView(
-//                            intervalChoice: $viewModel.intervalChoice,
-//                            valueString: $viewModel.valueString,
-//                            timesPerDay: $viewModel.amountToDo,
-//                            valueTypeSelection: $viewModel.valueTypeSelection,
-//                            valueTypeTextFieldSelected: _valueTypeTextFieldSelected
-//                        )
-//                    }
-//                        .padding()
-//                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-//                        .padding(.bottom)
-//
-//                    VStack {
-//                        SymbolColorView(iconChoice: $viewModel.iconChoice, colorSelection: $viewModel.colorSelection)
-//                    }
-//                        .padding(.vertical)
-//                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-//                        .padding(.bottom)
-//
-//                    NavigationLink(destination: AlternativeTagSection(selectedTags: $viewModel.tagSelection)) {
-//                        HStack {
-//                            Text("Tags")
-//                                .foregroundColor(.primary)
-//
-//                            Spacer()
-//                        }
-//                    }
-//                        .frame(maxWidth: .infinity)
-//                        .padding()
-//                        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-//                        .padding(.bottom)
-//
-//                    NavigationLink(destination: NewNotificationsView(viewModel: viewModel.notificationsViewModel)) {
-//                        HStack {
-//                            Text("Notifications")
-//                                .foregroundColor(.primary)
-//
-//                            Spacer()
-//                        }
-//                    }
-//                    .frame(maxWidth: .infinity)
-//                    .padding()
-//                    .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-//                    .padding(.bottom)
-//
-//                    Button(action: saveButtonAction) {
-//                        Text("Save Habit")
-//                            .frame(maxWidth: .infinity)
-//                    }
-//                        .buttonStyle(.borderedProminent)
-//                        .controlSize(.large)
-//                        .padding(.bottom)
-//                }
-//                .padding()
-//            }
-            
-            if viewModel.valueTypeTextFieldSelectedWrapper {
+            if valueTypeTextFieldSelected || standardAddTextFieldSelected {
                 VStack {
                     Spacer()
                     
@@ -183,6 +129,7 @@ struct EditHabitBaseView: View {
                         
                         Button {
                             valueTypeTextFieldSelected = false
+                            standardAddTextFieldSelected = false
                         } label: {
                             Image(systemName: "keyboard.chevron.compact.down")
                         }
@@ -195,7 +142,7 @@ struct EditHabitBaseView: View {
                     }
                 }
                 .frame(maxWidth: .infinity)
-                .transition(AnyTransition.move(edge: .bottom))
+                .transition(.opacity.animation(.easeInOut(duration: 0.07)))
                 .zIndex(2)
             }
         }
@@ -211,11 +158,20 @@ struct EditHabitBaseView: View {
         } message: {
             Text("Please look again if you missed to fill in some of the fields.")
         }
+//        .alert("Are you sure", isPresented: $viewModel.confirmationNeeded) {
+//            Button("Yes") {
+//                viewModel.confirmationNeeded = false
+//            }
+//        } message: {
+//            <#code#>
+//        }
+
     }
 }
 
 struct EditHabitBaseView_Previews: PreviewProvider {
     static var previews: some View {
         EditHabitBaseView(viewModel: AddEditViewModel(), saveButtonAction: {})
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }

@@ -9,7 +9,10 @@ import SwiftUI
 
 struct ListCellView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.backgroundContext) private var backgroundContext
+    @Environment(\.colorScheme) private var colorScheme
     @EnvironmentObject var userSettings: UserSettings
+    @EnvironmentObject var appViewModel: AppViewModel
     
     #if os(iOS)
     @Environment(\.editMode) var editMode
@@ -22,11 +25,16 @@ struct ListCellView: View {
     
     @State var editSheetPresented: Bool = false
     
-    var listCellColor: Color {
+    @ViewBuilder var listCellColor: some View {
         if userSettings.simplerListCellColor {
-            return Color("secondarySystemGroupedBackground")
+            Color("secondarySystemGroupedBackground")
         } else {
-            return habit.iconColor.opacity(0.9)
+            ZStack {
+                Color.systemGroupedBackground
+                
+                LinearGradient(colors: [habit.iconColor, habit.iconColor.makeColor(by: 0.06)], startPoint: .bottomTrailing, endPoint: .topLeading)
+                    .opacity(0.8)
+            }
         }
     }
     
@@ -42,14 +50,14 @@ struct ListCellView: View {
         ZStack {
             listCellColor
                 .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-                .shadow(color: .black.opacity(0.15), radius: 15, x: 0, y: 10)
+                .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 10)
                 
             
             HStack(alignment: .center) {
                 if habit.iconName != nil {
                     ZStack {
                         Circle()
-                            .fill(Color("systemGroupedBackground"))
+                            .fill(Color.systemBackground)
                             .aspectRatio(1, contentMode: .fit)
                             .frame(width: 50, height: 50)
                         
@@ -59,6 +67,7 @@ struct ListCellView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(height: 35)
                             .padding(.horizontal, 3)
+                        
                     }
                 }
 
@@ -68,7 +77,7 @@ struct ListCellView: View {
                     .foregroundColor(textColor)
                     .lineLimit(2)
                     .minimumScaleFactor(0.4)
-                    .shadow(color: Color.gray.opacity(0.2) ,radius: 3)
+                    .shadow(color: colorScheme == .light ? Color.black.opacity(0.25) : .clear ,radius: 3)
                     .padding(.trailing, 5)
 
                 Spacer()
@@ -82,12 +91,18 @@ struct ListCellView: View {
                             .padding(.vertical, 3)
                     }
                     
-                    Text("\(habit.relevantCount())")
+                    Text("\(habit.relevantCountTextSmall(Date().adjustedForNightOwl()))")
                         .fontWeight(.bold)
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
                         .foregroundColor(.primary)
+                        .frame(width: 35)
+                        .transaction { transaction in
+                            transaction.animation = nil
+                        }
                     
-                    ProgressBar(strokeWidth: 7, color: habit.iconColor, habit: habit)
-                        .frame(height: 45)
+                    ProgressBar(strokeWidth: 7, color: habit.iconColor, habit: habit, date: Date().adjustedForNightOwl())
+                        .frame(height: 48)
                         .background(
                             Circle()
                                 .stroke(Color("systemGroupedBackground"), lineWidth: 7)
@@ -100,14 +115,21 @@ struct ListCellView: View {
                 .onTapGesture {
                     withAnimation {
                         pressed = true
-                        habit.addToHabit(1, context: viewContext)
+                        
+                        let habitObject = backgroundContext.object(with: habit.objectID) as! HabitItem
+                        
+                        habitObject.addToHabit(habitObject.wrappedStandardAddValue, date: Date().adjustedForNightOwl(), context: backgroundContext, appViewModel: appViewModel)
+                        
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                             withAnimation {
                                 pressed = false
                             }
                         }
                         habit.objectWillChange.send()
+                        viewModel.objectWillChange.send()
                     }
+                    
+                    selectionChangedVibration()
                 }
                 
                 .onChange(of: habit.date) { _ in
@@ -126,21 +148,6 @@ struct ListCellView: View {
         .sheet(isPresented: $editSheetPresented) {
             EditView(habit: habit, accentColor: .accentColor)
         }
-//        .contextMenu {
-//            Button {
-//                editSheetPresented = true
-//            } label: {
-//                Label("Edit", systemImage: "pencil")
-//            }
-//
-//            Button(role: .destructive) {
-//                withAnimation {
-//                    habit.deleteHabit()
-//                }
-//            } label: {
-//                Label("Delete", systemImage: "trash")
-//            }
-//        }
     }
 }
 
@@ -162,18 +169,9 @@ struct ListCellView: View {
 
 struct ListCellView_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController.preview.container.viewContext
-        
-        let habit = HabitItem(context: moc)
-        habit.id = UUID()
-        habit.habitName = "PreviewTest"
-        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
-        habit.resetIntervalEnum = .daily
-        habit.amountToDo = 4
-        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
-        
-        return ListCellView(habit: habit, viewModel: ListViewModel())
+        return ListCellView(habit: HabitItem.testHabit, viewModel: ListViewModel())
             .frame(height: 80)
             .previewLayout(.sizeThatFits)
+            .environmentObject(UserSettings())
     }
 }

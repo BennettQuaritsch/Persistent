@@ -32,7 +32,7 @@ struct SmallWidgetView: View {
         } else {
             if let habit = habit {
                 ZStack {
-                    ProgressBar(strokeWidth: 10, color: habit.iconColor, habit: habit)
+                    ProgressBar(strokeWidth: 10, color: habit.iconColor, habit: habit, date: Date().adjustedForNightOwl())
                         .background(Circle().stroke(habit.iconColor.opacity(0.2), lineWidth: 10))
                     
                     if habit.iconName != nil {
@@ -40,7 +40,7 @@ struct SmallWidgetView: View {
                             .resizable()
                             .foregroundColor(habit.iconColor)
                             .aspectRatio(contentMode: .fit)
-                            .padding()
+                            .padding(22)
                     }
                 }
                 .padding()
@@ -56,23 +56,8 @@ struct SmallWidgetView: View {
 
 struct SmallWidgetView_Previews: PreviewProvider {
     static var previews: some View {
-        let moc = PersistenceController().container.viewContext
         
-        let habit = HabitItem(context: moc)
-        habit.id = UUID()
-        habit.habitName = "PreviewTest"
-        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
-        habit.resetIntervalEnum = .daily
-        habit.amountToDo = 4
-        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
-        
-        for _ in 1...Int.random(in: 1...6) {
-            let date = HabitCompletionDate(context: moc)
-            date.date = Date()
-            date.item = habit
-        }
-        
-        return SmallWidgetView(habit: habit)
+        return SmallWidgetView(habit: HabitItem.testHabit)
             .previewLayout(.sizeThatFits)
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }

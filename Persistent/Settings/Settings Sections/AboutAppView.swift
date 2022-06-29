@@ -9,66 +9,55 @@ import SwiftUI
 import StoreKit
 
 struct AboutAppView: View {
-    let url = URL(string: "mailto:persistentapp@protonmail.com")!
+    let url = URL(string: "mailto:support@persistentapp.net")!
+    
+    let reviewLink = URL(string: "https://apps.apple.com/app/id1577234546?action=write-review")
+    
     var body: some View {
         List {
             Section {
-                VStack {
+                HStack(spacing: 15) {
                     Image("persistentLogo")
                         .resizable()
                         .scaledToFit()
-                        .frame(minWidth: 100, maxWidth: 150)
+                        .frame(minWidth: 80, maxWidth: 120)
                         .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                     
-                    Text("Persistent")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .padding(3)
-                    
-                    Text("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown")")
-                        .font(.headline)
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Persistent")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                        
+                        Text("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown")")
+                            .font(.body.weight(.light))
+                        
+                        Text("Built by Bennett Quaritsch")
+                            .font(.footnote.weight(.light))
+                            .padding(.top, 1)
+                            .multilineTextAlignment(.center)
+                    }
                 }
                 .frame(maxWidth: .infinity)
                 .listRowBackground(Color.clear)
             }
             
+            CustomLinkView(url: url, text: "Feedback, Feature Requests and Bug Reports")
+                .padding(.vertical, 5)
             
-            Button("Give Feedback") {
-                if UIApplication.shared.canOpenURL(url) {
-                    Task {
-                        await UIApplication.shared.open(url, options: [:])
-                    }
-                }
+            if let url = URL(string: "https://persistentapp.net/") {
+                CustomLinkView(url: url, text: "Persistent Website")
             }
             
-            Link("Twitter", destination: URL(string: "https://twitter.com/PersistentApp")!)
+            CustomLinkView(url: URL(string: "https://twitter.com/PersistentApp")!, text: "Persistent Twitter")
             
-            Button("Leave a review 😀") {
-                if let windowScene = UIApplication.shared.keyWindow?.windowScene {
-                    print("test")
-                    SKStoreReviewController.requestReview(in: windowScene) }
+            if let reviewLink = reviewLink {
+                CustomLinkView(url: reviewLink, text: "Leave a review 😀")
             }
         }
+        .buttonStyle(.plain)
         .navigationBarTitleDisplayMode(.large)
         .navigationTitle("About the App")
     }
-}
-
-extension UIApplication {
-    
-    var keyWindow: UIWindow? {
-        // Get connected scenes
-        return UIApplication.shared.connectedScenes
-            // Keep only active scenes, onscreen and visible to the user
-            .filter { $0.activationState == .foregroundActive }
-            // Keep only the first `UIWindowScene`
-            .first(where: { $0 is UIWindowScene })
-            // Get its associated windows
-            .flatMap({ $0 as? UIWindowScene })?.windows
-            // Finally, keep only the key window
-            .first(where: \.isKeyWindow)
-    }
-    
 }
 
 struct AboutAppView_Previews: PreviewProvider {

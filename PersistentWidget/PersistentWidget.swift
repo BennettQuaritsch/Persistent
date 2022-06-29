@@ -11,23 +11,6 @@ import Intents
 import CoreData
 
 struct Provider: IntentTimelineProvider {
-    var previewTestHabit: HabitItem {
-        let habit = HabitItem(context: PersistenceController.preview.container.viewContext)
-        habit.id = UUID()
-        habit.habitName = "PreviewTest"
-        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
-        habit.resetIntervalEnum = .daily
-        habit.amountToDo = 4
-        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
-        
-        for _ in 1...Int.random(in: 1...6) {
-            let date = HabitCompletionDate(context: PersistenceController.preview.container.viewContext)
-            date.date = Date()
-            date.item = habit
-        }
-        return habit
-    }
-    
     func getItems() -> [HabitItem] {
         let moc = PersistenceController.shared.container.viewContext
         
@@ -41,7 +24,7 @@ struct Provider: IntentTimelineProvider {
     }
     
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), habit: previewTestHabit, configuration: SelectHabitIntent())
+        SimpleEntry(date: Date(), habit: HabitItem.testHabit, configuration: SelectHabitIntent())
     }
 
     func getSnapshot(for configuration: SelectHabitIntent, in context: Context, completion: @escaping (SimpleEntry) -> ()) {
@@ -71,23 +54,6 @@ struct Provider: IntentTimelineProvider {
 }
 
 struct MultipleHabitsProvider: IntentTimelineProvider {
-    var previewTestHabit: HabitItem {
-        let habit = HabitItem(context: PersistenceController.preview.container.viewContext)
-        habit.id = UUID()
-        habit.habitName = "PreviewTest"
-        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
-        habit.resetIntervalEnum = .daily
-        habit.amountToDo = 4
-        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
-        
-        for _ in 1...Int.random(in: 1...6) {
-            let date = HabitCompletionDate(context: PersistenceController.preview.container.viewContext)
-            date.date = Date()
-            date.item = habit
-        }
-        
-        return habit
-    }
     func getItems() -> [HabitItem] {
         let moc = PersistenceController.shared.container.viewContext
         
@@ -101,7 +67,7 @@ struct MultipleHabitsProvider: IntentTimelineProvider {
     }
     
     func placeholder(in context: Context) -> MultipleEntry {
-        MultipleEntry(date: Date(), habits: Array.init(repeating: previewTestHabit, count: 4), configuration: SelectMultipleHabitsIntent())
+        MultipleEntry(date: Date(), habits: Array.init(repeating: HabitItem.testHabit, count: 8), configuration: SelectMultipleHabitsIntent())
     }
 
     func getSnapshot(for configuration: SelectMultipleHabitsIntent, in context: Context, completion: @escaping (MultipleEntry) -> ()) {
@@ -110,7 +76,7 @@ struct MultipleHabitsProvider: IntentTimelineProvider {
             return items.first(where: { $0.id.uuidString == chosenHabit.identifier })
         }
         
-        let entry = MultipleEntry(date: Date(), habits: filteredItems ?? Array.init(repeating: previewTestHabit, count: 4), configuration: configuration)
+        let entry = MultipleEntry(date: Date(), habits: filteredItems ?? Array.init(repeating: HabitItem.testHabit, count: 8), configuration: configuration)
         completion(entry)
     }
 
@@ -223,21 +189,7 @@ struct PersistentWidgetBundle: WidgetBundle {
 
 struct PersistentWidget_Previews: PreviewProvider {
     static var previews: some View {
-        let habit = HabitItem(context: PersistenceController.preview.container.viewContext)
-        habit.id = UUID()
-        habit.habitName = "PreviewTest"
-        habit.iconName = iconSections.randomElement()!.iconArray.randomElement()!
-        habit.resetIntervalEnum = .daily
-        habit.amountToDo = 4
-        habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
-        
-        for _ in 1...Int.random(in: 1...6) {
-            let date = HabitCompletionDate(context: PersistenceController.preview.container.viewContext)
-            date.date = Date()
-            date.item = habit
-        }
-        
-        return PersistentWidgetEntryView(entry: SimpleEntry(date: Date(), habit: habit, configuration: SelectHabitIntent()))
+        return PersistentWidgetEntryView(entry: SimpleEntry(date: Date(), habit: HabitItem.testHabit, configuration: SelectHabitIntent()))
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }

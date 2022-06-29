@@ -9,7 +9,8 @@ import Foundation
 
 extension Date {
     func adjustedForNightOwl() -> Date {
-        let nightOwlInt = UserDefaults.standard.integer(forKey: UserSettings.nightOwlHourSelectionKeyString)
+        let userDefaults = UserDefaults(suiteName: "group.persistentData") ?? UserDefaults.standard
+        let nightOwlInt = userDefaults.integer(forKey: UserSettings.nightOwlHourSelectionKeyString)
         
         let cal = Calendar.defaultCalendar
         

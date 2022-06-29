@@ -22,7 +22,7 @@ struct NightOwlModeView: View {
     @State private var helpOverlay: Bool = false
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .top) {
             List() {
                 Picker("Select a delay", selection: $userSettings.nightOwlHourSelection) {
                     ForEach(NightOwlCasesEnum.allCases, id: \.self) { hour in
@@ -36,6 +36,7 @@ struct NightOwlModeView: View {
             .listStyle(.insetGrouped)
             .navigationTitle("Night Owl Mode")
             .zIndex(1)
+            
             
             if helpOverlay {
                 VStack {
@@ -52,10 +53,18 @@ struct NightOwlModeView: View {
                     
                     Spacer()
                 }
-                .transition(.scale.animation(.spring(response: 0.25, dampingFraction: 0.8, blendDuration: 5)))
+                .transition(.popUpScaleTransition)
                 .frame(minWidth: 150, maxWidth: 350)
                 .padding(50)
                 .zIndex(2)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    if helpOverlay {
+                        withAnimation {
+                            helpOverlay = false
+                        }
+                    }
+                }
             }
         }
         .toolbar {
@@ -71,14 +80,7 @@ struct NightOwlModeView: View {
                 }
             }
         }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            if helpOverlay {
-                withAnimation {
-                    helpOverlay = false
-                }
-            }
-        }
+        
     }
 }
 

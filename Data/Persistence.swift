@@ -7,7 +7,7 @@
 
 import CoreData
 
-struct PersistenceController {
+class PersistenceController {
     static let shared = PersistenceController()
     
     static var preview: PersistenceController = {
@@ -42,38 +42,38 @@ struct PersistenceController {
     var container: NSPersistentCloudKitContainer
 
     init() {
+//        self.container = initializePersistentContainer()
         container = NSPersistentCloudKitContainer(name: "Persistent")
-        
+
         let storeURL = URL.storeURL(for: "group.persistentData", databaseName: "PersistentDatabase")
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
         storeDescription.shouldInferMappingModelAutomatically = true
         storeDescription.shouldMigrateStoreAutomatically = true
-        
-        let syncDisabled: Bool = UserDefaults.standard.bool(forKey: "syncDisabled")
-        
-        if !syncDisabled {
-            storeDescription.cloudKitContainerOptions  = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.PersistentCloudKit")
-        }
-        
+
+//        let syncDisabled: Bool = UserDefaults.standard.bool(forKey: "syncDisabled")
+//
+//        if !syncDisabled {
+//            storeDescription.cloudKitContainerOptions  = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.PersistentCloudKit")
+//        }
         storeDescription.cloudKitContainerOptions  = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.PersistentCloudKit")
         
         storeDescription.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
         storeDescription.setOption(true as NSNumber, forKey: NSInferMappingModelAutomaticallyOption)
         storeDescription.setOption(true as NSNumber, forKey: NSMigratePersistentStoresAutomaticallyOption)
-        
+
         container.persistentStoreDescriptions = [storeDescription]
-        
-        
-        
+
+
+
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
-        
+
         container.viewContext.automaticallyMergesChangesFromParent = true
         container.viewContext.mergePolicy = NSMergeByPropertyStoreTrumpMergePolicy
-        
+
 //        try? container.viewContext.setQueryGenerationFrom(.current)
     }
 }

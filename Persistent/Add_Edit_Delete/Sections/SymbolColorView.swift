@@ -11,6 +11,7 @@ struct SymbolColorView: View {
     @Binding var iconChoice: String
     
     @Binding var colorSelection: Int
+    @Binding var colorSelectionName: String
     
     let rows = [
             GridItem(.fixed(50), spacing: 10),
@@ -26,29 +27,32 @@ struct SymbolColorView: View {
                     .frame(height: 50)
                     .padding(.vertical, 5)
                     //.foregroundColor(iconColors[colorSelection])
-                    .foregroundColor(iconColors[colorSelection])
+                    .foregroundColor(Color.iconColors.first(where: { $0.name == colorSelectionName })?.color ?? Color("Primary"))
             }
         }
         
         
         ScrollView(.horizontal, showsIndicators: false) {
             LazyHGrid(rows: rows, alignment: .center, spacing: 10) {
-                ForEach(0..<iconColors.count, id: \.self) { index in
+                ForEach(Color.iconColors, id: \.self) { iconColor in
                     ZStack {
                         Circle()
                             .scaledToFit()
-                            .foregroundColor(iconColors[index])
-                            .shadow(color: Color.black.opacity(0.4) ,radius: colorSelection == index ? 4 : 0)
+                            .foregroundColor(iconColor.color)
+                            .shadow(color: Color.black.opacity(0.4), radius: iconColor.name == colorSelectionName ? 4 : 0)
                     }
-                    .scaleEffect(colorSelection == index ? 1.1 : 1)
+                    .scaleEffect(iconColor.name == colorSelectionName ? 1.1 : 1)
                     .onTapGesture {
                         withAnimation(.easeOut(duration: 0.2)) {
-                            colorSelection = index
+//                            colorSelection = index
+                            colorSelectionName = iconColor.name
+                            
                         }
                     }
                 }
             }
             .padding()
+            .drawingGroup()
         }
         .listRowInsets(EdgeInsets())
     }
@@ -56,7 +60,7 @@ struct SymbolColorView: View {
 
 struct SymbolColorView_Previews: PreviewProvider {
     static var previews: some View {
-        SymbolColorView(iconChoice: .constant("Walking"), colorSelection: .constant(0))
+        SymbolColorView(iconChoice: .constant("Walking"), colorSelection: .constant(0), colorSelectionName: .constant("Primary"))
             
     }
 }
