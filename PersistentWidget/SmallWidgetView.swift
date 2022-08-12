@@ -14,7 +14,7 @@ struct SmallWidgetView: View {
     
     var habit: HabitItem?
     
-    let iconColors: [Color] = [Color.primary, Color.red, Color.orange, Color.yellow, Color.green, Color.pink, Color.purple]
+//    let iconColors: [Color] = [Color.primary, Color.red, Color.orange, Color.yellow, Color.green, Color.pink, Color.purple]
     
     let shownDate = Date()
     
@@ -43,6 +43,7 @@ struct SmallWidgetView: View {
                             .padding(22)
                     }
                 }
+                .widgetURL(URL(string: "persistent://openHabit/\(habit.id.uuidString)"))
                 .padding()
             } else {
                 Text("Configure your habits through long-pressing")

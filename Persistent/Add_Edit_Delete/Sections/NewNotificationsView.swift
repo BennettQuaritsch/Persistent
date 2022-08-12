@@ -10,43 +10,44 @@ import SwiftUI
 struct NewNotificationsView: View {
     @ObservedObject var viewModel: NewNotificationsViewModel
     var body: some View {
-        List {
-            ForEach($viewModel.notifcationArray) { $notificationDate in
-                VStack {
-                    HStack {
-//                        ZStack {
-//                            Color(UIColor.tertiarySystemFill)
-//                                .clipShape(Capsule(style: .continuous))
-//
-//
-//                        }
-                        
-                        TextField("Message for your notification", text: $notificationDate.message, prompt: Text("Message"))
-                            .padding(6)
-                            .background(Color(UIColor.quaternarySystemFill), in: RoundedRectangle(cornerRadius: 7, style: .continuous))
-                        
-                        DatePicker("Select a time", selection: $notificationDate.date, displayedComponents: .hourAndMinute)
-                            .labelsHidden()
-                    }
-                    
-                    NewChooseWeekView(notificationDate: $notificationDate)
-                }
-                .padding(.top, 5)
-                .frame(height: 100)
-                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                    Button(role: .destructive) {
-                        withAnimation {
-                            if let index = viewModel.notifcationArray.firstIndex(where: { $0.id == notificationDate.id }) {
-                                viewModel.notifcationArray.remove(at: index)
-                            }
+        ScrollView {
+            VStack {
+                ForEach($viewModel.notifcationArray) { $notificationDate in
+                    VStack {
+                        HStack {
+                            TextField("Message for your notification", text: $notificationDate.message, prompt: Text("Message"), axis: .vertical)
+                                .lineLimit(...3)
+                                .padding(6)
+                                .background(Color(UIColor.quaternarySystemFill), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
+                            
+                            DatePicker("Select a time", selection: $notificationDate.date, displayedComponents: .hourAndMinute)
+                                .labelsHidden()
                         }
-                    } label: {
-                        Label("Delete Notification", systemImage: "trash")
-                            .labelStyle(.iconOnly)
+                        
+                        NewChooseWeekView(notificationDate: $notificationDate)
                     }
+                    .transition(.popUpScaleTransition)
+                    .padding(10)
+                    .background(Color.systemBackground, in: RoundedRectangle(cornerRadius: 15, style: .continuous))
+                    .contentShape(.contextMenuPreview, RoundedRectangle(cornerRadius: 15, style: .continuous))
+                    .contextMenu {
+                        Button(role: .destructive) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                withAnimation {
+                                    viewModel.notifcationArray.removeAll(where: { $0.id == notificationDate.id })
+                                }
+                            }
+                        } label: {
+                            Label("Delete Notification", systemImage: "trash")
+                                .labelStyle(.iconOnly)
+                        }
+                    }
+                    .padding(.horizontal)
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .background(Color.systemGroupedBackground, ignoresSafeAreaEdges: .all)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
                 Button {
@@ -79,6 +80,10 @@ struct NewNotificationsView: View {
 
 struct NewNotificationsView_Previews: PreviewProvider {
     static var previews: some View {
-        NewNotificationsView(viewModel: NewNotificationsViewModel())
+        NavigationStack {
+            NewNotificationsView(viewModel: NewNotificationsViewModel())
+                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        }
+
     }
 }

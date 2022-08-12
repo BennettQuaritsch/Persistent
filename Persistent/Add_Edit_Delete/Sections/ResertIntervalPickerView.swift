@@ -19,24 +19,33 @@ struct ResertIntervalPickerView: View {
     @FocusState var valueTypeTextFieldSelected: Bool
     
     var body: some View {
-        Picker("Select a Interval", selection: $intervalChoice) {
-            ForEach(ResetIntervals.allCases, id: \.self) { interval in
-                Text(interval.name)
+        VStack(alignment: .leading, spacing: 10) {
+            Picker("Select a Interval", selection: $intervalChoice) {
+                ForEach(ResetIntervals.allCases, id: \.self) { interval in
+                    Text(interval.name)
+                }
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            
+    //        switch valueTypeSelection {
+    //        case .number:
+    //            Stepper(String(timesPerDay), value: $timesPerDay, in: 1...1000000)
+    //        default:
+    //            TextField("Volume", text: $valueString, prompt: Text("How much?"))
+    //                .keyboardType(.decimalPad)
+    //                .focused($valueTypeTextFieldSelected)
+    //        }
+            HStack {
+                Text("Goal")
+                    .font(.subheadline.weight(.semibold))
+                    .foregroundStyle(.secondary)
+                
+                TextField("Volume", text: $valueString, prompt: Text("How much?"))
+                    .keyboardType(.decimalPad)
+                    .focused($valueTypeTextFieldSelected)
             }
         }
-        .pickerStyle(SegmentedPickerStyle())
         
-//        switch valueTypeSelection {
-//        case .number:
-//            Stepper(String(timesPerDay), value: $timesPerDay, in: 1...1000000)
-//        default:
-//            TextField("Volume", text: $valueString, prompt: Text("How much?"))
-//                .keyboardType(.decimalPad)
-//                .focused($valueTypeTextFieldSelected)
-//        }
-        TextField("Volume", text: $valueString, prompt: Text("How much?"))
-            .keyboardType(.decimalPad)
-            .focused($valueTypeTextFieldSelected)
     }
 }
 

@@ -49,26 +49,5 @@ class ReleventCountTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-    func testRelevantCountPerformance() throws {
-        
-        self.measure {
-            _ = habit.relevantCount()
-        }
-    }
-
-    func testFetchRequestPerformance() throws {
-        
-        
-        self.measure {
-            let cal = Calendar.current
-            let startDate = cal.startOfDay(for: Date())
-            
-            let context = persistence.viewContext
-            
-            let request = HabitCompletionDate.fetchRequest()
-            request.predicate = NSPredicate(format: "date >= %@", startDate as CVarArg)
-            
-            let _ = try? context.fetch(request)
-        }
-    }
+    
 }

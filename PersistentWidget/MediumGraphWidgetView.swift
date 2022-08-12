@@ -15,6 +15,7 @@ struct MediumGraphWidgetView: View {
         if let habit = habit {
             HabitCompletionGraph(viewModel: HabitBarChartViewModel(habit: habit), headerActivated: false, backgroundColor: .systemGray5)
                 .padding(10)
+                .widgetURL(URL(string: "persistent://openHabit/\(habit.id.uuidString)"))
         }
     }
 }

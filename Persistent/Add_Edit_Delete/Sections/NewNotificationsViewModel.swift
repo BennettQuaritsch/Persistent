@@ -46,6 +46,9 @@ class NewNotificationsViewModel: ObservableObject {
             content.title = habit.habitName
             content.body = notificationDate.message
             
+            content.categoryIdentifier = UNUserNotificationCenter.habitNotificationCategoryIdentifier
+            content.userInfo = ["HABIT_ID": habit.id.uuidString]
+            
             let newNotificationItem = NotificationItem(context: moc)
             newNotificationItem.id = UUID()
             newNotificationItem.date = notificationDate.date
@@ -69,7 +72,8 @@ class NewNotificationsViewModel: ObservableObject {
                 
                 let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
                 
-                print("trigger: \(trigger)")
+                print("trigger:", components.weekday)
+                print("time: \(components.hour!) \(components.minute)")
 
                 // UUID aus dem NotificationItem
                 //let uuidString = notificationItem.wrappedID.uuidString
@@ -92,6 +96,7 @@ class NewNotificationsViewModel: ObservableObject {
                     } catch {
                         print("Fehler")
                         
+                        // MARK: TODO: Not working
                         alertPresented = true
                     }
                 }

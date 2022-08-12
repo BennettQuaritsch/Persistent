@@ -12,6 +12,8 @@ struct EditHabitBaseView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.purchaseInfo) var purchaseInfo
     
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \HabitTag.name, ascending: true)]) var tags: FetchedResults<HabitTag>
+    
     @ObservedObject var viewModel: AddEditViewModel
     
     @FocusState private var valueTypeTextFieldSelected: Bool
@@ -30,7 +32,7 @@ struct EditHabitBaseView: View {
                 TextField("Name", text: $viewModel.name)
 
                 Section(header: Text("How often?")) {
-                    NavigationLink(destination: ValueTypeSelectionView(viewActive: $valueTypePickerNavigationActive, selection: $viewModel.valueTypeSelection), isActive: $valueTypePickerNavigationActive) {
+                    NavigationLink(value: AddEditViewNavigationEnum.valueTypePicker) {
                         Text("Value Type")
                         
                         Spacer()
@@ -65,7 +67,7 @@ struct EditHabitBaseView: View {
                 }
 
                 Section(header: Text("Tags")) {
-                    NavigationLink("Tags", destination: AlternativeTagSection(selectedTags: $viewModel.tagSelection))
+                    NavigationLink("Tags", destination: NewTagSection(viewModel: viewModel))
                 }
 
                 Section(header: Text("Notifications")) {
@@ -75,7 +77,7 @@ struct EditHabitBaseView: View {
                         }
                     } else {
                         ZStack {
-                            NavigationLink(destination: BuyPremiumView(), isActive: $buyPremiumViewSelected) {
+                            NavigationLink(destination: BuyPremiumView()) {
                                 EmptyView()
                             }
                             .hidden()

@@ -9,6 +9,8 @@ import SwiftUI
 
 struct QuickAddView: View {
     @Environment(\.managedObjectContext) var viewContext
+    @Environment(\.colorSchemeContrast) var colorSchemeContrast
+    
     @EnvironmentObject var appViewModel: AppViewModel
     
     @Binding var viewIsShown: Bool
@@ -41,6 +43,14 @@ struct QuickAddView: View {
     
     @FocusState private var focusedField: QuickAddFocusStateEnum?
     
+    var textColor: Color {
+        if colorSchemeContrast == .increased {
+            return .primary
+        } else {
+            return .systemBackground
+        }
+    }
+    
     var body: some View {
         VStack {
             
@@ -71,7 +81,6 @@ struct QuickAddView: View {
                         HStack(spacing: 0) {
                             Text(quickAddAction.wrappedName)
                                 .font(.headline)
-                                .foregroundColor(.systemBackground)
                             
                             Spacer()
                             
@@ -89,8 +98,8 @@ struct QuickAddView: View {
                                 .padding(.horizontal)
                             }
                             .fixedSize(horizontal: true, vertical: false)
-                            .foregroundColor(.systemBackground)
                         }
+                        .foregroundColor(textColor)
                         .padding(.leading)
                         .frame(height: 50)
                         .background(habit.iconColor.opacity(0.8), in: Capsule(style: .continuous))
@@ -143,7 +152,7 @@ struct QuickAddView: View {
                 if isAdding {
                     VStack(alignment: .leading) {
                         TextField("Name", text: $addingName)
-                            .textFieldStyle(.roundedBorder)
+                            .textFieldStyle(.continuousRounded(.systemGray6))
                             .foregroundColor(.primary)
                             .focused($focusedField, equals: .name)
                             .onSubmit {
@@ -159,7 +168,7 @@ struct QuickAddView: View {
                         
                         TextField("Amount", text: $addingValue)
                             .keyboardType(.decimalPad)
-                            .textFieldStyle(.roundedBorder)
+                            .textFieldStyle(.continuousRounded(.systemGray6))
                             .foregroundColor(.primary)
                             .focused($focusedField, equals: .amount)
                             .onSubmit {
@@ -197,6 +206,7 @@ struct QuickAddView: View {
                         Text("Create new quick add")
                             .transition(AnyTransition.move(edge: .trailing).animation(animation))
                     }
+                    .font(.headline)
                     .frame(maxWidth: .infinity)
                     .onTapGesture {
                         withAnimation(animation) {
@@ -207,7 +217,7 @@ struct QuickAddView: View {
                     }
                 }
             }
-            .foregroundColor(.systemBackground)
+            .foregroundColor(textColor)
             .clipShape(RoundedRectangle(cornerRadius: 10))
             .padding(.horizontal)
             .frame(maxWidth: .infinity, minHeight: 50)

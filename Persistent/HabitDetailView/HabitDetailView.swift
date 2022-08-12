@@ -8,8 +8,6 @@
 import SwiftUI
 import CoreData
 
-
-
 struct HabitDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.backgroundContext) private var backgroundContext
@@ -25,7 +23,7 @@ struct HabitDetailView: View {
     @Environment(\.purchaseInfo) var purchaseInfo
     @Environment(\.scenePhase) var scenePhase
     
-    init(habit: HabitItem, listViewModel: ListViewModel) {
+    init(habit: HabitItem) {
         self.habit = habit
         
         switch habit.resetIntervalEnum {
@@ -37,8 +35,11 @@ struct HabitDetailView: View {
             habitIntervalString = "month"
         }
         
-        self._viewModel = StateObject(wrappedValue: HabitDetailViewModel(habit: habit, listViewModel: listViewModel))
-        self.listViewModel = listViewModel
+        print("initWithHabit: \(habit.habitName)")
+        
+        self._viewModel = ObservedObject(wrappedValue: HabitDetailViewModel(habit: habit))
+//        self.listViewModel = listViewModel
+        
         
         self._habitTimer = StateObject(wrappedValue: HabitTimer(habit: habit))
         
@@ -46,9 +47,10 @@ struct HabitDetailView: View {
         dump(habit)
     }
     
-    @StateObject private var viewModel: HabitDetailViewModel
+    @ObservedObject private var viewModel: HabitDetailViewModel
+    @StateObject private var editViewModel: EditViewShownModel = EditViewShownModel()
     
-    @ObservedObject private var listViewModel: ListViewModel
+//    @ObservedObject private var listViewModel: ListViewModel
     
     @FocusState private var multipleAddViewTextFieldFocused: Bool
     
@@ -72,6 +74,9 @@ struct HabitDetailView: View {
                 )
                 .padding(25)
                 .drawingGroup()
+                .onAppear {
+                    print("viewModelWith: \(viewModel.habit.habitName)")
+                }
                 
             
             HStack {
@@ -105,7 +110,7 @@ struct HabitDetailView: View {
 //                        #endif
 //                    }
                     
-                    Text(habit.relevantCountText(viewModel.shownDate))
+                    Text(verbatim: habit.relevantCountText(viewModel.shownDate))
                         .font(.system(size: horizontalSizeClass == .regular ? 45 : 35, weight: .black, design: .rounded))
                         .lineLimit(2)
                         .minimumScaleFactor(0.5)
@@ -115,6 +120,7 @@ struct HabitDetailView: View {
                             transaction.animation = nil
                         }
                         .frame(minWidth: 30)
+                    
                     
 //                    if habit.valueTypeEnum == .timeHours || habit.valueTypeEnum == .timeMinutes {
 //                        Button {
@@ -233,6 +239,8 @@ struct HabitDetailView: View {
     }
     
     var body: some View {
+//        let image: Image = Image(uiImage: ImageRenderer(content: habitCircle.frame(width:500, height: 500)).uiImage!)
+        
         GeometryReader { geo in
             ZStack(alignment: .center) {
                 VStack(spacing: 0) {
@@ -267,46 +275,34 @@ struct HabitDetailView: View {
                         .layoutPriority(10)
                     
                     Spacer()
-                        .frame(minHeight: parentSizeClass == .regular ? 10 : 0)
+                        .frame(minHeight: parentSizeClass == .regular ? 20 : 10)
                         .layoutPriority(0)
                     
-                    QuickAddViewButton
-                    
-                    Spacer()
-                        .frame(minHeight: parentSizeClass == .regular ? 10 : 0, maxHeight: 20)
-                        .layoutPriority(-1)
-                    
-                    HStack {
-                        Circle()
-                            .scaledToFit()
-                            .foregroundColor(.accentColor)
-                            .overlay(
-                                Image(systemName: "chart.bar.fill")
-                                    .font(.system(size: 25))
-                                    .foregroundColor(.init("systemBackground"))
-                                    .onTapGesture {
-                                        viewModel.graphSheet = true
-                                    }
-                            )
-                            .frame(height: 50)
-                            .hoverEffect(.lift)
-                            .padding()
+                    ViewThatFits(in: .vertical) {
+                        VStack {
+                            QuickAddViewButton
+                            
+                            Spacer()
+                                .frame(minHeight: parentSizeClass == .regular ? 10 : 0, maxHeight: 10)
+                                .layoutPriority(-1)
+                            
+                            HStack {
+                                graphsViewButton
+                                
+                                calendarViewButton
+                            }
+                        }
                         
-                        Circle()
-                            .scaledToFit()
-                            .foregroundColor(.accentColor)
-                            .overlay(
-                                Image(systemName: "calendar")
-                                    .font(.system(size: 25))
-                                    .foregroundColor(.init("systemBackground"))
-                                    .onTapGesture {
-                                        viewModel.calendarSheet = true
-                                    }
-                            )
-                            .frame(height: 50)
-                            .hoverEffect(.lift)
-                            .padding()
+                        HStack {
+                            graphsViewButton
+                            
+                            QuickAddViewButton
+                            
+                            calendarViewButton
+                            
+                        }
                     }
+                    .layoutPriority(2)
                     
                     if parentSizeClass == .regular {
                         Spacer()
@@ -321,7 +317,11 @@ struct HabitDetailView: View {
                 .navigationBarTitle("", displayMode: .inline)
                 #endif
                 .toolbar(content: {
-                    ToolbarItem(placement: .primaryAction) {
+                    ToolbarItemGroup(placement: .navigationBarTrailing) {
+//                        ShareLink(item: image, preview: SharePreview("Share your progress!", image: image)) {
+//                            Label("Share", systemImage: "square.and.arrow.up")
+//                        }
+                        
                         Menu {
                             Section {
                                 Button(action: {
@@ -335,7 +335,7 @@ struct HabitDetailView: View {
                             
                             Section {
                                 Button(action: {
-                                    viewModel.editSheet = true
+                                    editViewModel.editSheet = true
                                 }) {
                                     Label("Edit", systemImage: "pencil")
                                 }
@@ -368,39 +368,9 @@ struct HabitDetailView: View {
                             }
                         } label: {
                             Image(systemName: "ellipsis.circle")
-    //                            .resizable()
-    //                            .aspectRatio(1, contentMode: .fit)
-                                //.font(.title2.weight(.semibold))
                         }
-                        .frame(height: 25)
                     }
                 })
-                .sheet(isPresented: $viewModel.editSheet) {
-                    EditView(habit: habit, accentColor: userSettings.accentColor)
-                        .environment(\.managedObjectContext, self.viewContext)
-                }
-                .sheet(isPresented: $viewModel.calendarSheet) {
-                    CalendarPageViewController(
-                        toggle: $viewModel.calendarSheet,
-                        habitDate: $viewModel.shownDate,
-                        date: Date(),
-                        habit: habit
-                    )
-                        .accentColor(userSettings.accentColor)
-                        .environment(\.horizontalSizeClass, horizontalSizeClass)
-                        .environment(\.colorScheme, colorScheme)
-                        .environment(\.parentSizeClass, parentSizeClass)
-                }
-                .sheet(isPresented: $viewModel.graphSheet) {
-                    HabitSpecificGraphsView(habit: habit)
-                        .accentColor(userSettings.accentColor)
-                        .environment(\.purchaseInfo, purchaseInfo)
-                }
-                .alert(isPresented: $viewModel.deleteActionSheet) {
-                    Alert(title: Text("Do you really want to delete this habit?"), primaryButton: .destructive(Text("Delete")) {
-                        habit.deleteHabitPermanently()
-                    }, secondaryButton: .cancel())
-                }
                 .ignoresSafeArea(.keyboard)
                 .zIndex(1)
                 .disabled(viewModel.multipleAddShown || quickAddViewShown)
@@ -453,6 +423,68 @@ struct HabitDetailView: View {
             }
             .habitDeleteAlert(isPresented: $deleteHabitAlertActive, habit: habit, context: viewContext, dismiss: dismiss)
         }
+        .sheet(isPresented: $editViewModel.editSheet) {
+            EditView(habit: habit, accentColor: userSettings.accentColor)
+                .environment(\.managedObjectContext, self.viewContext)
+        }
+        .sheet(isPresented: $viewModel.calendarSheet) {
+            CalendarPageViewController(
+                toggle: $viewModel.calendarSheet,
+                habitDate: $viewModel.shownDate,
+                date: Date(),
+                habit: habit
+            )
+                .accentColor(userSettings.accentColor)
+                .environment(\.horizontalSizeClass, horizontalSizeClass)
+                .environment(\.colorScheme, colorScheme)
+                .environment(\.parentSizeClass, parentSizeClass)
+        }
+        .sheet(isPresented: $viewModel.graphSheet) {
+            HabitSpecificGraphsView(habit: habit)
+                .accentColor(userSettings.accentColor)
+                .environment(\.purchaseInfo, purchaseInfo)
+        }
+        .alert(isPresented: $viewModel.deleteActionSheet) {
+            Alert(title: Text("Do you really want to delete this habit?"), primaryButton: .destructive(Text("Delete")) {
+                habit.deleteHabitPermanently()
+            }, secondaryButton: .cancel())
+        }
+    }
+}
+
+extension HabitDetailView {
+    @ViewBuilder var graphsViewButton: some View {
+        Circle()
+            .scaledToFit()
+            .foregroundColor(.accentColor)
+            .overlay(
+                Image(systemName: "chart.bar.fill")
+                    .font(.system(size: 25))
+                    .foregroundColor(.init("systemBackground"))
+                    .onTapGesture {
+                        viewModel.graphSheet = true
+                    }
+            )
+            .frame(height: 50)
+            .hoverEffect(.lift)
+            .padding()
+    }
+    
+    @ViewBuilder var calendarViewButton: some View {
+        Circle()
+            .scaledToFit()
+            .foregroundColor(.accentColor)
+            .overlay(
+                Image(systemName: "calendar")
+                    .font(.system(size: 25))
+                    .foregroundColor(.init("systemBackground"))
+                    .onTapGesture {
+                        viewModel.calendarSheet = true
+                    }
+            )
+            .frame(height: 50)
+            .hoverEffect(.lift)
+            .padding()
     }
 }
 
@@ -484,21 +516,21 @@ struct ScrollCalendarDateView: View {
 
 struct NewHabitDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        return Group {
-            NavigationView {HabitDetailView(habit: HabitItem.testHabit, listViewModel: ListViewModel())
-                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-                .environmentObject(UserSettings())
-                .environmentObject(AppViewModel())
-            }.previewDevice("iPhone 12")
-            
-//            NavigationView {
-//                Text("Test")
-//
-//                HabitDetailView(habit: habit, listViewModel: ListViewModel())
-//                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
-//                .environmentObject(UserSettings())
-//                .environmentObject(AppViewModel())
-//            }.previewDevice("iPad Pro (12.9-inch) (5th generation)").previewInterfaceOrientation(.landscapeLeft)
+        NavigationStack {
+            HabitDetailView(habit: HabitItem.testHabit)
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environmentObject(UserSettings())
+            .environmentObject(AppViewModel())
         }
+        .previewDevice("iPhone 13 mini")
+        
+        NavigationStack {
+            HabitDetailView(habit: HabitItem.testHabit)
+            .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+            .environmentObject(UserSettings())
+            .environmentObject(AppViewModel())
+        }
+        .previewDevice("iPhone SE (3rd generation)")
+        .previewDisplayName("iPhone SE")
     }
 }

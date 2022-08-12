@@ -90,7 +90,7 @@ struct AddRemoveMultipleView: View {
 
 struct AddRemoveMultipleView_Previews: PreviewProvider {
     static var previews: some View {
-        AddRemoveMultipleView(habit: .testHabit, viewModel: .init(habit: .testHabit, listViewModel: .init()))
+        AddRemoveMultipleView(habit: .testHabit, viewModel: .init(habit: .testHabit))
             .background(
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
                     .fill(Material.thickMaterial)

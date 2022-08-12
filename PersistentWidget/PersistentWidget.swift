@@ -10,6 +10,27 @@ import SwiftUI
 import Intents
 import CoreData
 
+struct TestProvider: IntentTimelineProvider {
+    func placeholder(in context: Context) -> TestEntry {
+        TestEntry(date: Date())
+    }
+
+    func getSnapshot(for configuration: SelectHabitIntent, in context: Context, completion: @escaping (TestEntry) -> ()) {
+        completion(TestEntry(date: Date()))
+    }
+
+    func getTimeline(for configuration: SelectHabitIntent, in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+        let entries: [TestEntry] = [TestEntry(date: Date())]
+
+        let timeline = Timeline(entries: entries, policy: .atEnd)
+        completion(timeline)
+    }
+}
+
+struct TestEntry: TimelineEntry {
+    let date: Date
+}
+
 struct Provider: IntentTimelineProvider {
     func getItems() -> [HabitItem] {
         let moc = PersistenceController.shared.container.viewContext
@@ -178,19 +199,38 @@ struct MediumGraphWidget: Widget {
     }
 }
 
+struct CircularAccessoryWidget: Widget {
+    let kind: String = "CircularAccessoryWidget-HabitProgress"
+    
+    var body: some WidgetConfiguration {
+        IntentConfiguration(kind: kind, intent: SelectHabitIntent.self, provider: Provider()) { entry in
+            CircularAccessoryWidgetView(habit: entry.habit)
+        }
+        .configurationDisplayName("Circular Habit Widget")
+        .description("See how you are doing! Choose your habit through long pressing.")
+        .supportedFamilies([.accessoryCircular])
+    }
+}
+
 @main
 struct PersistentWidgetBundle: WidgetBundle {
     var body: some Widget {
         PersistentWidget()
         MultipleHabitsWidget()
         MediumGraphWidget()
+        CircularAccessoryWidget()
     }
 }
 
 struct PersistentWidget_Previews: PreviewProvider {
     static var previews: some View {
-        return PersistentWidgetEntryView(entry: SimpleEntry(date: Date(), habit: HabitItem.testHabit, configuration: SelectHabitIntent()))
+        PersistentWidgetEntryView(entry: SimpleEntry(date: Date(), habit: HabitItem.testHabit, configuration: SelectHabitIntent()))
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
             .previewContext(WidgetPreviewContext(family: .systemSmall))
+        
+        
+//        CircularAccessoryWidget(habit: HabitItem.testHabit)
+//            .previewContext(WidgetPreviewContext(family: .accessoryCircular))
+//            .previewDisplayName("Test")
     }
 }

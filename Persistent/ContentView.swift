@@ -10,24 +10,14 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \HabitTag.name, ascending: true)], animation: .easeInOut) var tags: FetchedResults<HabitTag>
+    
     var body: some View {
         if horizontalSizeClass == .compact {
-//            TabView {
-//                iPhoneView()
-//                    .tabItem {
-//                        Label("Habits", systemImage: "checkmark.circle.fill")
-//                }
-//                    .environment(\.parentSizeClass, horizontalSizeClass)
-//
-//                SettingsView()
-//                    .tabItem {
-//                        Label("Settings", systemImage: "gear")
-//                    }
-//            }
             iPhoneView()
                 .environment(\.parentSizeClass, horizontalSizeClass)
         } else if horizontalSizeClass == .regular {
-            AppSidebarNavigation()
+            AppSidebarNavigation(tags: tags.map { $0 })
                 .environment(\.parentSizeClass, horizontalSizeClass)
         }
     }

@@ -33,7 +33,7 @@ struct NewChooseWeekView: View {
                                 .padding(.horizontal, 2)
                         )
                 }
-                .frame(height: 50)
+                .frame(maxHeight: 50)
                 
                 .onTapGesture {
                     if notificationDate.weekdays.contains(where: { $0 == index }) {

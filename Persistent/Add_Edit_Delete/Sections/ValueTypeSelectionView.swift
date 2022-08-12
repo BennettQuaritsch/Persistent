@@ -8,50 +8,54 @@
 import SwiftUI
 
 struct ValueTypeSelectionView: View {
-    @Binding var viewActive: Bool
+    @Binding var navigationPath: [AddEditViewNavigationEnum]
     @Binding var selection: HabitValueTypes
+    @ObservedObject var viewModel: AddEditViewModel
     
     var body: some View {
         List {
-            ValueTypeSelectionField(valueType: .number, selection: $selection, viewActive: $viewActive)
+            ValueTypeSelectionField(valueType: .number, selection: $selection, navigationPath: $navigationPath)
             
             Section("Length") {
-                ValueTypeSelectionField(valueType: .lengthKilometres, selection: $selection, viewActive: $viewActive)
+                ValueTypeSelectionField(valueType: .lengthKilometres, selection: $selection, navigationPath: $navigationPath)
                 
-                ValueTypeSelectionField(valueType: .lengthMetres, selection: $selection, viewActive: $viewActive)
+                ValueTypeSelectionField(valueType: .lengthMetres, selection: $selection, navigationPath: $navigationPath)
                 
-                ValueTypeSelectionField(valueType: .lengthMiles, selection: $selection, viewActive: $viewActive)
+                ValueTypeSelectionField(valueType: .lengthMiles, selection: $selection, navigationPath: $navigationPath)
                 
-                ValueTypeSelectionField(valueType: .lengthYards, selection: $selection, viewActive: $viewActive)
+                ValueTypeSelectionField(valueType: .lengthYards, selection: $selection, navigationPath: $navigationPath)
             }
             
             Section("Volume") {
-                ValueTypeSelectionField(valueType: .volumeLitres, selection: $selection, viewActive: $viewActive)
+                ValueTypeSelectionField(valueType: .volumeLitres, selection: $selection, navigationPath: $navigationPath)
                 
-                ValueTypeSelectionField(valueType: .volumeMillilitres, selection: $selection, viewActive: $viewActive)
+                ValueTypeSelectionField(valueType: .volumeMillilitres, selection: $selection, navigationPath: $navigationPath)
                 
-                ValueTypeSelectionField(valueType: .volumeQuarts, selection: $selection, viewActive: $viewActive)
+                ValueTypeSelectionField(valueType: .volumeQuarts, selection: $selection, navigationPath: $navigationPath)
                 
-                ValueTypeSelectionField(valueType: .volumeCups, selection: $selection, viewActive: $viewActive)
+                ValueTypeSelectionField(valueType: .volumeCups, selection: $selection, navigationPath: $navigationPath)
                 
-                ValueTypeSelectionField(valueType: .volumeOunces, selection: $selection, viewActive: $viewActive)
+                ValueTypeSelectionField(valueType: .volumeOunces, selection: $selection, navigationPath: $navigationPath)
             }
             
             Section("Time") {
-                ValueTypeSelectionField(valueType: .timeHours, selection: $selection, viewActive: $viewActive)
+                ValueTypeSelectionField(valueType: .timeHours, selection: $selection, navigationPath: $navigationPath)
                 
-                ValueTypeSelectionField(valueType: .timeMinutes, selection: $selection, viewActive: $viewActive)
+                ValueTypeSelectionField(valueType: .timeMinutes, selection: $selection, navigationPath: $navigationPath)
             }
         }
         .listStyle(.insetGrouped)
         .navigationTitle("Value Type")
         .navigationBarTitleDisplayMode(.inline)
+        .onChange(of: selection) { _ in
+            viewModel.objectWillChange.send()
+        }
     }
     
     struct ValueTypeSelectionField: View {
         let valueType: HabitValueTypes
         @Binding var selection: HabitValueTypes
-        @Binding var viewActive: Bool
+        @Binding var navigationPath: [AddEditViewNavigationEnum]
         
         var body: some View {
             HStack {
@@ -69,7 +73,7 @@ struct ValueTypeSelectionView: View {
             .onTapGesture {
                 selection = valueType
                 
-                viewActive = false
+                navigationPath = []
             }
         }
     }
@@ -77,6 +81,6 @@ struct ValueTypeSelectionView: View {
 
 struct ValueTypeSelectionView_Previews: PreviewProvider {
     static var previews: some View {
-        ValueTypeSelectionView(viewActive: .constant(true), selection: .constant(.number))
+        ValueTypeSelectionView(navigationPath: .constant([]), selection: .constant(.number), viewModel: AddEditViewModel())
     }
 }

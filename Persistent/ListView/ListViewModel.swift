@@ -9,7 +9,11 @@ import Foundation
 import SwiftUI
 import CoreData
 
-enum ListFilterSelectionEnum: Equatable {
+enum ListFilterSelectionEnum: Equatable, Hashable, CaseIterable {
+    static var allCases: [ListFilterSelectionEnum] {
+        [.all, .daily, .weekly, .monthly]
+    }
+    
     case all
     case daily
     case weekly

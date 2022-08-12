@@ -42,11 +42,13 @@ struct EditView: View {
             GridItem(.fixed(50))
         ]
     
+    @State private var navigationPath: [AddEditViewNavigationEnum] = []
+    
     var body: some View {
-        NavigationView {
-            EditHabitBaseView(viewModel: viewModel, saveButtonAction: {
+        NavigationStack(path: $navigationPath) {
+            AlternativeEditHabitBaseView(viewModel: viewModel, saveButtonAction: {
                 viewModel.editHabit(viewContext: viewContext, dismiss: dismiss)
-            })
+            }, navigationPath: $navigationPath)
             #if os(iOS)
             .navigationTitle(viewModel.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Edit Habit" : viewModel.name)
             #endif
@@ -65,6 +67,12 @@ struct EditView: View {
                     } label: {
                         Text("Close")
                     }
+                }
+            }
+            .navigationDestination(for: AddEditViewNavigationEnum.self) { navigation in
+                switch navigation {
+                case .valueTypePicker:
+                    ValueTypeSelectionView(navigationPath: $navigationPath, selection: $viewModel.valueTypeSelection, viewModel: viewModel)
                 }
             }
         }

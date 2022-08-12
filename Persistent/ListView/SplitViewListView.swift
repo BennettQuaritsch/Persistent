@@ -1,71 +1,75 @@
 //
-//  ContentView.swift
+//  SplitViewListView.swift
 //  Persistent
 //
-//  Created by Bennett Quaritsch on 14.05.21.
+//  Created by Bennett Quaritsch on 19.07.22.
 //
 
 import SwiftUI
 import CoreData
 
-struct ListView: View {
+struct SplitViewListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.purchaseInfo) var purchaseInfo
     
     #if os(iOS)
-    //@Environment(\.editMode) var editMode
-    @State var editMode: EditMode = .inactive
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
     @Environment(\.parentSizeClass) var parentSizeClass
     #endif
-    
-    // Models
-    @EnvironmentObject private var userSettings: UserSettings
-    @EnvironmentObject private var appViewModel: AppViewModel
     
     @State private var showSettings: Bool = false
     
     @State private var purchaseAlert = false
     
-    @State private var filterOption: ListFilterSelectionEnum = .all
+    // Models
+    @EnvironmentObject private var userSettings: UserSettings
+    @EnvironmentObject private var appViewModel: AppViewModel
     
-    // Core Data Items
+    let filterOption: ListFilterSelectionEnum
+    
+    // Core Data items
     @FetchRequest(entity: HabitTag.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \HabitTag.name, ascending: true)]) var tags: FetchedResults<HabitTag>
     
     @FetchRequest private var items: FetchedResults<HabitItem>
-    
-    var predicate: NSPredicate? {
-        switch filterOption {
-        case .all:
-            return nil
-        case .daily:
-            return NSPredicate(format: "resetInterval == 'daily'")
-        case .weekly:
-            return NSPredicate(format: "resetInterval == 'weekly'")
-        case .monthly:
-            return NSPredicate(format: "resetInterval == 'monthly'")
-        case .tag(let habitTag):
-            return NSPredicate(format: "%@ IN tags", habitTag)
-        }
-    }
 
     var habitLimitReached: Bool {
         return !purchaseInfo.wrappedValue && items.count >= 3
     }
     
-    init(navigationPath: Binding<[HabitItem]>) {
+    init(_ filter: ListFilterSelectionEnum = .all, shownHabit: Binding<HabitItem?>, splitViewVisibility: Binding<NavigationSplitViewVisibility>) {
+        
+        var tempPredicate: NSPredicate?
+        
+        switch filter {
+        case .all:
+            tempPredicate = nil
+        case .daily:
+            tempPredicate = NSPredicate(format: "resetInterval == 'daily'")
+        case .weekly:
+            tempPredicate = NSPredicate(format: "resetInterval == 'weekly'")
+        case .monthly:
+            tempPredicate = NSPredicate(format: "resetInterval == 'monthly'")
+        case .tag(let habitTag):
+            tempPredicate = NSPredicate(format: "%@ IN tags", habitTag)
+        }
+        
         _items = FetchRequest(
             sortDescriptors: [NSSortDescriptor(keyPath: \HabitItem.habitName, ascending: true)],
+            predicate: tempPredicate,
             animation: .easeInOut)
         
-        self._navigationPath = navigationPath
+        filterOption = filter
+        
+        self._shownHabit = shownHabit
+        self._splitViewVisibility = splitViewVisibility
     }
     
     @StateObject var viewModel: ListViewModel = .init()
     
-    @Binding var navigationPath: [HabitItem]
+    @Binding var shownHabit: HabitItem?
+    @Binding var splitViewVisibility: NavigationSplitViewVisibility
     
     var shownItems: [HabitItem] {
         var tempItems: [HabitItem] = []
@@ -90,12 +94,6 @@ struct ListView: View {
             return items.filter { $0.habitName.contains(viewModel.searchText) }
         }
     }
-    
-    private var isEditing: Bool {
-            editMode.isEditing
-        }
-    
-    @SceneStorage("listViewFilterOption") private var filterOptionString: String = "All Habits"
     
     @State private var habitDeleteAlertActive: Bool = false
     @State private var habitToDelete: HabitItem?
@@ -132,16 +130,6 @@ struct ListView: View {
             Color("systemGroupedBackground")
                 .edgesIgnoringSafeArea(.all)
         )
-        .onChange(of: filterOption) { selection in
-            items.nsPredicate = predicate
-            
-            filterOptionString = selection.codingID
-        }
-        .onAppear {
-            if parentSizeClass == .compact {
-                filterOption = ListFilterSelectionEnum(from: filterOptionString, context: viewContext)
-            }
-        }
         .tint(.accentColor)
         .overlay(
             HStack {
@@ -188,7 +176,7 @@ struct ListView: View {
                     }
                 }
                 
-                ListMenuButton(viewModel: viewModel, filterOption: $filterOption, tags: tags.map {$0})
+                ListMenuButton(viewModel: viewModel, filterOption: .constant(filterOption), tags: tags.map {$0})
             }
             #endif
             
@@ -233,7 +221,9 @@ struct ListView: View {
                 let idString = url.pathComponents[1]
                 if let id = UUID(uuidString: idString) {
                     if let habit = items.first(where: { $0.id == id }) {
-                        navigationPath = [habit]
+                        shownHabit = habit
+                        
+                        splitViewVisibility = .doubleColumn
                     }
                 }
             }
@@ -241,7 +231,10 @@ struct ListView: View {
     }
     
     @ViewBuilder func navigationCell(_ item: HabitItem) -> some View {
-        NavigationLink(value: item) {
+        Button {
+            shownHabit = item
+            splitViewVisibility = .doubleColumn
+        } label: {
             ListCellView(habit: item, viewModel: viewModel)
                 .habitDeleteAlert(isPresented: $habitDeleteAlertActive, habit: habitToDelete, context: viewContext)
                 .contentShape(ContentShapeKinds.contextMenuPreview, RoundedRectangle(cornerRadius: 20, style: .continuous))
@@ -263,7 +256,6 @@ struct ListView: View {
                         Label("Delete", systemImage: "trash")
                     }
                 }
-                
         }
         .buttonStyle(.plain)
         .padding(.top)
@@ -271,12 +263,16 @@ struct ListView: View {
     }
 }
 
-struct ListView_Previews: PreviewProvider {
+struct SplitViewListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ListView(navigationPath: .constant([]))
-                .previewDevice("iPhone 12")
+            SplitViewListView(shownHabit: .constant(nil), splitViewVisibility: .constant(.all))
+                .environmentObject(UserSettings())
+                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
         }
+        .previewDevice("iPad Pro (11-inch) (3rd generation)")
+        .previewInterfaceOrientation(.landscapeLeft)
             //.environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
     }
 }
+

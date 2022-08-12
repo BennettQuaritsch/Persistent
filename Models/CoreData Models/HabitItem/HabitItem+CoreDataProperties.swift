@@ -1132,14 +1132,23 @@ extension HabitItem {
     /// Test habit defined in preview container
     static var testHabit: HabitItem {
         let moc = PersistenceController.preview.container.viewContext
-        
+    
         let habit = HabitItem(context: moc)
         habit.id = UUID()
         habit.habitName = "PreviewTest"
-        habit.iconName = IconSection.sections.randomElement()!.iconArray.randomElement()!
+    
         habit.resetIntervalEnum = .daily
+    
         habit.amountToDo = 4
+        habit.wrappedStandardAddValue = 1
+    
+        habit.iconName = IconSection.sections.randomElement()!.iconArray.randomElement()!
         habit.wrappedIconColorName = Color.iconColors.randomElement()!.name
+    
+        habit.habitArchived = false
+        habit.breakHabit = false
+    
+        habit.valueTypeEnum = .number
         
         let date = HabitCompletionDate(context: moc)
         date.date = Date()

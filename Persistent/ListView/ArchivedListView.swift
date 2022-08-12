@@ -75,7 +75,7 @@ struct ArchivedListView: View {
                 VStack {
                     ForEach(items) { item in
                         if item.habitArchived {
-                            NavigationLink(destination: HabitDetailView(habit: item, listViewModel: ListViewModel())) {
+                            NavigationLink(value: item) {
                                 ListCellView(habit: item, viewModel: viewModel)
                                     .habitDeleteAlert(isPresented: $habitDeleteAlertActive, habit: habitToDelete, context: viewContext)
                                     .contentShape(ContentShapeKinds.contextMenuPreview, RoundedRectangle(cornerRadius: 20, style: .continuous))

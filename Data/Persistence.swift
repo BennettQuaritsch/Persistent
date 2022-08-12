@@ -6,28 +6,49 @@
 //
 
 import CoreData
+import SwiftUI
 
-class PersistenceController {
+final class PersistenceController {
     static let shared = PersistenceController()
     
     static var preview: PersistenceController = {
         let result = PersistenceController()
-//        let viewContext = result.container.viewContext
-//        for i in 0..<3 {
-//            let habit = HabitItem(context: viewContext)
-//            habit.id = UUID()
-//            habit.habitName = "PreviewTest"
-//            habit.iconName = iconChoices.randomElement()!
-//            habit.resetIntervalEnum = .daily
-//            habit.amountToDo = 4
-//            habit.iconColorIndex = Int16(iconColors.firstIndex(of: iconColors.randomElement()!)!)
-//            
-//            for _ in 1...Int.random(in: 1...6) {
-//                let date = HabitCompletionDate(context: viewContext)
-//                date.date = Date()
-//                date.item = habit
-//            }
-//        }
+        let viewContext = result.container.viewContext
+        for i in 0..<3 {
+            let habit = HabitItem(context: viewContext)
+            habit.id = UUID()
+            habit.habitName = "PreviewTest"
+        
+            habit.resetIntervalEnum = .daily
+        
+            habit.amountToDo = 4
+            habit.wrappedStandardAddValue = 1
+        
+            habit.iconName = IconSection.sections.randomElement()!.iconArray.randomElement()!
+            habit.wrappedIconColorName = Color.iconColors.randomElement()!.name
+        
+            habit.habitArchived = false
+            habit.breakHabit = false
+        
+            habit.valueTypeEnum = .number
+            
+            let date = HabitCompletionDate(context: viewContext)
+            date.date = Date()
+            date.item = habit
+            date.habitValue = 5
+            
+            let quickAdd = HabitQuickAddAction(context: viewContext)
+            quickAdd.id = UUID()
+            quickAdd.wrappedName = "Test"
+            quickAdd.value = 3
+            quickAdd.habit = habit
+            
+            let habitTag = HabitTag(context: viewContext)
+            habitTag.wrappedName = "\(i)"
+            habitTag.id = UUID()
+            
+        }
+        
 //        do {
 //            try viewContext.save()
 //        } catch {

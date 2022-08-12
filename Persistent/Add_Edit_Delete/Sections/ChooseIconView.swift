@@ -39,6 +39,9 @@ struct ChooseIconView: View {
                             
                             Image(systemName: "chevron.right")
                                 .rotationEffect(.degrees(section.isSelected ? 90 : 0))
+                                .transaction { transaction in
+                                    transaction.disablesAnimations = true
+                                }
                         }
                         .contentShape(Rectangle())
                         .onTapGesture {
@@ -140,6 +143,9 @@ struct ChooseIconView: View {
 
 struct ChooseIconView_Previews: PreviewProvider {
     static var previews: some View {
-        ChooseIconView(iconChoice: .constant("person"))
+        NavigationStack {
+            ChooseIconView(iconChoice: .constant("person"))
+                .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        }
     }
 }

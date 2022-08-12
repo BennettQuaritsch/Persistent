@@ -9,17 +9,28 @@ import SwiftUI
 
 struct iPhoneView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.scenePhase) private var scenePhase
     
     @EnvironmentObject private var userSettings: UserSettings
-    
-//    @FetchRequest(entity: HabitTag.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \HabitTag.name, ascending: true)]) var tags: FetchedResults<HabitTag>
+    @EnvironmentObject private var appViewModel: AppViewModel
     
     @EnvironmentObject var settings: UserSettings
     
+    @State private var navigationPath: [HabitItem] = []
+    
     var body: some View {
-        NavigationView {
-            ListView()
+        NavigationStack(path: $navigationPath) {
+            ListView(navigationPath: $navigationPath)
+                .navigationDestination(for: HabitItem.self) { habit in
+                    HabitDetailView(habit: habit)
+                        .environmentObject(appViewModel)
+                }
         }
+//        .onChange(of: scenePhase) { scene in
+//            if scene == .background {
+//                navigationModel.save()
+//            }
+//        }
     }
 }
 

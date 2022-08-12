@@ -65,17 +65,19 @@ struct MediumWidgetMultipleView: View {
                 VStack(spacing: 0) {
                     LazyVGrid(columns: grids, alignment: .center) {
                         ForEach(habits.dropLast(habits.count % dividerInt), id: \.id) { habit in
-                            ZStack {
-                                ProgressBar(strokeWidth: 7, color: habit.iconColor, habit: habit, date: Date().adjustedForNightOwl())
-                                    .background(Circle().stroke(habit.iconColor.opacity(0.2), lineWidth: 7))
-                                
-                                if habit.iconName != nil {
-                                    Image(habit.iconName!)
-                                        .resizable()
-                                        .foregroundColor(habit.iconColor)
-                                        .aspectRatio(contentMode: .fit)
-                                        .padding(12)
-                                        //.frame(height: 35)
+                            Link(destination: URL(string: "persistent://openHabit/\(habit.id.uuidString)")!) {
+                                ZStack {
+                                    ProgressBar(strokeWidth: 7, color: habit.iconColor, habit: habit, date: Date().adjustedForNightOwl())
+                                        .background(Circle().stroke(habit.iconColor.opacity(0.2), lineWidth: 7))
+                                    
+                                    if habit.iconName != nil {
+                                        Image(habit.iconName!)
+                                            .resizable()
+                                            .foregroundColor(habit.iconColor)
+                                            .aspectRatio(contentMode: .fit)
+                                            .padding(12)
+                                            //.frame(height: 35)
+                                    }
                                 }
                             }
                             .padding(4)

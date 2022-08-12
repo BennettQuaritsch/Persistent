@@ -40,7 +40,7 @@ struct NightOwlModeView: View {
             
             if helpOverlay {
                 VStack {
-                    VStack {
+                    VStack(spacing: 5) {
                         Text("Night Owl Mode")
                             .font(.headline)
                         

@@ -9,7 +9,9 @@ import Foundation
 import SwiftUI
 import CoreData
 
-
+enum AddEditViewNavigationEnum {
+    case valueTypePicker
+}
 
 class AddEditViewModel: ObservableObject {
     var numberFormatter: NumberFormatter {

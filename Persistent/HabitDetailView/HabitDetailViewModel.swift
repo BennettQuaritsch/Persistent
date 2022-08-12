@@ -16,6 +16,10 @@ extension HabitDetailView {
         case remove
     }
     
+    class EditViewShownModel: ObservableObject {
+        @Published var editSheet: Bool = false
+    }
+    
     class HabitDetailViewModel: ObservableObject {
         let viewContext = PersistenceController.shared.container.viewContext
         var appViewModel: AppViewModel?
@@ -24,12 +28,11 @@ extension HabitDetailView {
         
         @Published var selectedHabitTypeForMultipleAdd: HabitValueTypes
         
-        var listViewModel: ListViewModel
+//        var listViewModel: ListViewModel
         
-        init(habit: HabitItem, listViewModel: ListViewModel) {
+        init(habit: HabitItem) {
             self.habit = habit
             selectedHabitTypeForMultipleAdd = habit.valueTypeEnum
-            self.listViewModel = listViewModel
         }
         
         @Published var deleteActionSheet: Bool = false
@@ -57,13 +60,15 @@ extension HabitDetailView {
                 
                 let habitObject = context.object(with: habit.objectID) as! HabitItem
                 
+                print("currentHabit: \(habitObject.habitName)")
+                
                 habitObject.addToHabit(habitObject.wrappedStandardAddValue, date: shownDate, context: context, appViewModel: appViewModel)
                 
                 self.objectWillChange.send()
                 
                 habit.objectWillChange.send()
                 
-                listViewModel.objectWillChange.send()
+//                listViewModel.objectWillChange.send()
             }
             
             selectionChangedVibration()
@@ -80,7 +85,7 @@ extension HabitDetailView {
                 
                 habit.objectWillChange.send()
                 
-                listViewModel.objectWillChange.send()
+//                listViewModel.objectWillChange.send()
             }
             
             selectionChangedVibration()
