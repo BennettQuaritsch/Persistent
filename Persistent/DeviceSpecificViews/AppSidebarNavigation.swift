@@ -145,6 +145,7 @@ struct AppSidebarNavigation: View {
 
     @EnvironmentObject private var userSettings: UserSettings
     @EnvironmentObject private var appViewModel: AppViewModel
+    @EnvironmentObject private var storeManager: StoreManager
 
     @State private var selection: NavigationItem? = .allHabits
     @State private var filter: ListFilterSelectionEnum = .all
@@ -154,6 +155,7 @@ struct AppSidebarNavigation: View {
     @State var settingsSheet: Bool = false
     
     @State private var shownHabit: HabitItem?
+    @State private var habitToEdit: HabitItem? = nil
 
     @StateObject var viewModel: ListViewModel = .init()
     
@@ -219,6 +221,7 @@ struct AppSidebarNavigation: View {
                     .accentColor(userSettings.accentColor)
                     .environmentObject(userSettings)
                     .environmentObject(appViewModel)
+                    .environmentObject(storeManager)
                     .environment(\.horizontalSizeClass, horizontalSizeClass)
                     .environment(\.purchaseInfo, purchaseInfo)
                     .preferredColorScheme(colorScheme)
@@ -238,7 +241,7 @@ struct AppSidebarNavigation: View {
         } detail: {
             VStack {
                 if let shownHabit {
-                    HabitDetailView(habit: shownHabit)
+                    HabitDetailView(habit: shownHabit, habitToEdit: $habitToEdit)
                 }
             }
         }

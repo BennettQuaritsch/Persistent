@@ -22,41 +22,28 @@ struct HabitDetailView: View {
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.purchaseInfo) var purchaseInfo
     @Environment(\.scenePhase) var scenePhase
+    @Environment(\.interfaceColor) var interfaceColor
     
-    init(habit: HabitItem) {
+    init(habit: HabitItem, habitToEdit: Binding<HabitItem?>) {
         self.habit = habit
         
-        switch habit.resetIntervalEnum {
-        case .daily:
-            habitIntervalString = "day"
-        case .weekly:
-            habitIntervalString = "week"
-        case .monthly:
-            habitIntervalString = "month"
-        }
-        
-        print("initWithHabit: \(habit.habitName)")
-        
-        self._viewModel = ObservedObject(wrappedValue: HabitDetailViewModel(habit: habit))
-//        self.listViewModel = listViewModel
-        
-        
+        self._viewModel = StateObject(wrappedValue: HabitDetailViewModel(habit: habit))
         self._habitTimer = StateObject(wrappedValue: HabitTimer(habit: habit))
         
-        print("habit:")
-        dump(habit)
+        self._habitToEdit = habitToEdit
     }
     
-    @ObservedObject private var viewModel: HabitDetailViewModel
+    @StateObject private var viewModel: HabitDetailViewModel
     @StateObject private var editViewModel: EditViewShownModel = EditViewShownModel()
     
+    @State private var showCalendarSheet: Bool = false
 //    @ObservedObject private var listViewModel: ListViewModel
     
     @FocusState private var multipleAddViewTextFieldFocused: Bool
     
-    var habitIntervalString: String
-    
     @ObservedObject var habit: HabitItem
+    
+    @Binding var habitToEdit: HabitItem?
     
     @StateObject var habitTimer: HabitTimer
     
@@ -74,9 +61,6 @@ struct HabitDetailView: View {
                 )
                 .padding(25)
                 .drawingGroup()
-                .onAppear {
-                    print("viewModelWith: \(viewModel.habit.habitName)")
-                }
                 
             
             HStack {
@@ -97,89 +81,34 @@ struct HabitDetailView: View {
                 .buttonStyle(.plain)
                 .keyboardShortcut("-", modifiers: [.command])
                 .hoverEffect(.lift)
+                .accessibilityLabel("DetailView.Accessibility.Button.RemoveFromHabit")
                 
                 Spacer()
                 
-                VStack(spacing: 20) {
-//                    if habit.valueTypeEnum == .timeHours || habit.valueTypeEnum == .timeMinutes {
-//                        Spacer()
-//                        #if os(macOS)
-//                            .frame(minWidth: 40, maxWidth: 50)
-//                        #else
-//                            .frame(width: 40, height: 40)
-//                        #endif
-//                    }
-                    
-                    Text(verbatim: habit.relevantCountText(viewModel.shownDate))
-                        .font(.system(size: horizontalSizeClass == .regular ? 45 : 35, weight: .black, design: .rounded))
-                        .lineLimit(2)
-                        .minimumScaleFactor(0.5)
-                        .multilineTextAlignment(.center)
-                        .padding(.horizontal, 5)
-                        .transaction { transaction in
-                            transaction.animation = nil
-                        }
-                        .frame(minWidth: 30)
-                    
-                    
-//                    if habit.valueTypeEnum == .timeHours || habit.valueTypeEnum == .timeMinutes {
-//                        Button {
-//                            if habitTimer.timerRunning {
-//                                habitTimer.stop()
-//                                viewModel.objectWillChange.send()
-//                                habit.objectWillChange.send()
-//                            } else {
-//                                habitTimer.start()
-//                            }
-//
-//                        } label: {
-//                            Image(systemName: habitTimer.timerRunning ? "stop.circle.fill" : "play.circle.fill")
-//                                .renderingMode(.template)
-//                                .resizable()
-//                                .scaledToFit()
-//                                .foregroundStyle(.white, habitTimer.timerRunning ? .red : .green)
-//                            #if os(macOS)
-//                                .frame(minWidth: 40, maxWidth: 50)
-//                            #else
-//                                .frame(height: 40)
-//                            #endif
-//                        }
-//                        .buttonStyle(.plain)
-//                        .keyboardShortcut("+", modifiers: [.command])
-//                        .hoverEffect(.lift)
-//                        .onAppear {
-//                            habitTimer.context = viewContext
-//                            habitTimer.shouldStart()
-//                        }
-//                        .onDisappear {
-////                            habitTimer.saveDate()
-////                            habitTimer.pause()
-//                        }
-//                        .onChange(of: scenePhase) { scene in
-//                            if scene == .background {
-//                                habitTimer.saveDate()
-//                                habitTimer.pause()
-//                            } else if scene == .active {
-//                                habitTimer.checkForDate()
-//                            }
-//                        }
-//                    }
-                    
-                }
-                .onTapGesture {
-                    if !quickAddViewShown {
-                        withAnimation(springAnimation) {
-                            viewModel.multipleAddShown = true
-                            
-                            multipleAddViewTextFieldFocused = true
+                Text(verbatim: habit.relevantCountText(viewModel.shownDate))
+                    .font(.system(size: horizontalSizeClass == .regular ? 45 : 35, weight: .black, design: .rounded))
+                    .lineLimit(2)
+                    .minimumScaleFactor(0.5)
+                    .multilineTextAlignment(.center)
+                    .monospacedDigit()
+                    .padding(.horizontal, 5)
+                    .transaction { transaction in
+                        transaction.animation = nil
+                    }
+                    .frame(minWidth: 30)
+                    .onTapGesture {
+                        if !quickAddViewShown {
+                            withAnimation(springAnimation) {
+                                viewModel.multipleAddShown = true
+                                
+                                multipleAddViewTextFieldFocused = true
+                            }
                         }
                     }
-                }
                 
                 Spacer()
                 
                 Button {
-                    print("button: \(habit.relevantCount().formatted())")
                     viewModel.addToHabit(context: viewContext)
                 } label: {
                     Image(systemName: "plus.circle.fill")
@@ -195,6 +124,7 @@ struct HabitDetailView: View {
                 .buttonStyle(.plain)
                 .keyboardShortcut("+", modifiers: [.command])
                 .hoverEffect(.lift)
+                .accessibilityLabel("DetailView.Accessibility.Button.AddToHabit")
             }
             .padding(.horizontal, parentSizeClass == .compact ? 60 : 70)
         }
@@ -204,6 +134,7 @@ struct HabitDetailView: View {
     }
     
     @State private var quickAddViewShown: Bool = false
+    @State private var statisticsViewShown: Bool = false
     
     var springAnimation: Animation = .spring(response: 0.25, dampingFraction: 0.6, blendDuration: 1)
     var scaleTransition: AnyTransition {
@@ -226,7 +157,7 @@ struct HabitDetailView: View {
             HStack {
                 Image(systemName: "plus")
                 
-                Text("Quick Add")
+                Text("DetailView.QuickAdd.Button")
             }
             .padding()
             .foregroundColor(.systemBackground)
@@ -239,8 +170,6 @@ struct HabitDetailView: View {
     }
     
     var body: some View {
-//        let image: Image = Image(uiImage: ImageRenderer(content: habitCircle.frame(width:500, height: 500)).uiImage!)
-        
         GeometryReader { geo in
             ZStack(alignment: .center) {
                 VStack(spacing: 0) {
@@ -254,16 +183,17 @@ struct HabitDetailView: View {
                         }
                         
                         Text(habit.habitName)
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
+                            .font(.system(.largeTitle, design: .rounded, weight: .bold))
                             .lineLimit(1)
                             .minimumScaleFactor(0.6)
                     }
                     .padding(.top)
                     .layoutPriority(10)
                     
-                    Text("Goal of \(habit.amountToDoString()) per \(habit.resetIntervalEnum.noun)")
+                    Text("DetailView.GoalString \(habit.amountToDoString()) \(NSLocalizedString(habit.resetIntervalEnum.nounLocalizedStringKey, comment: ""))")
+                        .font(.system(.body, design: .rounded))
                         .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
                         .padding(.top, 5)
                     
                     Spacer()
@@ -318,10 +248,16 @@ struct HabitDetailView: View {
                 #endif
                 .toolbar(content: {
                     ToolbarItemGroup(placement: .navigationBarTrailing) {
-//                        ShareLink(item: image, preview: SharePreview("Share your progress!", image: image)) {
-//                            Label("Share", systemImage: "square.and.arrow.up")
-//                        }
-                        
+                        let content = ShareProgressCircleView(habit: habit, date: viewModel.shownDate)
+                        if let cgimage = ImageRenderer(content: content).cgImage {
+                            let image = Image(cgimage, scale: 1, label: Text("My Progress"))
+
+                            ShareLink(
+                                item: image,
+                                preview: SharePreview("Share your progress!", image: image))
+                        }
+//
+//
                         Menu {
                             Section {
                                 Button(action: {
@@ -329,32 +265,33 @@ struct HabitDetailView: View {
                                     
                                     multipleAddViewTextFieldFocused = true
                                 }) {
-                                    Label("Add or Remove", systemImage: "plus.forwardslash.minus")
+                                    Label("DetailView.Menu.AddRemoveMultiple", systemImage: "plus.forwardslash.minus")
                                 }
                             }
                             
                             Section {
                                 Button(action: {
-                                    editViewModel.editSheet = true
+                                    habitToEdit = habit
                                 }) {
-                                    Label("Edit", systemImage: "pencil")
+                                    Label("General.Buttons.Edit", systemImage: "pencil")
                                 }
+                                .accessibilityIdentifier("MenuEditButton")
                             }
                             
                             Section {
                                 Button {
                                     withAnimation {
                                         if habit.habitArchived {
-                                            habit.unarchiveHabit()
+                                            habit.unarchiveHabit(context: viewContext)
                                         } else {
-                                            habit.deleteHabit()
+                                            habit.archiveHabit(context: viewContext)
                                         }
                                     }
                                 } label: {
                                     if habit.habitArchived {
-                                        Label("Unrchive", systemImage: "archivebox")
+                                        Label("General.Buttons.Unarchive", systemImage: "archivebox")
                                     } else {
-                                        Label("Archive", systemImage: "archivebox")
+                                        Label("General.Buttons.Archive", systemImage: "archivebox")
                                     }
                                 }
                                 
@@ -363,12 +300,14 @@ struct HabitDetailView: View {
                                         deleteHabitAlertActive = true
                                     }
                                 } label: {
-                                    Label("Delete", systemImage: "trash")
+                                    Label("General.Buttons.Delete", systemImage: "trash")
                                 }
                             }
                         } label: {
                             Image(systemName: "ellipsis.circle")
                         }
+                        .accessibilityLabel("DetailView.Accessibility.Menu")
+                        .accessibilityIdentifier("DetailMenu")
                     }
                 })
                 .ignoresSafeArea(.keyboard)
@@ -389,6 +328,7 @@ struct HabitDetailView: View {
                         }
                     }
                 }
+                .accessibilityHidden(viewModel.multipleAddShown || quickAddViewShown)
                 
                 if viewModel.multipleAddShown {
                     AddRemoveMultipleView(habit: habit, viewModel: viewModel)
@@ -424,23 +364,27 @@ struct HabitDetailView: View {
             .habitDeleteAlert(isPresented: $deleteHabitAlertActive, habit: habit, context: viewContext, dismiss: dismiss)
         }
         .sheet(isPresented: $editViewModel.editSheet) {
-            EditView(habit: habit, accentColor: userSettings.accentColor)
+            AddHabitView(accentColor: userSettings.accentColor)
                 .environment(\.managedObjectContext, self.viewContext)
+                .environment(\.purchaseInfo, purchaseInfo)
+                .environment(\.interfaceColor, interfaceColor)
         }
-        .sheet(isPresented: $viewModel.calendarSheet) {
+        .sheet(isPresented: $showCalendarSheet) {
             CalendarPageViewController(
-                toggle: $viewModel.calendarSheet,
+                toggle: $showCalendarSheet,
                 habitDate: $viewModel.shownDate,
                 date: Date(),
                 habit: habit
             )
+//            .presentationDetents([.height(550)])
                 .accentColor(userSettings.accentColor)
                 .environment(\.horizontalSizeClass, horizontalSizeClass)
                 .environment(\.colorScheme, colorScheme)
                 .environment(\.parentSizeClass, parentSizeClass)
         }
-        .sheet(isPresented: $viewModel.graphSheet) {
+        .sheet(isPresented: $statisticsViewShown) {
             HabitSpecificGraphsView(habit: habit)
+//            HabitStatisticsView(habit: habit)
                 .accentColor(userSettings.accentColor)
                 .environment(\.purchaseInfo, purchaseInfo)
         }
@@ -454,70 +398,51 @@ struct HabitDetailView: View {
 
 extension HabitDetailView {
     @ViewBuilder var graphsViewButton: some View {
-        Circle()
-            .scaledToFit()
-            .foregroundColor(.accentColor)
-            .overlay(
-                Image(systemName: "chart.bar.fill")
-                    .font(.system(size: 25))
-                    .foregroundColor(.init("systemBackground"))
-                    .onTapGesture {
-                        viewModel.graphSheet = true
-                    }
-            )
-            .frame(height: 50)
-            .hoverEffect(.lift)
-            .padding()
+        Button {
+            statisticsViewShown = true
+        } label: {
+            Circle()
+                .scaledToFit()
+                .foregroundColor(.accentColor)
+                .overlay(
+                    Image(systemName: "chart.bar.fill")
+                        .font(.system(size: 25))
+                        .foregroundColor(.init("systemBackground"))
+                )
+                .frame(height: 50)
+                .hoverEffect(.lift)
+                .padding()
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Graphs")
+        .accessibilityIdentifier("GraphsButton")
     }
     
     @ViewBuilder var calendarViewButton: some View {
-        Circle()
-            .scaledToFit()
-            .foregroundColor(.accentColor)
-            .overlay(
-                Image(systemName: "calendar")
-                    .font(.system(size: 25))
-                    .foregroundColor(.init("systemBackground"))
-                    .onTapGesture {
-                        viewModel.calendarSheet = true
-                    }
-            )
-            .frame(height: 50)
-            .hoverEffect(.lift)
-            .padding()
-    }
-}
-
-struct ScrollCalendarDateView: View {
-    let dateNumber: Int
-    
-    func getSpecificDate(value: Int, format: String) -> String {
-        let currentDate = Date()
-        let specificDate = Calendar.defaultCalendar.date(byAdding: .day, value: -value, to: currentDate)
-        
-        let formatter = DateFormatter()
-        formatter.dateFormat = format
-        return formatter.string(from: specificDate!)
-    }
-    
-    var body: some View {
-        VStack {
-            Text(getSpecificDate(value: dateNumber, format: "dd"))
-                .font(.headline)
-            Text(getSpecificDate(value: dateNumber, format: "MMM"))
-                .font(.body).fontWeight(.light)
+        Button {
+            showCalendarSheet = true
+        } label: {
+            Circle()
+                .scaledToFit()
+                .foregroundColor(.accentColor)
+                .overlay(
+                    Image(systemName: "calendar")
+                        .font(.system(size: 25))
+                        .foregroundColor(.init("systemBackground"))
+                )
+                .frame(height: 50)
+                .hoverEffect(.lift)
+                .padding()
         }
-        .padding(5)
-        .background(Color(red: 236 / 255, green: 47 / 255, blue: 75 / 255))
-        .cornerRadius(10)
-        .shadow(radius: 5)
+        .buttonStyle(.plain)
+        .accessibilityLabel("Calendar")
     }
 }
 
 struct NewHabitDetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            HabitDetailView(habit: HabitItem.testHabit)
+            HabitDetailView(habit: HabitItem.testHabit, habitToEdit: .constant(nil))
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
             .environmentObject(UserSettings())
             .environmentObject(AppViewModel())
@@ -525,7 +450,7 @@ struct NewHabitDetailView_Previews: PreviewProvider {
         .previewDevice("iPhone 13 mini")
         
         NavigationStack {
-            HabitDetailView(habit: HabitItem.testHabit)
+            HabitDetailView(habit: HabitItem.testHabit, habitToEdit: .constant(nil))
             .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
             .environmentObject(UserSettings())
             .environmentObject(AppViewModel())

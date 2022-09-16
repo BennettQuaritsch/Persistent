@@ -31,6 +31,7 @@
 			<key>IntentsSupported</key>
 			<array>
 				<string>ConfigurationIntent</string>
+				<string>SelectHabitForBarChartIntent</string>
 				<string>SelectHabitIntent</string>
 				<string>SelectMultipleHabitsIntent</string>
 			</array>

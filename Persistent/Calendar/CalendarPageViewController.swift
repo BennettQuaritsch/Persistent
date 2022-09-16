@@ -244,21 +244,21 @@ struct CalendarPageViewController: View {
     var habit: HabitItem
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             VStack {
                 PageViewRepresentable(toggle: $toggle, habitDate: $habitDate, date: Date(), habit: habit)
                 
                 Spacer()
             }
             #if os(iOS)
-            .navigationTitle("Calendar")
+            .navigationTitle("DetailView.Calendar.Header")
             #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(role: .cancel) {
                         toggle = false
                     } label: {
-                        Text("Close")
+                        Text("General.Buttons.Close")
                     }
                 }
             }

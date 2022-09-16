@@ -25,51 +25,6 @@ struct ArchivedListView: View {
     @State private var habitToDelete: HabitItem?
 
     var body: some View {
-//        List(selection: $selection) {
-//            ForEach(items, id: \.id) { habit in
-//                if habit.habitArchived {
-//                    ListCellView(habit: habit, viewModel: ListViewModel())
-//                        .swipeActions(edge: .leading, allowsFullSwipe: true) {
-//                            Button {
-//                                withAnimation {
-//                                    habit.habitArchived = false
-//
-//                                    do {
-//                                        try viewContext.save()
-//                                    } catch {
-//                                        let nsError = error as NSError
-//                                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//                                    }
-//                                }
-//                            } label: {
-//                                Label("Undo Archive", systemImage: "trash.slash")
-//                            }
-//                            .tint(.green)
-//                        }
-//                        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-//                            Button(role: .destructive) {
-//                                withAnimation {
-//                                    habit.deleteHabitPermanently()
-//
-//                                    do {
-//                                        try viewContext.save()
-//                                    } catch {
-//                                        let nsError = error as NSError
-//                                        fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//                                    }
-//                                }
-//                            } label: {
-//                                Label("Final Delete", systemImage: "trash")
-//                            }
-//                        }
-//                }
-//            }
-//            #if os(iOS)
-//            .onChange(of: editMode?.wrappedValue) { _ in
-//                selection = []
-//            }
-//            #endif
-//        }
         ScrollView {
             if !items.filter({ $0.habitArchived == true }).isEmpty {
                 VStack {
@@ -82,7 +37,7 @@ struct ArchivedListView: View {
                                     .contextMenu {
                                         Button {
                                             withAnimation {
-                                                item.unarchiveHabit()
+                                                item.unarchiveHabit(context: viewContext)
                                             }
                                         } label: {
                                             Label("Unrchive", systemImage: "archivebox")
@@ -106,14 +61,8 @@ struct ArchivedListView: View {
                 }
             } else {
                 VStack {
-                    Text("It's empty here ☹️")
-                        .font(.title3)
-                        .fontWeight(.bold)
-                        .padding()
-                        
                     Text("Archive Habits in their context menus. This will remove their notifications.")
-                        .font(.title2)
-                        .fontWeight(.bold)
+                        .font(.system(.headline, design: .rounded, weight: .semibold))
                         .multilineTextAlignment(.center)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -123,10 +72,10 @@ struct ArchivedListView: View {
             
             
         }
-        .background(Color("systemGroupedBackground"))
+        .background(Color.systemGroupedBackground)
         #if os(iOS)
         .listStyle(InsetGroupedListStyle())
-        .navigationTitle("Archived Habits")
+        .navigationTitle("Settings.Habits.Archived")
         #endif
     }
 }

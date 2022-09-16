@@ -16,7 +16,7 @@ struct ValueTypeSelectionView: View {
         List {
             ValueTypeSelectionField(valueType: .number, selection: $selection, navigationPath: $navigationPath)
             
-            Section("Length") {
+            Section("AddEditBase.ValueType.Section.Length") {
                 ValueTypeSelectionField(valueType: .lengthKilometres, selection: $selection, navigationPath: $navigationPath)
                 
                 ValueTypeSelectionField(valueType: .lengthMetres, selection: $selection, navigationPath: $navigationPath)
@@ -26,7 +26,7 @@ struct ValueTypeSelectionView: View {
                 ValueTypeSelectionField(valueType: .lengthYards, selection: $selection, navigationPath: $navigationPath)
             }
             
-            Section("Volume") {
+            Section("AddEditBase.ValueType.Section.Volume") {
                 ValueTypeSelectionField(valueType: .volumeLitres, selection: $selection, navigationPath: $navigationPath)
                 
                 ValueTypeSelectionField(valueType: .volumeMillilitres, selection: $selection, navigationPath: $navigationPath)
@@ -38,14 +38,14 @@ struct ValueTypeSelectionView: View {
                 ValueTypeSelectionField(valueType: .volumeOunces, selection: $selection, navigationPath: $navigationPath)
             }
             
-            Section("Time") {
+            Section("AddEditBase.ValueType.Section.Time") {
                 ValueTypeSelectionField(valueType: .timeHours, selection: $selection, navigationPath: $navigationPath)
                 
                 ValueTypeSelectionField(valueType: .timeMinutes, selection: $selection, navigationPath: $navigationPath)
             }
         }
         .listStyle(.insetGrouped)
-        .navigationTitle("Value Type")
+        .navigationTitle("AddEditBase.ValueType.Header")
         .navigationBarTitleDisplayMode(.inline)
         .onChange(of: selection) { _ in
             viewModel.objectWillChange.send()
@@ -59,7 +59,7 @@ struct ValueTypeSelectionView: View {
         
         var body: some View {
             HStack {
-                Text(valueType.localizedNameString)
+                Text(LocalizedStringKey(valueType.localizedNameString))
                     .tag(valueType)
                 
                 Spacer()

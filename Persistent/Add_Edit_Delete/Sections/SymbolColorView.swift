@@ -30,7 +30,7 @@ struct SymbolColorView: View {
     }
     
     var body: some View {
-        NavigationLink(destination: ChooseIconView(iconChoice: $iconChoice)) {
+        NavigationLink(value: AddEditViewNavigationEnum.icons) {
             ZStack(alignment: .leading) {
                 Image(iconChoice)
                     .resizable()
@@ -85,7 +85,6 @@ struct SymbolColorView: View {
             .padding()
             .drawingGroup()
         }
-        .listRowInsets(EdgeInsets())
         .frame(maxWidth: .infinity)
         .background(backgroundColor, in: RoundedRectangle(cornerRadius: 15, style: .continuous))
     }

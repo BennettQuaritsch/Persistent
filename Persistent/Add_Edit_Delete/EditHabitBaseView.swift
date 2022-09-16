@@ -39,14 +39,14 @@ struct EditHabitBaseView: View {
                         
                         Text(viewModel.valueTypeSelection.localizedNameString)
                     }
-                    
-                    ResertIntervalPickerView(
-                        intervalChoice: $viewModel.intervalChoice,
-                        valueString: $viewModel.valueString,
-                        timesPerDay: $viewModel.amountToDo,
-                        valueTypeSelection: $viewModel.valueTypeSelection,
-                        valueTypeTextFieldSelected: _valueTypeTextFieldSelected
-                    )
+//                    
+//                    ResertIntervalPickerView(
+//                        intervalChoice: $viewModel.intervalChoice,
+//                        valueString: $viewModel.valueString,
+//                        timesPerDay: $viewModel.amountToDo,
+//                        valueTypeSelection: $viewModel.valueTypeSelection,
+//                        valueTypeTextFieldSelected: _valueTypeTextFieldSelected
+//                    )
                     
                     TextField("Standard Add-Value", text: $viewModel.standardAddValueTextField, prompt: Text("Standard Add-Value (optional)"))
                         .keyboardType(.decimalPad)
@@ -67,12 +67,12 @@ struct EditHabitBaseView: View {
                 }
 
                 Section(header: Text("Tags")) {
-                    NavigationLink("Tags", destination: NewTagSection(viewModel: viewModel))
+                    NavigationLink("Tags", value: AddEditViewNavigationEnum.tags)
                 }
 
                 Section(header: Text("Notifications")) {
                     if purchaseInfo.wrappedValue {
-                        NavigationLink(destination: NewNotificationsView(viewModel: viewModel.notificationsViewModel)) {
+                        NavigationLink(destination: NotificationsView(viewModel: viewModel.notificationsViewModel)) {
                             Text("Notifications")
                         }
                     } else {
@@ -148,11 +148,6 @@ struct EditHabitBaseView: View {
                 .zIndex(2)
             }
         }
-        .onChange(of: valueTypeTextFieldSelected) { value in
-            withAnimation {
-                viewModel.valueTypeTextFieldSelectedWrapper = value
-            }
-        }
         .alert("Failed to save habit", isPresented: $viewModel.validationFailedAlert) {
             Button("Ok") {
                 viewModel.validationFailedAlert = false
@@ -160,14 +155,6 @@ struct EditHabitBaseView: View {
         } message: {
             Text("Please look again if you missed to fill in some of the fields.")
         }
-//        .alert("Are you sure", isPresented: $viewModel.confirmationNeeded) {
-//            Button("Yes") {
-//                viewModel.confirmationNeeded = false
-//            }
-//        } message: {
-//            <#code#>
-//        }
-
     }
 }
 

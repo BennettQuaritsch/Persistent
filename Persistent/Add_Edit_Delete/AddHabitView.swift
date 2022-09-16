@@ -28,27 +28,32 @@ struct AddHabitView: View {
     
     @StateObject private var viewModel: AddEditViewModel
     
-    @FocusState private var valueTypeTextFieldSelected: Bool
-    
     @State private var navigationPath: [AddEditViewNavigationEnum] = []
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
-            AlternativeEditHabitBaseView(viewModel: viewModel, saveButtonAction: {
-                viewModel.addHabit(viewContext: viewContext, dismiss: dismiss)
-            }, navigationPath: $navigationPath)
+            AlternativeEditHabitBaseView(
+                viewModel: viewModel,
+                saveButtonAction: {
+                viewModel.addHabit(viewContext: viewContext)
+                    dismiss()
+            },
+                navigationPath: $navigationPath
+            )
             #if os(iOS)
-            .navigationTitle(viewModel.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Create a Habit" : viewModel.name)
+            .navigationTitle(viewModel.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? NSLocalizedString("AddHabit.NavigationTitle", comment: "") : viewModel.name)
             #endif
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
-                        viewModel.addHabit(viewContext: viewContext, dismiss: dismiss)
+                        viewModel.addHabit(viewContext: viewContext)
+                        
+                        dismiss()
                     } label: {
                         #if os(iOS)
-                        Label("Save", systemImage: "plus")
+                        Label("General.Buttons.Save", systemImage: "plus")
                         #else
-                        Text("Save")
+                        Text("General.Buttons.Save")
                         #endif
                     }
                 }
@@ -57,24 +62,24 @@ struct AddHabitView: View {
                     Button(role: .cancel) {
                         dismiss()
                     } label: {
-                        Text("Close")
+                        Text("General.Buttons.Close")
                     }
                 }
             }
-            .navigationDestination(for: AddEditViewNavigationEnum.self) { navigation in
-                switch navigation {
-                case .valueTypePicker:
-                    ValueTypeSelectionView(navigationPath: $navigationPath, selection: $viewModel.valueTypeSelection, viewModel: viewModel)
-                }
-            }
+//            .navigationDestination(for: AddEditViewNavigationEnum.self) { navigation in
+//                switch navigation {
+//                case .valueTypePicker:
+//                    ValueTypeSelectionView(navigationPath: $navigationPath, selection: $viewModel.valueTypeSelection, viewModel: viewModel)
+//                case .icons:
+//                    ChooseIconView(iconChoice: $viewModel.iconChoice)
+//                case .tags:
+//                    NewTagSection(viewModel: viewModel)
+//                case .notifications:
+//                    NotificationsView(viewModel: viewModel.notificationsViewModel)
+//                }
+//            }
         }
         .accentColor(accentColor)
-    }
-    
-    var addHabitButton: some View {
-        Button("Add your Habit") {
-            viewModel.addHabit(viewContext: viewContext, dismiss: dismiss)
-        }
     }
 }
 

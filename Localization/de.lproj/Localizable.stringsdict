@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>General.AmountToDoString.Ounces %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@ounces@</string>
+		<key>ounces</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string></string>
+			<key>one</key>
+			<string>einer Unze</string>
+			<key>other</key>
+			<string>%lld Unzen</string>
+		</dict>
+	</dict>
+	<key>General.AmountToDoString.Cups %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@cups@</string>
+		<key>cups</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string></string>
+			<key>one</key>
+			<string>einem Cup</string>
+			<key>other</key>
+			<string>%lld Cups</string>
+		</dict>
+	</dict>
+	<key>General.AmountToDoString.Quarts %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@quarts@</string>
+		<key>quarts</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string></string>
+			<key>one</key>
+			<string>einem Quart</string>
+			<key>other</key>
+			<string>%lld Quarts</string>
+		</dict>
+	</dict>
+	<key>General.AmountToDoString.Yards %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@yard@</string>
+		<key>yard</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string></string>
+			<key>one</key>
+			<string>einem Yard</string>
+			<key>other</key>
+			<string>%lld Yards</string>
+		</dict>
+	</dict>
+	<key>General.AmountToDoString.Miles %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@miles@</string>
+		<key>miles</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string></string>
+			<key>one</key>
+			<string>einer Meile</string>
+			<key>other</key>
+			<string>%lld Meilen</string>
+		</dict>
+	</dict>
+	<key>General.AmountToDoString.Metres %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@millilitres@</string>
+		<key>millilitres</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string></string>
+			<key>one</key>
+			<string>einem Meter</string>
+			<key>other</key>
+			<string>%lld Metern</string>
+		</dict>
+	</dict>
+	<key>General.AmountToDoString.Kilometres %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@kilometres@</string>
+		<key>kilometres</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string></string>
+			<key>one</key>
+			<string>einem Kilometer</string>
+			<key>other</key>
+			<string>%lld Kilometern</string>
+		</dict>
+	</dict>
+	<key>General.AmountToDoString.Litres %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@litres@</string>
+		<key>litres</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string></string>
+			<key>one</key>
+			<string>einem Liter</string>
+			<key>other</key>
+			<string>%lld Litern</string>
+		</dict>
+	</dict>
+	<key>General.AmountToDoString.Millilitres %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@millilitres@</string>
+		<key>millilitres</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string></string>
+			<key>one</key>
+			<string>einem Milliliter</string>
+			<key>other</key>
+			<string>%lld Millilitern</string>
+		</dict>
+	</dict>
+	<key>General.AmountToDoString.Time.Seconds %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@seconds@</string>
+		<key>seconds</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string></string>
+			<key>one</key>
+			<string>einer Sekunde</string>
+			<key>other</key>
+			<string>%lld Sekunden</string>
+		</dict>
+	</dict>
+	<key>General.AmountToDoString.Time.Minutes %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@minutes@</string>
+		<key>minutes</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string></string>
+			<key>one</key>
+			<string>einer Minute</string>
+			<key>other</key>
+			<string>%lld Minuten</string>
+		</dict>
+	</dict>
+	<key>General.AmountToDoString.Time.Hours %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@hours@</string>
+		<key>hours</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string></string>
+			<key>one</key>
+			<string>einer Stunde</string>
+			<key>other</key>
+			<string>%lld Stunden</string>
+		</dict>
+	</dict>
+	<key>Graphs.HabitSpecific.Completions.Header %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>Kein Mal</string>
+			<key>one</key>
+			<string>Ein Mal</string>
+			<key>other</key>
+			<string>%lld Male</string>
+		</dict>
+	</dict>
+	<key>AddEditBase.Notifications.Name %lld</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@count@</string>
+		<key>count</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>lld</string>
+			<key>zero</key>
+			<string>Keine Erinnerungen</string>
+			<key>one</key>
+			<string>Eine Erinnerung</string>
+			<key>other</key>
+			<string>%lld Erinnerungen</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

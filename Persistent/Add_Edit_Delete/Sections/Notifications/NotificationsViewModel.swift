@@ -27,7 +27,7 @@ func weekdayNameFrom(weekdayNumber: Int) -> String {
     return calendar.shortWeekdaySymbols[dayIndex]
 }
 
-class NewNotificationsViewModel: ObservableObject {
+class NotificationsViewModel: ObservableObject {
     @Published var notifcationArray: [NotificationDate] = []
     
     @Published var alertPresented: Bool = false
@@ -72,8 +72,8 @@ class NewNotificationsViewModel: ObservableObject {
                 
                 let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
                 
-                print("trigger:", components.weekday)
-                print("time: \(components.hour!) \(components.minute)")
+//                print("trigger:", components.weekday)
+//                print("time: \(components.hour!) \(components.minute)")
 
                 // UUID aus dem NotificationItem
                 //let uuidString = notificationItem.wrappedID.uuidString

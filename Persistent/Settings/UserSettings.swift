@@ -35,14 +35,14 @@ class UserSettings: ObservableObject {
             self.rawValue
         }
         
-        var shownName: String {
+        var shownName: LocalizedStringKey {
             switch self {
             case .automatic:
-                return "Automatic"
+                return "Settings.InterfaceDesign.AccentTheme.ThemePicker.Automatic"
             case .light:
-                return "Light Mode"
+                return "Settings.InterfaceDesign.AccentTheme.ThemePicker.Light"
             case .dark:
-                return "Dark Mode"
+                return "Settings.InterfaceDesign.AccentTheme.ThemePicker.Dark"
             }
         }
         

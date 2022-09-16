@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Persistent
+
+  Created by Bennett Quaritsch on 30.08.22.
+  
+*/
+
+NSPhotoLibraryUsageDescription = "Persistent needs your permission to save pictures you want to share to your photo library.";

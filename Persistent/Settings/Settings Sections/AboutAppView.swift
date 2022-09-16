@@ -28,35 +28,43 @@ struct AboutAppView: View {
                             .font(.title2)
                             .fontWeight(.bold)
                         
-                        Text("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown")")
+                        Text("Settings.About.About.Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "unknown")")
                             .font(.body.weight(.light))
                         
-                        Text("Built by Bennett Quaritsch")
+                        Text("Settings.About.About.BuiltBy")
                             .font(.footnote.weight(.light))
                             .padding(.top, 1)
-                            .multilineTextAlignment(.center)
+                            .multilineTextAlignment(.leading)
                     }
                 }
                 .frame(maxWidth: .infinity)
                 .listRowBackground(Color.clear)
             }
             
-            CustomLinkView(url: url, text: "Feedback, Feature Requests and Bug Reports")
+            CustomLinkView(url: url, text: "Settings.About.About.Feedback")
                 .padding(.vertical, 5)
             
             if let url = URL(string: "https://persistentapp.net/") {
-                CustomLinkView(url: url, text: "Persistent Website")
+                CustomLinkView(url: url, text: "Settings.About.About.Website")
             }
             
-            CustomLinkView(url: URL(string: "https://twitter.com/PersistentApp")!, text: "Persistent Twitter")
+            CustomLinkView(url: URL(string: "https://twitter.com/PersistentApp")!, text: "Settings.About.About.Twitter")
+            
+            if let url = URL(string: "https://persistentapp.net/termsofuse/") {
+                CustomLinkView(url: url, text: "Settings.About.About.TermsOfUse")
+            }
+            
+            if let url = URL(string: "https://persistentapp.net/privacypolicy/") {
+                CustomLinkView(url: url, text: "Settings.About.About.PrivacyPolicy")
+            }
             
             if let reviewLink = reviewLink {
-                CustomLinkView(url: reviewLink, text: "Leave a review 😀")
+                CustomLinkView(url: reviewLink, text: "Settings.About.About.Review")
             }
         }
         .buttonStyle(.plain)
         .navigationBarTitleDisplayMode(.large)
-        .navigationTitle("About the App")
+        .navigationTitle("Settings.About.About")
     }
 }
 

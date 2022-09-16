@@ -12,18 +12,19 @@ struct HabitSpecificGraphsView: View {
     
     @Environment(\.dismiss) var dismiss
     @Environment(\.purchaseInfo) var purchaseInfo
+    @Environment(\.parentSizeClass) var parentSizeClass
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    @Environment(\.colorScheme) var colorScheme
     
-    init(habit: HabitItem) {
-        self._barChartViewModel = StateObject(wrappedValue: HabitBarChartViewModel(habit: habit))
-        
-        self.habit = habit
-    }
+    // Models
+    @EnvironmentObject private var userSettings: UserSettings
+    @EnvironmentObject private var appViewModel: AppViewModel
+    @EnvironmentObject private var storeManager: StoreManager
     
-    @StateObject var barChartViewModel: HabitBarChartViewModel
+    
+    @StateObject var chartModel: ChartModel = ChartModel()
     
     @State private var buyPremiumViewSelected: Bool = false
-    
-//    @State var graphPickerSelection: HabitBarChartViewModel.GraphPickerSelectionEnum = .weekly
     
     func formatDoubleNumberTwoDigits(_ value: Double) -> String {
         let formatter = NumberFormatter()
@@ -39,125 +40,192 @@ struct HabitSpecificGraphsView: View {
         return string
     }
     
-    var body: some View {
-        NavigationView {
-            VStack {
+    struct HorizontalTextView: View {
+        let color: Color
+        
+        let leadingText: LocalizedStringKey
+        let trailingText: LocalizedStringKey
+        
+        var body: some View {
+            let textViewLeading = Text(leadingText)
+                .font(.system(.title, design: .rounded, weight: .heavy))
+                .foregroundColor(color)
+            
+            let textViewTrailing = Text(trailingText)
+                .font(.system(.title3, design: .rounded, weight: .semibold))
+            
+            Text("\(textViewLeading)\u{200B}\(textViewTrailing)")
+        }
+    }
+    
+    struct StatisticsBoxView: View {
+        let color: Color
+        
+        let labelString: LocalizedStringKey
+        
+        let leadingText: LocalizedStringKey
+        let trailingText: LocalizedStringKey
+        
+        let bottomText: LocalizedStringKey
+        
+        var body: some View {
+            GroupBox {
                 HStack {
-                    if let first = barChartViewModel.shownDates.first, let last = barChartViewModel.shownDates.last {
-                        GroupBox {
-                            VStack {
-                                let successfulCompletions = habit.getSuccessfulCompletionsForInterval(firstDate: first, lastDate: last)
-                                
-                                if habit.breakHabit {
-                                    Text("Failed")
-                                }
-                                
-                                Text(String(successfulCompletions) + (successfulCompletions == 1 ? " time" : " times"))
-                                    .frame(maxWidth: .infinity)
-                                    .font(.title3.weight(.bold))
-                                
-                                if !habit.breakHabit {
-                                    Text("completed successfully")
-                                }
-                            }
-                            .frame(minHeight: 50, maxHeight: 80)
-                            .blur(radius: purchaseInfo.wrappedValue ? 0 : 10)
-                        }
-                        .multilineTextAlignment(.center)
+                    VStack(alignment: .leading) {
+                        HorizontalTextView(
+                            color: color,
+                            leadingText: leadingText,
+                            trailingText: trailingText
+                        )
                         
-                        GroupBox {
-                            VStack {
-                                if habit.breakHabit {
-                                    Text("Succeeded")
-                                }
-                                
-                                Text(formatDoubleNumberNoDigits(habit.getPercentageDoneForInterval(firstDate: first, lastDate: last)) + "%")
-                                    .frame(maxWidth: .infinity)
-                                    .font(.title3.weight(.bold))
-                                
-                                if habit.breakHabit {
-                                    Text("on average")
-                                } else {
-                                    Text("completed on average")
-                                }
-                            }
-                            .frame(minHeight: 50, maxHeight: 80)
-                            .blur(radius: purchaseInfo.wrappedValue ? 0 : 10)
+                        Text(bottomText)
+                            .font(.system(.callout, design: .rounded, weight: .light))
+                    }
+                    
+                    Spacer()
+                }
+            } label: {
+                Text(labelString)
+                    .font(.system(.title3, design: .rounded, weight: .bold))
+            }
+        }
+    }
+    
+    @State private var showPremiumView: Bool = false
+    
+    var body: some View {
+        NavigationStack {
+            VStack {
+                GroupBox {
+                    RoundedBarChartView(
+                        chartModel: chartModel,
+                        habit: habit
+                    )
+                }
+                .overlay {
+                    if !purchaseInfo.wrappedValue {
+                        Button("Statistics.PremiumNeeded") {
+                            showPremiumView = true
                         }
-                        .multilineTextAlignment(.center)
+                        .font(.headline)
+                        .buttonStyle(.borderedProminent)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 10))
                     }
                 }
                 
-                GroupBox {
-                    Picker("Interval", selection: $barChartViewModel.graphPickerSelection) {
-                        ForEach(HabitBarChartViewModel.GraphPickerSelectionEnum.allCases, id: \.self) { selection in
-                            Text(selection.name(habit: habit)).tag(selection)
-                        }
-                    }
-                    .pickerStyle(.segmented)
-                    .onChange(of: barChartViewModel.graphPickerSelection) { selection in
-                        barChartViewModel.currentDate = Date()
-                        barChartViewModel.loadHabits(selection)
-                    }
-                    .disabled(!purchaseInfo.wrappedValue)
-                    .blur(radius: purchaseInfo.wrappedValue ? 0 : 10)
-                    
-                    ZStack {
-                        HabitCompletionGraph(viewModel: barChartViewModel)
-                            .aspectRatio(2 / 1.2, contentMode: .fit)
-                            .blur(radius: purchaseInfo.wrappedValue ? 0 : 10)
-                        
-                        if !purchaseInfo.wrappedValue {
-                            Button {
-                                buyPremiumViewSelected = true
-                            } label: {
-                                HStack {
-                                    Image(systemName: "lock.open.fill")
+//                    ZStack {
+//                        GroupBox {
+//                            RoundedBarChartView(
+//                                chartModel: chartModel,
+//                                habit: habit
+//                            )
+//                        }
+//
+//
+//                        if !purchaseInfo.wrappedValue {
+//                            NavigationLink("Premium", value: HabitSpecificGraphsNavigationEnum.premium)
+//                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                                .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
+//                                .navigationDestination(for: HabitSpecificGraphsNavigationEnum.self) { nav in
+//                                    switch nav {
+//                                    case .premium:
+//                                        BuyPremiumView()
+//                                    }
+//                                }
+//                        }
+//                    }
+                .frame(height: parentSizeClass == .regular ? 350 : 250)
+                
+                Grid {
+                    GridRow {
+                        StatisticsBoxView(
+                            color: habit.iconColor,
+                            labelString: "Statistics.BoxView.AbsolutGoal.Header",
+                            leadingText: "\(chartModel.getSuccessfulCompletions(for: habit))",
+                            trailingText: "Statistics.BoxView.AbsolutGoal.Trailing",
+                            bottomText: "Statistics.BoxView.AbsolutGoal.Bottom"
+                        )
+                        .overlay {
+                            if !purchaseInfo.wrappedValue {
+                                VStack {
                                     
-                                    Text("Unlock Graphs for your Widget and support me 😄")
-                                        .multilineTextAlignment(.leading)
                                 }
-                                    .font(.headline)
-                                    //.multilineTextAlignment(.center)
-                                    .foregroundColor(.primary)
-                                    .padding(10)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 10))
                             }
-                            .buttonStyle(.borderedProminent)
-                            
-                            NavigationLink(destination: BuyPremiumView(), isActive: $buyPremiumViewSelected) {
-                                EmptyView()
+                        }
+                        
+                        StatisticsBoxView(
+                            color: habit.iconColor,
+                            labelString: "Statistics.BoxView.PercentageGoal.Header",
+                            leadingText: "\(formatDoubleNumberNoDigits(chartModel.getPercentageDone(for: habit)))",
+                            trailingText: "Statistics.BoxView.PercentageGoal.Trailing",
+                            bottomText: "Statistics.BoxView.PercentageGoal.Bottom"
+                        )
+                        .overlay {
+                            if !purchaseInfo.wrappedValue {
+                                VStack {
+                                    
+                                }
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 10))
                             }
-                            .hidden()
-                            //.shadow(radius: 6)
                         }
                     }
-                    .frame(maxWidth: .infinity)
-                } label: {
-                    
                 }
-                .frame(minWidth: 300, maxWidth: .infinity)
                 
                 Spacer()
             }
+            
             // Ohne gibt es eine weirde Insert Transition
             .transition(.move(edge: .top))
             .padding()
-            .navigationTitle("Graphs")
+            .navigationTitle("DetailView.Statistics.Header")
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(role: .cancel) {
                         dismiss()
                     } label: {
-                        Text("Close")
+                        Text("General.Buttons.Close")
                     }
+                    .accessibilityIdentifier("CloseButton")
                 }
+            }
+            .sheet(isPresented: $showPremiumView) {
+                NavigationStack {
+                    BuyPremiumView()
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button(role: .cancel) {
+                                    showPremiumView = false
+                                } label: {
+                                    Text("General.Buttons.Close")
+                                }
+                            }
+                        }
+                }
+                    .accentColor(userSettings.accentColor)
+                    .environmentObject(userSettings)
+                    .environmentObject(appViewModel)
+                    .environmentObject(storeManager)
+                    .environment(\.horizontalSizeClass, horizontalSizeClass)
+                    .environment(\.purchaseInfo, purchaseInfo)
+                    .preferredColorScheme(colorScheme)
             }
         }
     }
 }
 
+extension HabitSpecificGraphsView {
+    enum HabitSpecificGraphsNavigationEnum: Hashable {
+        case premium
+    }
+}
+
 struct HabitSpecificGraphsView_Previews: PreviewProvider {
     static var previews: some View {
-        return HabitSpecificGraphsView(habit: HabitItem.testHabit)
+        HabitSpecificGraphsView(habit: HabitItem.testHabit)
+            .environment(\.purchaseInfo, .constant(true))
     }
 }

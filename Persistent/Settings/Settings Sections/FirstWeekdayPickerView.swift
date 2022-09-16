@@ -14,7 +14,7 @@ struct FirstWeekdayPickerView: View {
         List {
             ForEach(Calendar.FirstWeekdayEnum.allCases, id: \.self) { weekday in
                 HStack {
-                    Text(weekday.rawValue)
+                    Text(weekday.localizedStringKey)
                     
                     Spacer()
                     
@@ -32,7 +32,7 @@ struct FirstWeekdayPickerView: View {
         #if os(iOS)
         .listStyle(.insetGrouped)
         #endif
-        .navigationTitle("First Day of the Week")
+        .navigationTitle("Settings.Calendar.FirstDay")
     }
 }
 

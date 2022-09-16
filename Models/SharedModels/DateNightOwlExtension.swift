@@ -18,4 +18,8 @@ extension Date {
         
         return adjustedDate
     }
+    
+    func changeDate(with calendar: Calendar, byAdding component: Calendar.Component, value: Int) -> Date {
+        return calendar.date(byAdding: component, value: value, to: self) ?? Date()
+    }
 }

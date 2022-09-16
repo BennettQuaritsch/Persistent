@@ -26,6 +26,7 @@ struct SplitViewListView: View {
     // Models
     @EnvironmentObject private var userSettings: UserSettings
     @EnvironmentObject private var appViewModel: AppViewModel
+    @EnvironmentObject private var storeManager: StoreManager
     
     let filterOption: ListFilterSelectionEnum
     
@@ -199,12 +200,18 @@ struct SplitViewListView: View {
                 .accentColor(userSettings.accentColor)
             .environment(\.managedObjectContext, self.viewContext)
             .environment(\.purchaseInfo, purchaseInfo)
+            .environmentObject(userSettings)
+            .environmentObject(appViewModel)
+            .environmentObject(storeManager)
+            .environment(\.horizontalSizeClass, horizontalSizeClass)
+            .preferredColorScheme(colorScheme)
         })
         .sheet(isPresented: $showSettings) {
             SettingsView()
                 .accentColor(userSettings.accentColor)
                 .environmentObject(userSettings)
                 .environmentObject(appViewModel)
+                .environmentObject(storeManager)
                 .environment(\.horizontalSizeClass, horizontalSizeClass)
                 .environment(\.purchaseInfo, purchaseInfo)
                 .preferredColorScheme(colorScheme)
@@ -241,7 +248,7 @@ struct SplitViewListView: View {
                 .contextMenu {
                     Button {
                         withAnimation {
-                            item.deleteHabit()
+                            item.archiveHabit(context: viewContext)
                         }
                     } label: {
                         Label("Archive", systemImage: "archivebox")

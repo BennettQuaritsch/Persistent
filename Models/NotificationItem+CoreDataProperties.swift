@@ -8,6 +8,7 @@
 
 import Foundation
 import CoreData
+import SwiftUI
 
 extension Calendar {
     static var defaultCalendar: Calendar {
@@ -39,6 +40,15 @@ extension Calendar {
                 return 1
             case .monday:
                 return 2
+            }
+        }
+        
+        var localizedStringKey: LocalizedStringKey {
+            switch self {
+            case .sunday:
+                return "Settings.Calendar.FirstDay.Enum.Sunday"
+            case .monday:
+                return "Settings.Calendar.FirstDay.Enum.Monday"
             }
         }
         

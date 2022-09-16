@@ -10,7 +10,7 @@ import SwiftUI
 import CoreData
 
 enum AddEditViewNavigationEnum {
-    case valueTypePicker
+    case valueTypePicker, icons, tags, notifications
 }
 
 class AddEditViewModel: ObservableObject {
@@ -32,6 +32,7 @@ class AddEditViewModel: ObservableObject {
     
     // Value Type und Menge
     @Published var valueTypeSelection: HabitValueTypes = .number
+    let previousValueType: HabitValueTypes?
     @Published var amountToDo: Int = 3
     @Published var valueString: String = ""
     @Published var valueTypeTextFieldSelectedWrapper: Bool = false
@@ -45,7 +46,7 @@ class AddEditViewModel: ObservableObject {
     @Published var colorSelection: Int = 0
     @Published var iconColorName: String
     
-    @Published var notificationsViewModel = NewNotificationsViewModel()
+    @Published var notificationsViewModel = NotificationsViewModel()
     
     @Published var validationFailedAlert: Bool = false
     
@@ -54,6 +55,7 @@ class AddEditViewModel: ObservableObject {
     init() {
         self.uuid = UUID()
         self.iconColorName = Color.iconColors.randomElement()?.name ?? "Primary"
+        self.previousValueType = nil
     }
     
     init(habit: HabitItem) {
@@ -83,6 +85,7 @@ class AddEditViewModel: ObservableObject {
         self.tagSelection = selection
 
         self.valueTypeSelection =  habit.valueTypeEnum
+        self.previousValueType = habit.valueTypeEnum
     }
     
     // Vibration
@@ -93,7 +96,7 @@ class AddEditViewModel: ObservableObject {
     }
     #endif
     
-    func addHabit(viewContext: NSManagedObjectContext, dismiss: DismissAction) {
+    func addHabit(viewContext: NSManagedObjectContext) {
         do {
             try validateHabit()
         } catch {
@@ -106,7 +109,7 @@ class AddEditViewModel: ObservableObject {
         
         let newhabit = HabitItem(context: viewContext)
         
-        saveHabit(habit: newhabit, viewContext: viewContext, dismiss: dismiss)
+        saveHabit(habit: newhabit, viewContext: viewContext)
         
         #if os(iOS)
         //notificationsViewModel.addNotification(habit: newhabit, context: viewContext)
@@ -125,7 +128,7 @@ class AddEditViewModel: ObservableObject {
         }
     }
     
-    func editHabit(viewContext: NSManagedObjectContext, dismiss: DismissAction) {
+    func editHabit(viewContext: NSManagedObjectContext) {
         if let habit = self.habit {
             do {
                 try validateHabit()
@@ -137,7 +140,7 @@ class AddEditViewModel: ObservableObject {
                 return
             }
             
-            saveHabit(habit: habit, viewContext: viewContext, dismiss: dismiss)
+            saveHabit(habit: habit, viewContext: viewContext)
             
             #if os(iOS)
             //notificationsViewModel.addNotification(habit: newhabit, context: viewContext)
@@ -159,7 +162,7 @@ class AddEditViewModel: ObservableObject {
     }
     
     private enum HabitValidationError: Error {
-        case validationError
+        case validationError, differentValueType
     }
     
     private func validateHabit() throws {
@@ -185,10 +188,10 @@ class AddEditViewModel: ObservableObject {
         }
     }
     
-    func saveHabit(habit: HabitItem, viewContext: NSManagedObjectContext, dismiss: DismissAction) {
+    func saveHabit(habit: HabitItem, viewContext: NSManagedObjectContext) {
         
         habit.id = uuid
-        habit.habitName = name
+        habit.habitName = name.trimingLeadingAndTrailingSpaces()
         
         habit.habitArchived = false
         
@@ -236,6 +239,6 @@ class AddEditViewModel: ObservableObject {
 //            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
 //        }
 //
-        dismiss()
+        PersistentShortcuts.updateAppShortcutParameters()
     }
 }

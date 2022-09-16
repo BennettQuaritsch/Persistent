@@ -24,7 +24,7 @@ struct NightOwlModeView: View {
     var body: some View {
         ZStack(alignment: .top) {
             List() {
-                Picker("Select a delay", selection: $userSettings.nightOwlHourSelection) {
+                Picker("Settings.Habits.NightOwl.Picker", selection: $userSettings.nightOwlHourSelection) {
                     ForEach(NightOwlCasesEnum.allCases, id: \.self) { hour in
                         Text("\(hour.rawValue) \(hour.rawValue == 1 ? "hour" : "hours")")
                             .tag(hour.rawValue)
@@ -34,17 +34,17 @@ struct NightOwlModeView: View {
                 .pickerStyle(InlinePickerStyle())
             }
             .listStyle(.insetGrouped)
-            .navigationTitle("Night Owl Mode")
+            .navigationTitle("Settings.Habits.NightOwl")
             .zIndex(1)
             
             
             if helpOverlay {
                 VStack {
                     VStack(spacing: 5) {
-                        Text("Night Owl Mode")
+                        Text("Settings.Habits.NightOwl")
                             .font(.headline)
                         
-                        Text("Select the amount of hours that, even after the day is technically over, still count towards the previous day.")
+                        Text("Settings.Habits.NightOwl.Help.Body")
                             .multilineTextAlignment(.center)
                             .foregroundColor(.secondary)
                     }
@@ -76,7 +76,7 @@ struct NightOwlModeView: View {
                         helpOverlay = true
                     }
                 } label: {
-                    Label("Help", systemImage: "info.circle")
+                    Label("General.Buttons.Help", systemImage: "info.circle")
                 }
             }
         }

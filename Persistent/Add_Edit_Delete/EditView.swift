@@ -18,8 +18,6 @@ struct EditView: View {
     
     let accentColor: Color
     
-    //let habit: HabitItem
-    
     init(habit: HabitItem, accentColor: Color) {
         self._viewModel = StateObject(wrappedValue: AddEditViewModel(habit: habit))
         
@@ -27,8 +25,6 @@ struct EditView: View {
     }
     
     @StateObject private var viewModel: AddEditViewModel
-    
-    @FocusState private var valueTypeTextFieldSelected: Bool
     
     #if os(iOS)
     func habitAddedVibration() {
@@ -43,21 +39,38 @@ struct EditView: View {
         ]
     
     @State private var navigationPath: [AddEditViewNavigationEnum] = []
+    @State private var differentValueTypeAlert: Bool = false
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
-            AlternativeEditHabitBaseView(viewModel: viewModel, saveButtonAction: {
-                viewModel.editHabit(viewContext: viewContext, dismiss: dismiss)
-            }, navigationPath: $navigationPath)
+            AlternativeEditHabitBaseView(
+                viewModel: viewModel,
+                saveButtonAction: {
+                    if let previousValueType = viewModel.previousValueType, !viewModel.valueTypeSelection.comparableTypes.contains(previousValueType) {
+                        differentValueTypeAlert = true
+                    } else {
+                        viewModel.editHabit(viewContext: viewContext)
+                        
+                        dismiss()
+                    }
+            },
+                navigationPath: $navigationPath
+            )
             #if os(iOS)
-            .navigationTitle(viewModel.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "Edit Habit" : viewModel.name)
+            .navigationTitle(viewModel.name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? NSLocalizedString("EditHabit.NavigationTitle", comment: "") : viewModel.name)
             #endif
             .toolbar {
                 ToolbarItem(placement: .confirmationAction) {
                     Button {
-                        viewModel.editHabit(viewContext: viewContext, dismiss: dismiss)
+                        if let previousValueType = viewModel.previousValueType, !viewModel.valueTypeSelection.comparableTypes.contains(previousValueType) {
+                            differentValueTypeAlert = true
+                        } else {
+                            viewModel.editHabit(viewContext: viewContext)
+                            
+                            dismiss()
+                        }
                     } label: {
-                        Label("Save", systemImage: "checkmark")
+                        Label("General.Buttons.Save", systemImage: "checkmark")
                     }
                 }
                 
@@ -65,16 +78,36 @@ struct EditView: View {
                     Button(role: .cancel) {
                         dismiss()
                     } label: {
-                        Text("Close")
+                        Text("General.Buttons.Close")
                     }
+                    .accessibilityIdentifier("CloseButton")
                 }
             }
-            .navigationDestination(for: AddEditViewNavigationEnum.self) { navigation in
-                switch navigation {
-                case .valueTypePicker:
-                    ValueTypeSelectionView(navigationPath: $navigationPath, selection: $viewModel.valueTypeSelection, viewModel: viewModel)
+            .alert("AddEditBase.DifferentValueTypeError.Header", isPresented: $differentValueTypeAlert) {
+                Button("AddEditBase.DifferentValueTypeError.Stop", role: .cancel) {
+                    
                 }
+                
+                Button("AddEditBase.DifferentValueTypeError.Continue", role: .destructive) {
+                    viewModel.editHabit(viewContext: viewContext)
+                    
+                    dismiss()
+                }
+            } message: {
+                Text("AddEditBase.DifferentValueTypeError.Message")
             }
+//            .navigationDestination(for: AddEditViewNavigationEnum.self) { navigation in
+//                switch navigation {
+//                case .valueTypePicker:
+//                    ValueTypeSelectionView(navigationPath: $navigationPath, selection: $viewModel.valueTypeSelection, viewModel: viewModel)
+//                case .icons:
+//                    ChooseIconView(iconChoice: $viewModel.iconChoice)
+//                case .tags:
+//                    NewTagSection(viewModel: viewModel)
+//                case .notifications:
+//                    NotificationsView(viewModel: viewModel.notificationsViewModel)
+//                }
+//            }
         }
         .accentColor(accentColor)
         .onAppear {

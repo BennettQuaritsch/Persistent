@@ -16,13 +16,14 @@ struct iPhoneView: View {
     
     @EnvironmentObject var settings: UserSettings
     
+    @State private var habitToEdit: HabitItem? = nil
     @State private var navigationPath: [HabitItem] = []
     
     var body: some View {
         NavigationStack(path: $navigationPath) {
-            ListView(navigationPath: $navigationPath)
+            ListView(navigationPath: $navigationPath, habitToEdit: $habitToEdit)
                 .navigationDestination(for: HabitItem.self) { habit in
-                    HabitDetailView(habit: habit)
+                    HabitDetailView(habit: habit, habitToEdit: $habitToEdit)
                         .environmentObject(appViewModel)
                 }
         }

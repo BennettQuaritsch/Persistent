@@ -7,11 +7,20 @@
 
 import SwiftUI
 import StoreKit
+import WidgetKit
 
-struct PremiumContent: Hashable {
+struct PremiumContent: Identifiable {
     var title: String
-    var description: String
+    var description: LocalizedStringKey
     var systemImageName: String
+    
+    var titleLocalized: LocalizedStringKey {
+        LocalizedStringKey(title)
+    }
+    
+    var id: String {
+        return title
+    }
 }
 
 extension SKProduct {
@@ -32,10 +41,10 @@ struct BuyPremiumView: View {
     @Environment(\.dismiss) var dismiss
     
     let premiumContents: [PremiumContent] = [
-        .init(title: "More than 3 Habits", description: "You can create more than 3 habits at the same time. Time to power through them!", systemImageName: "checkmark.seal.fill"),
-        .init(title: "View graphs", description: "Get a graphical look at how you did in the past. Click on the graphs icon in the detail page of your habit.", systemImageName: "chart.bar.xaxis"),
-        .init(title: "Notifications", description: "Schedule notifications that remind you of your habit.", systemImageName: "bell.badge.fill"),
-        .init(title: "Support", description: "With this purchase you can support me, an indie app-creator 😊.", systemImageName: "heart.fill")
+        .init(title: "Settings.PersistentPremium.MoreHabits.Title", description: "Settings.PersistentPremium.MoreHabits.Description", systemImageName: "checkmark.seal.fill"),
+        .init(title: "Settings.PersistentPremium.Graphs.Title", description: "Settings.PersistentPremium.Graphs.Description", systemImageName: "chart.bar.xaxis"),
+        .init(title: "Settings.PersistentPremium.Notifications.Title", description: "Settings.PersistentPremium.Notifications.Description", systemImageName: "bell.badge.fill"),
+        .init(title: "Settings.PersistentPremium.Support.Title", description: "Settings.PersistentPremium.Support.Description", systemImageName: "heart.fill")
     ]
     
     var product: Product? {
@@ -46,6 +55,8 @@ struct BuyPremiumView: View {
     
     @State private var purchasing: Bool = false
     
+    @ScaledMetric(relativeTo: .title3) var buttonHeight = 40
+    
     var body: some View {
         VStack {
             Image("persistentLogo")
@@ -55,8 +66,8 @@ struct BuyPremiumView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
 
             ScrollView(.vertical, showsIndicators: false) {
-                VStack(alignment: .leading, spacing: 30) {
-                    ForEach(premiumContents, id: \.self) { content in
+                VStack(alignment: .leading, spacing: 20) {
+                    ForEach(premiumContents) { content in
                         HStack(spacing: 0) {
                             Image(systemName: content.systemImageName)
                                 .resizable()
@@ -68,7 +79,7 @@ struct BuyPremiumView: View {
                             #endif
                             
                             VStack(alignment: .leading, spacing: 5) {
-                                Text(content.title)
+                                Text(content.titleLocalized)
                                     .font(.headline)
                                     .foregroundColor(.primary)
                                 
@@ -83,7 +94,7 @@ struct BuyPremiumView: View {
             .padding(.vertical)
             
             if purchaseInfo.wrappedValue {
-                Text("Purchased")
+                Text("Settings.PersistentPremium.BoughtText")
                     .font(.headline)
                     .padding()
                     .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 10))
@@ -107,24 +118,29 @@ struct BuyPremiumView: View {
                             }
                             
                             purchasing = false
+                            
+                            WidgetCenter.shared.reloadAllTimelines()
                         }
                     }
                 } label: {
                     if purchasing {
                         ProgressView()
                             .frame(maxWidth: .infinity)
+                            .frame(height: buttonHeight)
                     } else {
-                        Text("Buy Premium for \(product?.displayPrice ?? "unknown price")")
+                        Text("Settings.PersistentPremium.BuyNowText \(product?.displayPrice ?? NSLocalizedString("Settings.PersistentPremium.BuyNowText.unknowPrice", comment: ""))")
                             .font(.title3)
                             .fontWeight(.semibold)
                             .frame(maxWidth: .infinity)
+                            .frame(height: buttonHeight)
                     }
                 }
+                
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     
                 
-                Button("Restore Purchases") {
+                Button("Settings.PersistentPremium.RestorePurchase") {
                     //storeManager.restoreProducts()
                     Task {
                         await storeManager.getEntitlements()
@@ -136,7 +152,7 @@ struct BuyPremiumView: View {
         }
         .padding()
         #if os(iOS)
-        .navigationTitle("Premium")
+        .navigationTitle("Settings.PersistentPremium.Header")
         .navigationBarTitleDisplayMode(.inline)
         #endif
         .onChange(of: storeManager.transactionState) { state in
@@ -151,7 +167,7 @@ struct BuyPremiumView: View {
             }
         }
         .alert(isPresented: $alert) {
-            Alert(title: Text("Something went wrong"), message: Text("This might have been your connection or I made a mistake. If this keeps happening, please reach out to me."), dismissButton: .cancel())
+            Alert(title: Text("Settings.PersistentPremium.Error.Title"), message: Text("Settings.PersistentPremium.Error.Description"), dismissButton: .cancel())
         }
     }
 }

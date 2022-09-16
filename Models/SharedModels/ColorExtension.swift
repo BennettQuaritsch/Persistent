@@ -19,13 +19,15 @@ extension Color {
 }
 
 extension Color {
+    #if os(iOS)
     static let systemGroupedBackground = Self.init("systemGroupedBackground")
     static let secondarySystemGroupedBackground = Self.init("secondarySystemGroupedBackground")
     static let tertiaryGroupedBackground = Self.init("tertiaryGroupedBackground")
-    static let systemBackground: Color = Self.init("systemBackground")
+    static let systemBackground: Color = Self.init(uiColor: .systemBackground)
     static let systemGray6: Color = Self.init("systemGray6")
     static let systemGray5: Color = Self.init("systemGray5")
     static let systemGray4: Color = Self.init("systemGray4")
+    #endif
 }
 
 extension Color {

@@ -27,15 +27,15 @@ struct AboutPersistentView: View {
         }
         .buttonStyle(.plain)
         #if os(iOS)
-        .listStyle(InsetGroupedListStyle())
-        .navigationBarTitle("Thanks to...")
+        .listStyle(.insetGrouped)
+        .navigationTitle("Settings.About.Thanks")
         #endif
     }
 }
 
 struct CustomLinkView: View {
     let url: URL
-    let text: String
+    let text: LocalizedStringKey
     
     var body: some View {
         Link(destination: url) {

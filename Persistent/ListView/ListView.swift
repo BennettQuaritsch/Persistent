@@ -13,6 +13,7 @@ struct ListView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.purchaseInfo) var purchaseInfo
+    @Environment(\.interfaceColor) var interfaceColor
     
     #if os(iOS)
     //@Environment(\.editMode) var editMode
@@ -24,8 +25,10 @@ struct ListView: View {
     // Models
     @EnvironmentObject private var userSettings: UserSettings
     @EnvironmentObject private var appViewModel: AppViewModel
+    @EnvironmentObject private var storeManager: StoreManager
     
     @State private var showSettings: Bool = false
+    @Binding var habitToEdit: HabitItem?
     
     @State private var purchaseAlert = false
     
@@ -55,12 +58,13 @@ struct ListView: View {
         return !purchaseInfo.wrappedValue && items.count >= 3
     }
     
-    init(navigationPath: Binding<[HabitItem]>) {
+    init(navigationPath: Binding<[HabitItem]>, habitToEdit: Binding<HabitItem?>) {
         _items = FetchRequest(
             sortDescriptors: [NSSortDescriptor(keyPath: \HabitItem.habitName, ascending: true)],
             animation: .easeInOut)
         
         self._navigationPath = navigationPath
+        self._habitToEdit = habitToEdit
     }
     
     @StateObject var viewModel: ListViewModel = .init()
@@ -116,13 +120,11 @@ struct ListView: View {
             } else {
                 VStack {
                     Text("It's empty here ☹️")
-                        .font(.title3)
-                        .fontWeight(.bold)
+                        .font(.system(.headline, design: .rounded, weight: .bold))
                         .padding()
                         
                     Text("Press + to add a habit")
-                        .font(.title2)
-                        .fontWeight(.bold)
+                        .font(.system(.body, design: .rounded, weight: .medium))
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .padding()
@@ -176,7 +178,7 @@ struct ListView: View {
             }
             , alignment: .bottom)
         .navigationTitle(filterOption.name)
-        .searchable(text: $viewModel.searchText, prompt: "Search for a habit")
+        .searchable(text: $viewModel.searchText, prompt: "ListView.Search.Prompt")
         .toolbar {
             #if os(iOS)
             ToolbarItemGroup(placement: .navigationBarLeading) {
@@ -186,6 +188,7 @@ struct ListView: View {
                     } label: {
                         Label("Settings", systemImage: "gear")
                     }
+                    .accessibilityIdentifier("SettingsButton")
                 }
                 
                 ListMenuButton(viewModel: viewModel, filterOption: $filterOption, tags: tags.map {$0})
@@ -206,17 +209,31 @@ struct ListView: View {
                 }
             }
         }
-        .sheet(isPresented: $viewModel.addSheetPresented, content: {
-            AddHabitView(accentColor: userSettings.accentColor)
+        .sheet(item: $habitToEdit) { habitItem in
+            EditView(habit: habitItem, accentColor: userSettings.accentColor)
                 .accentColor(userSettings.accentColor)
             .environment(\.managedObjectContext, self.viewContext)
             .environment(\.purchaseInfo, purchaseInfo)
+            .environment(\.interfaceColor, interfaceColor)
+        }
+        .sheet(isPresented: $viewModel.addSheetPresented, content: {
+            AddHabitView(accentColor: userSettings.accentColor)
+                .accentColor(userSettings.accentColor)
+                .environment(\.managedObjectContext, self.viewContext)
+                .environment(\.purchaseInfo, purchaseInfo)
+                .environment(\.interfaceColor, interfaceColor)
+                .environmentObject(userSettings)
+                .environmentObject(appViewModel)
+                .environmentObject(storeManager)
+                .environment(\.horizontalSizeClass, horizontalSizeClass)
+                .preferredColorScheme(colorScheme)
         })
         .sheet(isPresented: $showSettings) {
             SettingsView()
                 .accentColor(userSettings.accentColor)
                 .environmentObject(userSettings)
                 .environmentObject(appViewModel)
+                .environmentObject(storeManager)
                 .environment(\.horizontalSizeClass, horizontalSizeClass)
                 .environment(\.purchaseInfo, purchaseInfo)
                 .preferredColorScheme(colorScheme)
@@ -247,8 +264,14 @@ struct ListView: View {
                 .contentShape(ContentShapeKinds.contextMenuPreview, RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .contextMenu {
                     Button {
+                        habitToEdit = item
+                    } label: {
+                        Label("Edit", systemImage: "pencil")
+                    }
+                    
+                    Button {
                         withAnimation {
-                            item.deleteHabit()
+                            item.archiveHabit(context: viewContext)
                         }
                     } label: {
                         Label("Archive", systemImage: "archivebox")
@@ -274,7 +297,7 @@ struct ListView: View {
 struct ListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            ListView(navigationPath: .constant([]))
+            ListView(navigationPath: .constant([]), habitToEdit: .constant(nil))
                 .previewDevice("iPhone 12")
         }
             //.environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)

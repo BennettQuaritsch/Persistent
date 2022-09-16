@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Persistent
+
+  Created by Bennett Quaritsch on 30.08.22.
+  
+*/
+
+NSPhotoLibraryUsageDescription = "Persistent braucht deine Erlaubnis, um Fotos deiner Mediathek hinzufügen zu können.";

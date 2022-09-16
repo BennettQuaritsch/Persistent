@@ -12,13 +12,16 @@ struct AlternativeEditHabitBaseView: View {
     @Environment(\.dismiss) var dismiss
     @Environment(\.purchaseInfo) var purchaseInfo
     @Environment(\.colorScheme) var colorScheme
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    
+    // Models
+    @EnvironmentObject private var userSettings: UserSettings
+    @EnvironmentObject private var appViewModel: AppViewModel
+    @EnvironmentObject private var storeManager: StoreManager
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \HabitTag.name, ascending: true)]) var tags: FetchedResults<HabitTag>
     
     @ObservedObject var viewModel: AddEditViewModel
-    
-    @FocusState private var valueTypeTextFieldSelected: Bool
-    @FocusState private var standardAddTextFieldSelected: Bool
     
     let saveButtonAction: () -> Void
     
@@ -41,24 +44,10 @@ struct AlternativeEditHabitBaseView: View {
         if !string.isEmpty {
             string.removeLast(2)
         } else {
-            string = "None selected"
+            string = String(localized: "AddEditBase.Tags.NoneSelected")
         }
         
         return string
-    }
-    
-    var notificationName: String {
-        let count = viewModel.notificationsViewModel.notifcationArray.count
-        
-        if count == 0 {
-            return "No Notifications"
-        }
-        
-        if count == 1 {
-            return "1 Notifcation"
-        }
-        
-        return "\(count) Notifications"
     }
     
     var backgroundColor: Color {
@@ -69,48 +58,55 @@ struct AlternativeEditHabitBaseView: View {
         }
     }
     
+    enum TextFieldFocusEnum: Hashable {
+        case name, valueType, standardAdd
+    }
+    
+    @FocusState private var textFieldFocus: TextFieldFocusEnum?
+    
     var body: some View {
         ZStack {
             ScrollView {
                 VStack(alignment: .leading, spacing: 25) {
-                    TextField("Name", text: $viewModel.name)
+                    TextField("AddEditBase.NameHeader", text: $viewModel.name)
                         .textFieldStyle(.continuousRounded(backgroundColor))
+                        .focused($textFieldFocus, equals: .name)
 
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Value Type")
+                        Text("AddEditBase.ValueType.Header")
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.secondary)
                         
                         NavigationLink(value: AddEditViewNavigationEnum.valueTypePicker) {
-                            Text(viewModel.valueTypeSelection.localizedNameString)
+                            Text(LocalizedStringKey(viewModel.valueTypeSelection.localizedNameString))
                                 .padding(10)
                                 .background(backgroundColor, in: RoundedRectangle(cornerRadius: 15, style: .continuous))
                         }
                     }
                     
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Interval")
+                        Text("AddEditBase.IntervalHeader")
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.secondary)
                         
                         ResertIntervalPickerView(
-                            intervalChoice: $viewModel.intervalChoice,
+                            breakHabitEnum: viewModel.buildOrBreakHabit, intervalChoice: $viewModel.intervalChoice,
                             valueString: $viewModel.valueString,
                             timesPerDay: $viewModel.amountToDo,
                             valueTypeSelection: $viewModel.valueTypeSelection,
-                            valueTypeTextFieldSelected: _valueTypeTextFieldSelected
+                            valueTypeTextFieldSelected: _textFieldFocus
                         )
                         .textFieldStyle(.continuousRounded(backgroundColor))
                         
                         HStack {
-                            Text("Add Amount")
+                            Text("AddEditBase.AddAmount")
                                 .font(.subheadline.weight(.semibold))
                                 .foregroundStyle(.secondary)
                             
-                            TextField("Standard Add-Value", text: $viewModel.standardAddValueTextField, prompt: Text("optional"))
+                            TextField("AddEditBase.AddAmountTextField", text: $viewModel.standardAddValueTextField, prompt: Text("AddEditBase.AddAmountTextField.Prompt"))
                                 .textFieldStyle(.continuousRounded(backgroundColor))
                                 .keyboardType(.decimalPad)
-                                .focused($standardAddTextFieldSelected)
+                                .focused($textFieldFocus, equals: .standardAdd)
                                 .overlay(alignment: .trailing) {
                                     Button {
                                         withAnimation {
@@ -127,20 +123,20 @@ struct AlternativeEditHabitBaseView: View {
                     
                     
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("I want to...")
+                        Text("AddEditBase.BuildOrBreak.Header")
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.secondary)
                         
-                        Picker("I want to", selection: $viewModel.buildOrBreakHabit) {
+                        Picker("AddEditBase.BuildOrBreak.Picker", selection: $viewModel.buildOrBreakHabit) {
                             ForEach(BuildOrBreakHabitEnum.allCases, id: \.self) { habitCase in
-                                Text(habitCase.rawValue).tag(habitCase)
+                                Text(habitCase.loccalizedName).tag(habitCase)
                             }
                         }
                         .pickerStyle(.segmented)
                     }
 
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Icon & Color")
+                        Text("AddEditBase.IconColor.Header")
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.secondary)
                         
@@ -148,22 +144,25 @@ struct AlternativeEditHabitBaseView: View {
                     }
                     
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Tags")
+                        Text("AddEditBase.Tags.Header")
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.secondary)
                         
-                        NavigationLink(tagNames, destination: NewTagSection(viewModel: viewModel))
+                        NavigationLink(tagNames, value: AddEditViewNavigationEnum.tags)
                             .padding(10)
                             .background(backgroundColor, in: RoundedRectangle(cornerRadius: 15, style: .continuous))
                     }
                     
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Notifications")
+                        Text("AddEditBase.Notifications.Header")
                             .font(.subheadline.weight(.semibold))
                             .foregroundStyle(.secondary)
                         
                         if purchaseInfo.wrappedValue {
-                            NavigationLink(notificationName, destination: NewNotificationsView(viewModel: viewModel.notificationsViewModel))
+                            NavigationLink(value: AddEditViewNavigationEnum.notifications) {
+                                Text("AddEditBase.Notifications.Name \(viewModel.notificationsViewModel.notifcationArray.count)")
+                                
+                            }
                             .padding(10)
                             .background(backgroundColor, in: RoundedRectangle(cornerRadius: 15, style: .continuous))
                         } else {
@@ -173,7 +172,7 @@ struct AlternativeEditHabitBaseView: View {
                                 }
                             } label: {
                                 HStack {
-                                    Text("Notifcations")
+                                    Text("AddEditBase.Notifications.Header")
                                         .foregroundStyle(.secondary)
                                 }
                                 .contentShape(Rectangle())
@@ -183,7 +182,7 @@ struct AlternativeEditHabitBaseView: View {
                         }
                     }
 
-                    Button("Save Habit", action: saveButtonAction)
+                    Button("AddEditBase.SaveHabitButton", action: saveButtonAction)
                         .font(.headline)
                         .frame(maxWidth: .infinity)
                         .padding(15)
@@ -192,56 +191,86 @@ struct AlternativeEditHabitBaseView: View {
                 }
                 .padding()
             }
-            .background(Color.systemGroupedBackground, ignoresSafeAreaEdges: .all)
+//            .background(Color.systemGroupedBackground, ignoresSafeAreaEdges: .all)
+            .background {
+                Color.systemGroupedBackground
+                    .transaction { transaction in
+                        transaction.disablesAnimations = true
+                    }
+                    .edgesIgnoringSafeArea(.all)
+            }
             .zIndex(1)
-            .alert("You can't set notifications for habits", isPresented: $buyPremiumAlert) {
-                Button("Not interested") {
+            .alert("AddEditBase.NotificationsPremiumPurchaseAlert.Header", isPresented: $buyPremiumAlert) {
+                Button("AddEditBase.NotificationsPremiumPurchaseAlert.Cancel") {
                     buyPremiumAlert = false
                 }
                 
-                Button("Show me!") {
+                Button("AddEditBase.NotificationsPremiumPurchaseAlert.Purchase") {
                     buyPremiumViewSelected = true
                 }
             } message: {
-                Text("If you want to set notifications, you will need Persistent Premium.")
+                Text("AddEditBase.NotificationsPremiumPurchaseAlert.Message")
+            }
+            .sheet(isPresented: $buyPremiumViewSelected) { 
+                NavigationStack {
+                    BuyPremiumView()
+                        .toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button(role: .cancel) {
+                                    buyPremiumViewSelected = false
+                                } label: {
+                                    Text("General.Buttons.Close")
+                                }
+                            }
+                        }
+                }
+                    .accentColor(userSettings.accentColor)
+                    .environmentObject(userSettings)
+                    .environmentObject(appViewModel)
+                    .environmentObject(storeManager)
+                    .environment(\.horizontalSizeClass, horizontalSizeClass)
+                    .environment(\.purchaseInfo, purchaseInfo)
+                    .preferredColorScheme(colorScheme)
             }
             
-            if valueTypeTextFieldSelected || standardAddTextFieldSelected {
-                VStack {
+            VStack {
+                Spacer()
+                
+                HStack {
                     Spacer()
                     
-                    HStack {
-                        Spacer()
-                        
+                    if textFieldFocus == .valueType || textFieldFocus == .standardAdd {
                         Button {
-                            valueTypeTextFieldSelected = false
-                            standardAddTextFieldSelected = false
+                            textFieldFocus = nil
                         } label: {
                             Image(systemName: "keyboard.chevron.compact.down")
+                                .imageScale(.large)
+                                .fontWeight(.semibold)
+                                .padding()
+                                .background(colorScheme == .dark ? Color.systemGray5 : Color.systemBackground, in: Capsule())
                         }
-                        .imageScale(.large)
+                        .accessibilityLabel("Dismiss Keyboard")
                         .padding()
-                        .background(.thinMaterial)
-                        .clipShape(Capsule())
-                        .contentShape(Capsule())
-                        .padding()
+                        .transition(.opacity.animation(.easeInOut(duration: 0.05)))
+                        .animation(.easeInOut(duration: 0.07), value: textFieldFocus)
+//                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
+                        .zIndex(2)
                     }
                 }
-                .frame(maxWidth: .infinity)
-                .transition(.opacity.animation(.easeInOut(duration: 0.07)))
-                .zIndex(2)
             }
+            .zIndex(2)
+            
             if standardAddHelpShown {
                 VStack(spacing: 5) {
-                    Text("Standard-Add Amount")
+                    Text("AddEditBase.StandardAddHelp.Header")
                         .font(.headline)
                         .foregroundStyle(.primary)
                     
-                    Text("This is the amount you add (or remove) from your habit from the selected day when you click the plus (or minus) button in the detail view of the habit or the small habit button in the list view.")
+                    Text("AddEditBase.StandardAddHelp.Body1")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.secondary)
                     
-                    Text("If left empty, the Standard-Add Amount will be one.")
+                    Text("AddEditBase.StandardAddHelp.Body2")
                         .multilineTextAlignment(.center)
                         .foregroundStyle(.secondary)
                 }
@@ -256,24 +285,25 @@ struct AlternativeEditHabitBaseView: View {
                 .zIndex(3)
             }
         }
-//        .onTapGesture {
-//            if standardAddHelpShown {
-//                standardAddHelpShown = false
-//            }
-//        }
-        .onChange(of: valueTypeTextFieldSelected) { value in
-            withAnimation {
-                viewModel.valueTypeTextFieldSelectedWrapper = value
-            }
-        }
-        .alert("Failed to save habit", isPresented: $viewModel.validationFailedAlert) {
-            Button("Ok") {
+        .alert("AddEditBase.AddHabitError.Header", isPresented: $viewModel.validationFailedAlert) {
+            Button("AddEditBase.AddHabitError.Continue") {
                 viewModel.validationFailedAlert = false
             }
         } message: {
-            Text("Please look again if you missed to fill in some of the fields.")
+            Text("AddEditBase.AddHabitError.Message")
         }
-        
+        .navigationDestination(for: AddEditViewNavigationEnum.self) { navigation in
+            switch navigation {
+            case .valueTypePicker:
+                ValueTypeSelectionView(navigationPath: $navigationPath, selection: $viewModel.valueTypeSelection, viewModel: viewModel)
+            case .icons:
+                ChooseIconView(iconChoice: $viewModel.iconChoice)
+            case .tags:
+                NewTagSection(viewModel: viewModel)
+            case .notifications:
+                NotificationsView(viewModel: viewModel.notificationsViewModel)
+            }
+        }
     }
 }
 

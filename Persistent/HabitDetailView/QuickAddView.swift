@@ -55,7 +55,7 @@ struct QuickAddView: View {
         VStack {
             
             ZStack {
-                Text("Quick Add Actions")
+                Text("DetailView.QuickAdd.Header")
                     .font(.title2.weight(.semibold))
                 
                 HStack {
@@ -72,6 +72,7 @@ struct QuickAddView: View {
                             .padding(7)
                             .background(Color.black.opacity(0.1), in: Circle())
                     }
+                    .accessibilityLabel("General.Buttons.Close")
                 }
             }
             
@@ -151,7 +152,7 @@ struct QuickAddView: View {
             HStack {
                 if isAdding {
                     VStack(alignment: .leading) {
-                        TextField("Name", text: $addingName)
+                        TextField("DetailView.QuickAdd.Name", text: $addingName)
                             .textFieldStyle(.continuousRounded(.systemGray6))
                             .foregroundColor(.primary)
                             .focused($focusedField, equals: .name)
@@ -162,11 +163,12 @@ struct QuickAddView: View {
                                 Image(systemName: "textformat.abc")
                                     .foregroundColor(.secondary)
                                     .padding(.trailing, 5)
+                                    .accessibilityHidden(true)
                             }
                         
                         ComparableHabitTypesPicker(habit: habit, selection: $selectedTypeValue)
                         
-                        TextField("Amount", text: $addingValue)
+                        TextField("DetailView.QuickAdd.Amount", text: $addingValue)
                             .keyboardType(.decimalPad)
                             .textFieldStyle(.continuousRounded(.systemGray6))
                             .foregroundColor(.primary)
@@ -180,6 +182,7 @@ struct QuickAddView: View {
                                 Image(systemName: "textformat.123")
                                     .foregroundColor(.secondary)
                                     .padding(.trailing, 5)
+                                    .accessibilityHidden(true)
                             }
                     }
                     .padding(.vertical)
@@ -198,12 +201,16 @@ struct QuickAddView: View {
                             
                             focusedField = nil
                         }
+                        .accessibilityLabel("DetailView.QuickAdd.Accessibility.Save")
+                        .accessibilityAddTraits(.isButton)
+                        .accessibilityRemoveTraits(.isStaticText)
                 } else {
                     HStack {
                         Image(systemName: "plus")
                             .matchedGeometryEffect(id: "plus", in: namespace)
+                            .accessibilityHidden(true)
                         
-                        Text("Create new quick add")
+                        Text("DetailView.QuickAdd.CreateNew")
                             .transition(AnyTransition.move(edge: .trailing).animation(animation))
                     }
                     .font(.headline)
@@ -215,6 +222,8 @@ struct QuickAddView: View {
                         
                         focusedField = .name
                     }
+                    .accessibilityAddTraits(.isButton)
+                    .accessibilityRemoveTraits(.isStaticText)
                 }
             }
             .foregroundColor(textColor)
@@ -282,7 +291,7 @@ extension QuickAddView {
 //        default:
 //            int = number.int32Value
 //        }
-        
+        print("selectionvalue: \(selectedTypeValue)")
         HabitQuickAddAction.newQuickAddActionForValueType(
             selectedValueType: selectedTypeValue,
             id: UUID(),

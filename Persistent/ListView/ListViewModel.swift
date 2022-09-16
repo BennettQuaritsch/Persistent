@@ -23,13 +23,13 @@ enum ListFilterSelectionEnum: Equatable, Hashable, CaseIterable {
     var name: String {
         switch self {
         case .all:
-            return "All Habits"
+            return NSLocalizedString("General.ListFilterSelection.All", comment: "")
         case .daily:
-            return "Daily Habits"
+            return NSLocalizedString("General.ListFilterSelection.Daily", comment: "")
         case .weekly:
-            return "Weekly Habits"
+            return NSLocalizedString("General.ListFilterSelection.Weekly", comment: "")
         case .monthly:
-            return "Monthly Habits"
+            return NSLocalizedString("General.ListFilterSelection.Monthly", comment: "")
         case .tag(let habitTag):
             return habitTag.wrappedName
         }
@@ -135,19 +135,6 @@ class ListViewModel: ObservableObject {
         let generator = UIImpactFeedbackGenerator()
         generator.impactOccurred()
         #endif
-    }
-    
-    func deleteHabitWithOffset(at offsets: IndexSet, items: FetchedResults<HabitItem>, context: NSManagedObjectContext) {
-        for index in offsets {
-            let habit = items[index]
-            habit.deleteHabit()
-            
-            do {
-                try context.save()
-            } catch {
-                fatalError()
-            }
-        }
     }
     
     func addHabitOnCirclePress(item: HabitItem, context: NSManagedObjectContext) {

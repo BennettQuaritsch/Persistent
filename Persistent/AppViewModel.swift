@@ -26,8 +26,6 @@ class AppViewModel: ObservableObject {
             
             UserDefaults.standard.set(true, forKey: AppViewModel.firstAppLaunchUserDefaultsKey)
         }
-        
-        self.showWelcomeSheet = true
     }
     
     func checkIfLaunchscreenSeen() {

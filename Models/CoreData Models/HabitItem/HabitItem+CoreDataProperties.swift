@@ -57,13 +57,13 @@ struct IconSection: Hashable {
     
     static var sections: [IconSection] {
         return [
-            .init(name: "Sport", iconArray: ["walking", "stratching", "exercise", "bicycle", "swimmer", "track-and-field", "boxing", "golf", "javelin-throw", "skateboarding", "canoe", "wakeboarding", "barbell", "bench-press", "deadlift", "curls-with-dumbbells", "pushups", "pullups", "sit-ups", "squats", "football", "american-football", "baseball", "tennisball", "basketball", "volleyball", "bowling-ball", "fitness", ]),
-            .init(name: "Food", iconArray: ["restaurant", "nutrition", "pizza", "cheese", "meat", "natural-food", "fast-food", "ice-cream", "pint", "cafe", "beer", "wine", "kawaii-bread", "kawaii-broccoli", "kawaii-french-fries", "kawaii-pizza", "kawaii-soda"]),
-            .init(name: "People & Animals", iconArray: ["man", "woman", "body", "person", "people", "happy", "sad", "eye", "footsteps", "hand-left", "ear", "paw", "thumbs-up", "thumbs-down", "cat", "dog", "leash", "clown-fish", "bug"]),
-            .init(name: "Chores & Breaking habits", iconArray: ["broom", "vacuuming", "yard-work", "iron", "empty-trash", "recycling", "shopping-cart", "graduation-cap", "todo-list", "no-food", "sugar-free", "no-alcohol" , "no-smoking"]),
-            .init(name: "Tech", iconArray: ["imac", "macbook", "tv", "apple-watch", "headset", "mic", "game-controller", "hardware-chip", "git-branch", "qr-code", "camera", "videocam", "aperture", "calculator", "code-slash", "terminal", "save", "disc", "server", ]),
-            .init(name: "Objects", iconArray: ["car-sport", "car", "bus", "subway", "airplane", "boat", "rocket", "archive", "bag", "balloon", "bandage", "basket", "bed", "book", "reader", "brush", "pencil", "build", "hammer", "bulb", "business", "calendar", "call", "cart", "wallet", "cash", "card", "briefcase", "cut", "dice", "earth", "extension-puzzle", "file-tray", "film", "flag", "flame", "flash", "flask", "leaf", "flower", "rose", "gift", "glasses", "hourglass", "id-card", "image", "library", "journal", "newspaper", "key", "lock-closed", "magnet", "medkit", "planet", "print", "ribbon", "shirt", "skull", "storefront", "telescope", "thermometer", "ticket", "umbrella"]),
-            .init(name: "Symbols", iconArray: ["text", "language", "bar-chart", "pie-chart", "ban", "at-circle", "cog", "color-filter", "color-palette", "eyedrop", "color-wand", "create", "crop", "document", "download", "trash", "finger-print", "folder", "checkmark-circle", "heart", "bookmark", "clipboard", "layers", "link", "list", "location", "map", "navigate", "mail", "musical-notes", "notifications", "chatbox", "nuclear", "sunny", "moon", "partly-sunny", "cloud", "rainy", "thunderstorm", "snow", "play", "volume-high", "radio", "pricetag", "school", "shield", "sparkles", "time", "timer", "alarm", "toggle", "funnel", "medical"])
+            .init(name: "General.IconSections.Sport", iconArray: ["walking", "stratching", "exercise", "bicycle", "swimmer", "track-and-field", "boxing", "golf", "javelin-throw", "skateboarding", "canoe", "wakeboarding", "barbell", "bench-press", "deadlift", "curls-with-dumbbells", "pushups", "pullups", "sit-ups", "squats", "football", "american-football", "baseball", "tennisball", "basketball", "volleyball", "bowling-ball", "fitness", ]),
+            .init(name: "General.IconSections.Food", iconArray: ["restaurant", "nutrition", "pizza", "cheese", "meat", "natural-food", "fast-food", "ice-cream", "pint", "cafe", "beer", "wine", "kawaii-bread", "kawaii-broccoli", "kawaii-french-fries", "kawaii-pizza", "kawaii-soda"]),
+            .init(name: "General.IconSections.PeopleAnimals", iconArray: ["man", "woman", "body", "person", "people", "happy", "sad", "eye", "footsteps", "hand-left", "ear", "paw", "thumbs-up", "thumbs-down", "cat", "dog", "leash", "clown-fish", "bug"]),
+            .init(name: "General.IconSections.ChoresBreakingHabits", iconArray: ["broom", "vacuuming", "yard-work", "iron", "empty-trash", "recycling", "shopping-cart", "graduation-cap", "todo-list", "no-food", "sugar-free", "no-alcohol" , "no-smoking"]),
+            .init(name: "General.IconSections.Tech", iconArray: ["imac", "macbook", "tv", "apple-watch", "headset", "mic", "game-controller", "hardware-chip", "git-branch", "qr-code", "camera", "videocam", "aperture", "calculator", "code-slash", "terminal", "save", "disc", "server", ]),
+            .init(name: "General.IconSections.Objects", iconArray: ["car-sport", "car", "bus", "subway", "airplane", "boat", "rocket", "archive", "bag", "balloon", "bandage", "basket", "bed", "book", "reader", "brush", "pencil", "build", "hammer", "bulb", "business", "calendar", "call", "cart", "wallet", "cash", "card", "briefcase", "cut", "dice", "earth", "extension-puzzle", "file-tray", "film", "flag", "flame", "flash", "flask", "leaf", "flower", "rose", "gift", "glasses", "hourglass", "id-card", "image", "library", "journal", "newspaper", "key", "lock-closed", "magnet", "medkit", "planet", "print", "ribbon", "shirt", "skull", "storefront", "telescope", "thermometer", "ticket", "umbrella"]),
+            .init(name: "General.IconSections.Symbols", iconArray: ["text", "language", "bar-chart", "pie-chart", "ban", "at-circle", "cog", "color-filter", "color-palette", "eyedrop", "color-wand", "create", "crop", "document", "download", "trash", "finger-print", "folder", "checkmark-circle", "heart", "bookmark", "clipboard", "layers", "link", "list", "location", "map", "navigate", "mail", "musical-notes", "notifications", "chatbox", "nuclear", "sunny", "moon", "partly-sunny", "cloud", "rainy", "thunderstorm", "snow", "play", "volume-high", "radio", "pricetag", "school", "shield", "sparkles", "time", "timer", "alarm", "medical"])
         ]
     }
 }
@@ -82,19 +82,30 @@ public enum ResetIntervals: CaseIterable, Hashable {
         }
     }
     
-    var noun: String {
+    var localizedStringKey: LocalizedStringKey {
         switch self {
         case .daily:
-            return "day"
+            return "General.ResetIntervals.Daily"
         case .weekly:
-            return "week"
+            return "General.ResetIntervals.Weekly"
         case .monthly:
-            return "month"
+            return "General.ResetIntervals.Monthly"
+        }
+    }
+    
+    var nounLocalizedStringKey: String {
+        switch self {
+        case .daily:
+            return "General.ResetIntervals.Daily.Noun"
+        case .weekly:
+            return "General.ResetIntervals.Weekly.Noun"
+        case .monthly:
+            return "General.ResetIntervals.Monthly.Noun"
         }
     }
 }
 
-public enum HabitValueTypes: String, CaseIterable, Hashable {
+public enum HabitValueTypes: String, CaseIterable, Hashable, Sendable {
     case number, timeMinutes, timeHours, volumeMillilitres, volumeLitres, volumeOunces, volumeCups, volumeQuarts, lengthMetres, lengthKilometres, lengthYards, lengthMiles
     
     var name: String {
@@ -130,29 +141,29 @@ public enum HabitValueTypes: String, CaseIterable, Hashable {
     var localizedNameString: String {
         switch self {
         case .number:
-            return "Number"
+            return "General.ValueTypeEnum.Number"
         case .timeMinutes:
-            return "Minutes"
+            return "General.ValueTypeEnum.Minutes"
         case .timeHours:
-            return "Hours"
+            return "General.ValueTypeEnum.Hours"
         case .volumeMillilitres:
-            return "Millilitres"
+            return "General.ValueTypeEnum.Millilitres"
         case .volumeLitres:
-            return "Litres"
+            return "General.ValueTypeEnum.Litres"
         case .volumeOunces:
-            return "Ounces"
+            return "General.ValueTypeEnum.Ounces"
         case .volumeCups:
-            return "Cups"
+            return "General.ValueTypeEnum.Cups"
         case .volumeQuarts:
-            return "Quarts"
+            return "General.ValueTypeEnum.Quarts"
         case .lengthMetres:
-            return "Metres"
+            return "General.ValueTypeEnum.Metres"
         case .lengthKilometres:
-            return "Kilometres"
+            return "General.ValueTypeEnum.Kilometres"
         case .lengthYards:
-            return "Yards"
+            return "General.ValueTypeEnum.Yards"
         case .lengthMiles:
-            return "Miles"
+            return "General.ValueTypeEnum.Miles"
         }
     }
     
@@ -252,6 +263,25 @@ public enum HabitValueTypes: String, CaseIterable, Hashable {
         }
     }
     
+    static func amountFromRawAmount(for number: Int, valueType: Self) -> Double {
+        switch valueType {
+        case .volumeLitres, .lengthKilometres:
+            return Double(number) / 1000
+        case .timeMinutes:
+            return Double(number) / 60
+        case .timeHours:
+            return Double(number) / 3600
+        case .lengthMiles:
+            return Double(number) / 1760
+        case .volumeCups:
+            return Double(number) / 8
+        case .volumeQuarts:
+            return Double(number) / 32
+        default:
+            return Double(number)
+        }
+    }
+    
 //    static func changeValue(_ value: Int, for first: HabitValueTypes, and second: HabitValueTypes) -> Int {
 //        if first.comparableTypes.contains(second) {
 //            return value
@@ -302,122 +332,126 @@ extension HabitItem {
         
         switch self.valueTypeEnum {
         case .volumeMillilitres, .volumeLitres:
-            var string: String = ""
+            var strings: [String] = []
             
             let litres = count / 1000
             let millilitres = count % 1000
             
+            let joiningWord = NSLocalizedString("General.AmountToDoString.JoiningWord", comment: "")
+            
             if litres != 0 {
-                string += "\(litres) litres "
+                strings.append(String.localizedStringWithFormat(NSLocalizedString("General.AmountToDoString.Litres %lld", comment: ""), litres))
             }
             
             if millilitres != 0 {
-                string += "\(millilitres) millilitres "
+                strings.append(String.localizedStringWithFormat(NSLocalizedString("General.AmountToDoString.Millilitres %lld", comment: ""), millilitres))
             }
             
-            if string.isEmpty {
-                string = "0\(self.valueTypeEnum.unit) "
+            if strings.isEmpty {
+                strings = ["0\(self.valueTypeEnum.unit)"]
             }
             
-            string.removeLast()
-            
-            return string
+            return strings.joined(separator: " \(joiningWord) ")
         case .timeMinutes, .timeHours:
-            var string: String = ""
-            
-            print("count: \(count)")
+            var array: [String] = []
             
             let hour = count / 3600
             let minutes = (count % 3600) / 60
             let seconds = count % 60
             
+            let joiningWord = NSLocalizedString("General.AmountToDoString.JoiningWord", comment: "")
+            
             if hour != 0 {
-                string += "\(hour) hours "
+                array.append(String.localizedStringWithFormat(NSLocalizedString("General.AmountToDoString.Time.Hours %lld", comment: ""), hour))
             }
             
             if minutes != 0 {
-                string += "\(!string.isEmpty ? "and " : "")\(minutes) minutes "
+                array.append(String.localizedStringWithFormat(NSLocalizedString("General.AmountToDoString.Time.Minutes %lld", comment: ""), minutes))
             }
             
             if seconds != 0 {
-                string += "\(!string.isEmpty ? "and " : "")\(seconds) seconds "
+                array.append(String.localizedStringWithFormat(NSLocalizedString("General.AmountToDoString.Time.Seconds %lld", comment: ""), seconds))
             }
             
-            if string.isEmpty {
-                string = "0\(self.valueTypeEnum.unit) "
+            switch array.count {
+            case 3:
+                return array[0] + ", " + array [1] + " \(joiningWord) " + array[2]
+            case 2, 1:
+                return array.joined(separator: " \(joiningWord) ")
+            default:
+                return "0\(self.valueTypeEnum.unit)"
             }
-            
-            string.removeLast()
-            
-            return string
         case .lengthMetres, .lengthKilometres:
-            var string: String = ""
+            var strings: [String] = []
             
             let kilometres = count / 1000
-            let meters = count % 1000
+            let metres = count % 1000
+            
+            let joiningWord = NSLocalizedString("General.AmountToDoString.JoiningWord", comment: "")
             
             if kilometres != 0 {
-                string += "\(kilometres) kilometres "
+                strings.append(String.localizedStringWithFormat(NSLocalizedString("General.AmountToDoString.Kilometres %lld", comment: ""), kilometres))
             }
             
-            if meters != 0 {
-                string += "\(meters) metres "
+            if metres != 0 {
+                strings.append(String.localizedStringWithFormat(NSLocalizedString("General.AmountToDoString.Metres %lld", comment: ""), metres))
             }
             
-            if string.isEmpty {
-                string = "0\(self.valueTypeEnum.unit) "
+            if strings.isEmpty {
+                strings = ["0\(self.valueTypeEnum.unit)"]
             }
             
-            string.removeLast()
-            
-            return string
+            return strings.joined(separator: " \(joiningWord) ")
         case .lengthYards, .lengthMiles:
-            var string: String = ""
+            var strings: [String] = []
             
             let miles = count / 1760
             let yards = count % 1760
             
+            let joiningWord = NSLocalizedString("General.AmountToDoString.JoiningWord", comment: "")
+            
             if miles != 0 {
-                string += "\(miles) miles "
+                strings.append(String.localizedStringWithFormat(NSLocalizedString("General.AmountToDoString.Miles %lld", comment: ""), miles))
             }
             
             if yards != 0 {
-                string += "\(yards) yards "
+                strings.append(String.localizedStringWithFormat(NSLocalizedString("General.AmountToDoString.Yards %lld", comment: ""), yards))
             }
             
-            if string.isEmpty {
-                string = "0\(self.valueTypeEnum.unit) "
+            if strings.isEmpty {
+                strings = ["0\(self.valueTypeEnum.unit)"]
             }
             
-            string.removeLast()
-            
-            return string
+            return strings.joined(separator: " \(joiningWord) ")
         case .volumeOunces, .volumeCups, .volumeQuarts:
-            var string: String = ""
+            var strings: [String] = []
             
             let quarts = count / 32
             let cups = (count % 32) / 8
             let ounces = count % 8
             
+            let joiningWord = NSLocalizedString("General.AmountToDoString.JoiningWord", comment: "")
+            
             if quarts != 0 {
-                string += "\(quarts) quarts "
+                strings.append(String.localizedStringWithFormat(NSLocalizedString("General.AmountToDoString.Quarts %lld", comment: ""), quarts))
             }
             
             if cups != 0 {
-                string += "\(cups) cups "
+                strings.append(String.localizedStringWithFormat(NSLocalizedString("General.AmountToDoString.Cups %lld", comment: ""), cups))
             }
             
             if ounces != 0 {
-                string += "\(ounces) ounces "
+                strings.append(String.localizedStringWithFormat(NSLocalizedString("General.AmountToDoString.Ounces %lld", comment: ""), ounces))
             }
             
-            if string.isEmpty {
-                string = "0\(self.valueTypeEnum.unit) "
+            switch strings.count {
+            case 3:
+                return strings[0] + ", " + strings [1] + " \(joiningWord) " + strings[2]
+            case 2, 1:
+                return strings.joined(separator: " \(joiningWord) ")
+            default:
+                return "0\(self.valueTypeEnum.unit)"
             }
-            
-            string.removeLast()
-            
-            return string
         default:
             return "\(count)\(self.valueTypeEnum.unit)"
         }
@@ -566,65 +600,42 @@ extension HabitItem {
     }
     
 
-    func deleteHabit() {
-        let context = PersistenceController.shared.container.viewContext
-        
-        #if os(iOS)
-        let notificationCenter = UNUserNotificationCenter.current()
-        
-        let habitNotifications = notificationArray
-        
-        var notificationIDs: [String] = []
-        
-        for notification in habitNotifications {
-            for weekday in notification.weekdayEnumSet {
-                let id = notification.wrappedID.uuidString + " - \(weekday.id)"
-                
-                notificationIDs.append(id)
-            }
-            
-            context.delete(notification)
-        }
-        
-        notificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIDs)
-        #endif
-        
-        self.habitArchived = true
-        
-        do {
-            try context.save()
-        } catch {
-            fatalError(error.localizedDescription)
-        }
-    }
+//    func deleteHabit() {
+//        let context = PersistenceController.shared.container.viewContext
+//
+//        #if os(iOS)
+//        let notificationCenter = UNUserNotificationCenter.current()
+//
+//        let habitNotifications = notificationArray
+//
+//        var notificationIDs: [String] = []
+//
+//        for notification in habitNotifications {
+//            for weekday in notification.weekdayEnumSet {
+//                let id = notification.wrappedID.uuidString + " - \(weekday.id)"
+//
+//                notificationIDs.append(id)
+//            }
+//
+//            context.delete(notification)
+//        }
+//
+//        notificationCenter.removePendingNotificationRequests(withIdentifiers: notificationIDs)
+//        #endif
+//
+//        self.habitArchived = true
+//
+//        do {
+//            try context.save()
+//            PersistentShortcuts.updateAppShortcutParameters()
+//        } catch {
+//            fatalError(error.localizedDescription)
+//        }
+//    }
+
     
-    func unarchiveHabit() {
-        let context = PersistenceController.shared.container.viewContext
-        
-        self.habitArchived = false
-        
-        do {
-            try context.save()
-        } catch {
-            fatalError(error.localizedDescription)
-        }
-    }
 
-    func deleteHabitPermanently(context: NSManagedObjectContext = PersistenceController.shared.container.viewContext) {
-        
-        context.delete(self)
-        
-        do {
-            try context.save()
-        } catch {
-            print("Error")
-            
-            let nsError = error as NSError
-            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-    }
-
-    /// Function for getting habit's count for its corresponding interval
+    // MARK: Function for getting habit's count for its corresponding interval
     func relevantCount(_ date: Date = Date()) -> Int {
         let calendar: Calendar = Calendar.defaultCalendar
         
@@ -956,7 +967,7 @@ extension HabitItem {
             try context.save()
         } catch {
             let nsError = error as NSError
-            guard let appViewModel = appViewModel else { fatalError("Unresolved error \(nsError), \(nsError.userInfo)") }
+            guard let appViewModel = appViewModel else { return }
             
             appViewModel.saveErrorActionSheet = true
             
@@ -1054,10 +1065,9 @@ extension HabitItem {
         
         while tempDate <= lastDate {
             let relevantCount = self.relevantCount(tempDate)
-            if relevantCount >= self.amountToDo {
+            if relevantCount >= self.wrappedAmountToDo {
                 amountCompleted += 1
             }
-            
             switch self.resetIntervalEnum {
             case .daily:
                 tempDate = cal.date(byAdding: .day, value: 1, to: tempDate)!
@@ -1069,6 +1079,45 @@ extension HabitItem {
         }
         
         return amountCompleted
+    }
+    
+    func chartValues(before date: Date, amount: Int) -> [Double] {
+        let cal = Calendar.defaultCalendar
+        
+        let componentToAdd: Calendar.Component
+        
+        switch self.resetIntervalEnum {
+        case .daily:
+            componentToAdd = .day
+        case .weekly:
+            componentToAdd = .weekOfYear
+        case .monthly:
+            componentToAdd = .month
+        }
+        
+        var array: [Double] = []
+        
+        var tempDate = date
+        
+        for _ in 0 ..< amount {
+            array.append(self.relevantCountForType(tempDate))
+            
+            tempDate = tempDate.changeDate(with: cal, byAdding: componentToAdd, value: -1)
+        }
+        
+        return array.reversed()
+    }
+}
+
+// MARK: Extension für wrappedValeus
+extension HabitItem {
+    // Icon
+    var wrappedIconName: String {
+        iconName ?? "person"
+    }
+    
+    var wrappedIcon: Image {
+        Image(wrappedIconName)
     }
 }
 

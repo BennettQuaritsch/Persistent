@@ -9,6 +9,14 @@ import SwiftUI
 
 struct OnboardingView: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(\.colorScheme) var colorScheme
+    @Environment(\.purchaseInfo) var purchaseInfo
+    @Environment(\.horizontalSizeClass) var horizontalSizeClass
+    
+    // Models
+    @EnvironmentObject private var userSettings: UserSettings
+    @EnvironmentObject private var appViewModel: AppViewModel
+    @EnvironmentObject private var storeManager: StoreManager
     
     @State private var tabViewSelection: Int = 1
     
@@ -20,7 +28,7 @@ struct OnboardingView: View {
     var body: some View {
         TabView(selection: $tabViewSelection) {
             VStack {
-                Text("Welcome to Persistent!")
+                Text("Onboarding.FirstTab.Title")
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
                     .foregroundStyle(Color("Persistent"))
                     .multilineTextAlignment(.center)
@@ -28,15 +36,36 @@ struct OnboardingView: View {
                 Spacer()
                     .frame(maxWidth: .infinity, maxHeight: 15)
                 
-                VStack(alignment: .leading, spacing: 20) {
-                    OnboardingTextSection(systemImage: "plus", text: "Add Habits and customize them as much as you need them.")
+                ViewThatFits(in: .vertical) {
+                    VStack(alignment: .leading, spacing: 20) {
+                        OnboardingTextSection(systemImage: "plus", text: "Onboarding.FirstTab.AddHabits")
+                        
+                        OnboardingTextSection(systemImage: "calendar", text: "Onboarding.FirstTab.Calendar")
+                        
+                        OnboardingTextSection(systemImage: "square.stack.3d.down.forward.fill", text: "Onboarding.FirstTab.Widgets")
+                    }
+                    .font(.system(.title2, design: .rounded, weight: .semibold))
                     
-                    OnboardingTextSection(systemImage: "calendar", text: "If you forgot to complete your habit some days ago, you can go back to that day using the calendar.")
+                    VStack(alignment: .leading, spacing: 20) {
+                        OnboardingTextSection(systemImage: "plus", text: "Onboarding.FirstTab.AddHabits")
+                        
+                        OnboardingTextSection(systemImage: "calendar", text: "Onboarding.FirstTab.Calendar")
+                        
+                        OnboardingTextSection(systemImage: "square.stack.3d.down.forward.fill", text: "Onboarding.FirstTab.Widgets")
+                    }
+                    .font(.system(.title3, design: .rounded, weight: .semibold))
                     
-                    OnboardingTextSection(systemImage: "square.stack.3d.down.forward.fill", text: "Use widgets to get a quick glance on how you are doing.")
+                    VStack(alignment: .leading, spacing: 20) {
+                        OnboardingTextSection(systemImage: "plus", text: "Onboarding.FirstTab.AddHabits")
+                        
+                        OnboardingTextSection(systemImage: "calendar", text: "Onboarding.FirstTab.Calendar")
+                        
+                        OnboardingTextSection(systemImage: "square.stack.3d.down.forward.fill", text: "Onboarding.FirstTab.Widgets")
+                    }
+                    .font(.system(.headline, design: .rounded, weight: .semibold))
                 }
                 
-                Spacer()
+                Spacer(minLength: 80)
                     
             }
             .padding(.vertical, 50)
@@ -44,7 +73,7 @@ struct OnboardingView: View {
             .tag(1)
             
             VStack {
-                Text("Add frequently used amounts")
+                Text("Onboarding.SecondTab.Title")
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
                     .foregroundStyle(Color("Persistent"))
                     .multilineTextAlignment(.center)
@@ -54,20 +83,20 @@ struct OnboardingView: View {
                 
                 VStack(spacing: 10) {
                     
-                    Text("Press the")
+                    Text("Onboarding.SecondTab.QuickAdd.Header")
                         .font(.system(.title2, design: .rounded, weight: .semibold))
                     
                     HStack {
                         Image(systemName: "plus")
                         
-                        Text("Quick Add")
+                        Text("DetailView.QuickAdd.Button")
                     }
                     .padding()
                     .foregroundColor(.systemBackground)
                     .font(.title3.weight(.semibold))
                     .background(Color("Persistent"), in: RoundedRectangle(cornerRadius: 20, style: .continuous))
                     
-                    Text("to save amounts that you will add to your habit frequently.")
+                    Text("Onboarding.SecondTab.QuickAdd.Footer")
                         .font(.system(.title2, design: .rounded, weight: .semibold))
                         .multilineTextAlignment(.center)
                 }
@@ -80,7 +109,7 @@ struct OnboardingView: View {
             .tag(2)
             
             VStack {
-                Text("Get started now!")
+                Text("Onboarding.ThirdTab.Title")
                     .font(.system(.largeTitle, design: .rounded, weight: .bold))
                     .foregroundStyle(Color("Persistent"))
                     .multilineTextAlignment(.center)
@@ -102,12 +131,19 @@ struct OnboardingView: View {
                                 }
                                 .frame(maxWidth: .infinity)
                                 .padding(10)
-                                .background(Color.systemGray6, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                                .background(colorScheme == .dark ? Color.systemGray5 : Color.systemGray6, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
                             }
                             .sheet(item: $quickStartHabit) {
                                 dismiss()
                             } content: { quickStartHabit in
                                 AddHabitView(accentColor: Color("Persistent"), viewModel: quickStartHabit.viewModel)
+                                    .accentColor(userSettings.accentColor)
+                                    .environmentObject(userSettings)
+                                    .environmentObject(appViewModel)
+                                    .environmentObject(storeManager)
+                                    .environment(\.horizontalSizeClass, horizontalSizeClass)
+                                    .environment(\.purchaseInfo, purchaseInfo)
+                                    .preferredColorScheme(colorScheme)
                             }
                             .buttonStyle(.plain)
                         }
@@ -128,11 +164,11 @@ struct OnboardingView: View {
                 Button {
                     dismiss()
                 } label: {
-                    Text("Skip introduction")
+                    Text("Onboarding.Button.Skip")
                         .foregroundColor(Color("Persistent"))
                         .font(.body)
                         .padding(10)
-                        .background(Color.systemGray6, in: RoundedRectangle(cornerRadius: 15, style: .continuous))
+                        .background(colorScheme == .dark ? Color.systemGray5 : Color.systemGray6, in: RoundedRectangle(cornerRadius: 15, style: .continuous))
                         .tint(Color("Persistent"))
                 }
                 
@@ -145,7 +181,7 @@ struct OnboardingView: View {
                         dismiss()
                     }
                 } label: {
-                    Text(tabViewSelection != 3 ? "Next" : "Get started")
+                    Text(tabViewSelection != 3 ? "Onboarding.Button.Next" : "Onboarding.Button.GetStarted")
                         .foregroundColor(.systemBackground)
                         .font(.headline)
                         .padding()
@@ -159,7 +195,7 @@ struct OnboardingView: View {
     
     struct OnboardingTextSection: View {
         let systemImage: String
-        let text: String
+        let text: LocalizedStringKey
         
         var body: some View {
             HStack {
@@ -171,19 +207,22 @@ struct OnboardingView: View {
                 Text(text)
                     .multilineTextAlignment(.leading)
             }
-            .font(.system(.title2, design: .rounded, weight: .semibold))
         }
     }
     
     enum AddHabitQuickStart: String, CaseIterable, Identifiable {
-        case running, mediation, read, drinkWater
+        case running, meditation, read, drinkWater
         
         var name: String {
             switch self {
+            case .running:
+                return NSLocalizedString("Onboarding.QuickStartButton.Running.Name", comment: "")
+            case .meditation:
+                return NSLocalizedString("Onboarding.QuickStartButton.Meditation.Name", comment: "")
+            case .read:
+                return NSLocalizedString("Onboarding.QuickStartButton.Read.Name", comment: "")
             case .drinkWater:
-                return "Drink Water"
-            default:
-                return self.rawValue.capitalized
+                return NSLocalizedString("Onboarding.QuickStartButton.DrinkWater.Name", comment: "")
             }
         }
         
@@ -198,7 +237,7 @@ struct OnboardingView: View {
                     .resizable()
                     .scaledToFit()
                     .foregroundColor(Color("blue"))
-            case .mediation:
+            case .meditation:
                 return Image("happy")
                     .resizable()
                     .scaledToFit()
@@ -219,10 +258,10 @@ struct OnboardingView: View {
         var viewModel: AddEditViewModel {
             let viewModel = AddEditViewModel()
             
+            viewModel.name = self.name
+            
             switch self {
             case .running:
-                viewModel.name = "Running"
-                
                 viewModel.intervalChoice = .monthly
                 viewModel.valueTypeSelection = .lengthKilometres
                 viewModel.valueString = "20"
@@ -230,9 +269,7 @@ struct OnboardingView: View {
                 
                 viewModel.iconChoice = "exercise"
                 viewModel.iconColorName = "Blue"
-            case .mediation:
-                viewModel.name = "Mediation"
-                
+            case .meditation:
                 viewModel.intervalChoice = .daily
                 viewModel.valueTypeSelection = .timeMinutes
                 viewModel.valueString = "15"
@@ -241,8 +278,6 @@ struct OnboardingView: View {
                 viewModel.iconChoice = "happy"
                 viewModel.iconColorName = "Rose"
             case .read:
-                viewModel.name = "Read"
-                
                 viewModel.intervalChoice = .weekly
                 viewModel.valueTypeSelection = .timeHours
                 viewModel.valueString = "3"
@@ -251,8 +286,6 @@ struct OnboardingView: View {
                 viewModel.iconChoice = "book"
                 viewModel.iconColorName = "Brown"
             case .drinkWater:
-                viewModel.name = "Drink Water"
-                
                 viewModel.intervalChoice = .daily
                 viewModel.valueTypeSelection = .volumeLitres
                 viewModel.valueString = "3"

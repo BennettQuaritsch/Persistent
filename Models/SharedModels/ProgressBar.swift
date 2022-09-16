@@ -20,6 +20,15 @@ enum BuildOrBreakHabitEnum: String, CaseIterable {
         }
     }
     
+    var loccalizedName: LocalizedStringKey {
+        switch self {
+        case .buildHabit:
+            return LocalizedStringKey("General.BuildOrBreak.BuildHabit")
+        case .breakHabit:
+            return LocalizedStringKey("General.BuildOrBreak.BreakHabit")
+        }
+    }
+    
     init(_ bool: Bool) {
         if bool {
             self = .breakHabit
@@ -96,7 +105,7 @@ struct ProgressBar: View {
                     .rotationEffect(.degrees(-90))
             case .breakHabit:
                 Circle()
-                    .trim(from: progress, to: CGFloat(amountToDo))
+                    .trim(from: progress, to: CGFloat(1))
                     .stroke(AngularGradient(
                         gradient: Gradient(colors: colors),
                         center: .center, angle: .degrees(progress <= 0.05 ? Double(progress) * 360 : Double(progress) * 360 - 7)),

@@ -9,12 +9,11 @@ import Foundation
 import SwiftUI
 import CoreData
 
+// Background context
 fileprivate struct BackgroundContextEnvironmentKey: EnvironmentKey {
     static var defaultValue: NSManagedObjectContext = PersistenceController.shared.container.newBackgroundContext()
 }
 
-
-// Background context
 extension EnvironmentValues {
     var backgroundContext: NSManagedObjectContext {
         get { self[BackgroundContextEnvironmentKey.self] }
@@ -49,6 +48,21 @@ extension EnvironmentValues {
         set { self[PurchaseInfoEnvironmentKey.self] = newValue }
     }
 }
+
+// Interface Color
+
+fileprivate struct InterfaceColorEnvironmentKey: EnvironmentKey {
+    static var defaultValue: Color = Color("Persistent")
+}
+
+extension EnvironmentValues {
+    var interfaceColor: Color {
+        get { self[InterfaceColorEnvironmentKey.self] }
+        set { self[InterfaceColorEnvironmentKey.self] = newValue }
+    }
+}
+
+
 
 fileprivate struct PersistenceControllerEnvironmentKey: EnvironmentKey {
     static var defaultValue: PersistenceController = PersistenceController.shared

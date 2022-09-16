@@ -72,8 +72,7 @@ struct ListCellView: View {
                 }
 
                 Text(habit.habitName)
-                    .font(.title2)
-                    .fontWeight(.semibold)
+                    .font(.system(.title2, design: .rounded, weight: .semibold))
                     .foregroundColor(textColor)
                     .lineLimit(2)
                     .minimumScaleFactor(0.4)

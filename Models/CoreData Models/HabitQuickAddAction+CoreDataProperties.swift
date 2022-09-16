@@ -77,8 +77,14 @@ extension HabitQuickAddAction {
         let double = value.doubleValue
         
         switch selectedValueType {
-        case .volumeLitres:
+        case .volumeLitres, .lengthKilometres:
             newAction.value = Int64(double * 1000)
+        case .lengthMiles:
+            newAction.value = Int64(double * 1760)
+        case .volumeCups:
+            newAction.value = Int64(double * 8)
+        case .volumeQuarts:
+            newAction.value = Int64(double * 32)
         case .timeHours:
             newAction.value = Int64(double * 3600)
         case .timeMinutes:

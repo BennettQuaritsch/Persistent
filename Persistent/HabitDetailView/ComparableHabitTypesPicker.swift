@@ -16,9 +16,9 @@ struct ComparableHabitTypesPicker: View {
         if habit.valueTypeEnum == .number {
             EmptyView()
         } else {
-            Picker("Pick comparable habit types", selection: $selection) {
+            Picker("DetailView.AddRemoveMultiple.ComparableTypesPicker.Header", selection: $selection) {
                 ForEach(habit.valueTypeEnum.comparableTypes, id: \.self) { habitType in
-                    Text(habitType.localizedNameString)
+                    Text(LocalizedStringKey(habitType.localizedNameString))
                         .tag(habitType)
                 }
             }

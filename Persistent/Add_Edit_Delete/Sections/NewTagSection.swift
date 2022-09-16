@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NewTagSection: View {
     @Environment(\.managedObjectContext) var viewContext
+    @Environment(\.colorScheme) var colorScheme
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \HabitTag.name, ascending: true)]) var tags: FetchedResults<HabitTag>
     @Namespace var namespace
@@ -35,6 +36,9 @@ struct NewTagSection: View {
                     Spacer()
                     
                     Button {
+                        self.tagName = ""
+                        self.tagToEdit = nil
+                        
                         withAnimation(.spring(response: 0.25, dampingFraction: 0.75, blendDuration: 1)) {
                             isAdding = false
                         }
@@ -47,7 +51,7 @@ struct NewTagSection: View {
                     }
                 }
                 
-                Text("Add new Tag")
+                Text("AddEditBase.Tags.AddNewTag")
                     .font(.title2.bold())
                     .transition(.move(edge: .leading).animation(.easeOut(duration: 1)))
                     .animation(.easeOut(duration: 1), value: isAdding)
@@ -55,18 +59,22 @@ struct NewTagSection: View {
             .padding(.bottom)
             
             HStack {
-                Text("Tag Name")
+                Text("AddEditBase.Tags.TextField.Header")
                     .font(.headline)
                     .foregroundStyle(.secondary)
                 
                 Spacer()
             }
             
-            TextField("Name", text: $tagName, prompt: Text("Name"))
+            TextField("AddEditBase.Tags.TextField.Body", text: $tagName, prompt: Text("AddEditBase.Tags.TextField.Body"))
                 .focused($addTextFieldFocused)
                 .padding(10)
                 .background(Color.systemGray6, in: RoundedRectangle(cornerRadius: 15, style: .continuous))
         }
+    }
+    
+    var backgroundColor: Color {
+        colorScheme == .dark ? .black : .systemBackground
     }
     
     @ViewBuilder var editTagBody: some View {
@@ -76,6 +84,9 @@ struct NewTagSection: View {
                     Spacer()
                     
                     Button {
+                        self.tagName = ""
+                        self.tagToEdit = nil
+                        
                         withAnimation(.spring(response: 0.25, dampingFraction: 0.75, blendDuration: 1)) {
                             isEditing = false
                         }
@@ -88,20 +99,20 @@ struct NewTagSection: View {
                     }
                 }
                 
-                Text("Edit Tag")
+                Text("AddEditBase.Tags.EditTag")
                     .font(.title2.bold())
             }
             .padding(.bottom)
             
             HStack {
-                Text("Tag Name")
+                Text("AddEditBase.Tags.TextField.Header")
                     .font(.headline)
                     .foregroundStyle(.secondary)
                 
                 Spacer()
             }
             
-            TextField("Name", text: $tagName, prompt: Text("Name"))
+            TextField("AddEditBase.Tags.TextField.Body", text: $tagName, prompt: Text("AddEditBase.Tags.TextField.Body"))
                 .focused($editTextFieldFocused)
                 .padding(10)
                 .background(Color.systemGray6, in: RoundedRectangle(cornerRadius: 15, style: .continuous))
@@ -112,7 +123,7 @@ struct NewTagSection: View {
         VStack {
             if isAdding {
                 ZStack {
-                    Color.systemBackground
+                    backgroundColor
                         .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
                         
                     VStack {
@@ -126,7 +137,7 @@ struct NewTagSection: View {
                             }
                         } label: {
                             HStack {
-                                Text("Add Tag")
+                                Text("AddEditBase.Tags.AddNewTag")
                                 
                                 Image(systemName: "plus")
                             }
@@ -149,7 +160,7 @@ struct NewTagSection: View {
             } else {
                 if isEditing {
                     ZStack {
-                        Color.systemBackground
+                        backgroundColor
                             .clipShape(RoundedRectangle(cornerRadius: 25, style: .continuous))
 
                         
@@ -165,7 +176,7 @@ struct NewTagSection: View {
                                 }
                             } label: {
                                 HStack {
-                                    Text("Edit Tag")
+                                    Text("AddEditBase.Tags.EditTag")
                                     
                                     Image(systemName: "pencil")
                                 }
@@ -214,6 +225,7 @@ struct NewTagSection: View {
                                 }
                                 .buttonStyle(.plain)
                                 .contentShape(.contextMenuPreview, Capsule(style: .continuous))
+                                .transition(.popUpScaleTransition)
                                 .contextMenu {
                                     Button {
                                         tagToEdit = tag
@@ -227,20 +239,24 @@ struct NewTagSection: View {
                                             editTextFieldFocused = true
                                         }
                                     } label: {
-                                        Label("Edit", systemImage: "pencil")
+                                        Label("General.Buttons.Edit", systemImage: "pencil")
                                     }
                                     
                                     Button(role: .destructive) {
-                                        do {
-                                            let object = viewContext.object(with: tag.objectID)
-                                            viewContext.delete(object)
-                                            
-                                            try viewContext.save()
-                                        } catch {
-                                            errorVibration()
+                                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                            withAnimation {
+                                                do {
+                                                    let object = viewContext.object(with: tag.objectID)
+                                                    viewContext.delete(object)
+                                                    
+                                                    try viewContext.save()
+                                                } catch {
+                                                    errorVibration()
+                                                }
+                                            }
                                         }
                                     } label: {
-                                        Label("Delete", systemImage: "trash")
+                                        Label("General.Buttons.Delete", systemImage: "trash")
                                     }
                                 }
                             }
@@ -256,7 +272,7 @@ struct NewTagSection: View {
             Color.systemGroupedBackground
                 .edgesIgnoringSafeArea(.all)
         )
-        .navigationTitle("Tags")
+        .navigationTitle("AddEditBase.Tags.Header")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
@@ -277,7 +293,7 @@ struct NewTagSection: View {
                         addTextFieldFocused = true
                     }
                 } label: {
-                    Label("Add Tag", systemImage: "plus")
+                    Label("AddEditBase.Tags.AddNewTag", systemImage: "plus")
                 }
             }
         }

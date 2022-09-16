@@ -29,7 +29,7 @@ struct ChangeAppIconView: View {
             }
             .buttonStyle(.plain)
         }
-        .navigationTitle("App Icon")
+        .navigationTitle("Settings.InterfaceDesign.AppIcon")
     }
 }
 

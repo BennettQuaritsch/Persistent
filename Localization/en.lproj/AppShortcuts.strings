@@ -1,0 +1,27 @@
+/* 
+  AppShortcuts.strings
+  Persistent
+
+  Created by Bennett Quaritsch on 08.09.22.
+  
+*/
+
+"Open ${applicationName} Habit" = "Open ${applicationName} Habit";
+"Watch ${applicationName} Habit" = "Watch ${applicationName} Habit";
+"See ${applicationName} Habit" = "See ${applicationName} Habit";
+"Open ${applicationName} ${habit}" = "Open ${applicationName} ${habit}";
+"Open ${habit} in ${applicationName}" = "Open ${habit} in ${applicationName}";
+"Open ${habit} at ${applicationName}" = "Open ${habit} at ${applicationName}";
+
+"Add to ${applicationName} Habit" = "Add to ${applicationName} Habit";
+"Add Value to ${applicationName} Habit" = "Add Value to ${applicationName} Habit";
+"Add Amount to ${applicationName} Habit" = "Add Amount to ${applicationName} Habit";
+"Add to ${applicationName} Goal" = "Add to ${applicationName} Goal";
+"Add Value to ${applicationName} Goal" = "Add Value to ${applicationName} Goal";
+"Add Amount to ${applicationName} Goal" = "Add Amount to ${applicationName} Goal";
+"Add to ${applicationName} ${habit}" = "Add to ${applicationName} ${habit}";
+"Add Value to ${applicationName} ${habit}" = "Add Value to ${applicationName} ${habit}";
+"Add Amount to ${applicationName} ${habit}" = "Add Amount to ${applicationName} ${habit}";
+"Add to ${habit} at ${applicationName}" = "Add to ${habit} at ${applicationName}";
+"Add to ${habit} in ${applicationName}" = "Add to ${habit} in ${applicationName}";
+"Add to ${habit} from ${applicationName}" = "Add to ${habit} from ${applicationName}";

@@ -1,0 +1,323 @@
+/* 
+  Localizable.strings
+  Persistent
+
+  Created by Bennett Quaritsch on 14.08.22.
+  
+*/
+
+// AddEditBaseView
+// vars
+"General.Buttons.Edit" = "Bearbeiten";
+"General.Buttons.Delete" = "Löschen";
+"General.Buttons.Help" = "Hilfe";
+"General.Buttons.Archive" = "Archivieren";
+"General.Buttons.Unarchive" = "Entarchivieren";
+"General.Buttons.Close" = "Schließen";
+"General.Buttons.Submit" = "Bestätigen";
+
+"General.ValueTypeEnum.Number" = "Anzahl";
+"General.ValueTypeEnum.Minutes" = "Minuten";
+"General.ValueTypeEnum.Hours" = "Stunden";
+"General.ValueTypeEnum.Millilitres" = "Milliliter";
+"General.ValueTypeEnum.Litres" = "Liter";
+"General.ValueTypeEnum.Ounces" = "Unzen";
+"General.ValueTypeEnum.Cups" = "Cups";
+"General.ValueTypeEnum.Quarts" = "Quart";
+"General.ValueTypeEnum.Metres" = "Meter";
+"General.ValueTypeEnum.Kilometres" = "Kilometer";
+"General.ValueTypeEnum.Yards" = "Yard";
+"General.ValueTypeEnum.Miles" = "Meilen";
+
+"General.ResetIntervals.Daily" = "Täglich";
+"General.ResetIntervals.Weekly" = "Wöchentlich";
+"General.ResetIntervals.Monthly" = "Monatlich";
+"General.ResetIntervals.Daily.Noun" = "Tag";
+"General.ResetIntervals.Weekly.Noun" = "Woche";
+"General.ResetIntervals.Monthly.Noun" = "Monat";
+
+"General.ListFilterSelection.All" = "Alle Gewohnheiten";
+"General.ListFilterSelection.Daily" = "Tägliche Gewohnheiten";
+"General.ListFilterSelection.Weekly" = "Wöchentliche Gewohnheiten";
+"General.ListFilterSelection.Monthly" = "Monatliche Gewohnheiten";
+
+"General.BuildOrBreak.BuildHabit" = "Gewohnheit aufbauen";
+"General.BuildOrBreak.BreakHabit" = "Gewohnheit brechen";
+
+"General.AmountToDoString.JoiningWord" = "und";
+
+
+// Onboarding
+
+"Onboarding.Button.Skip" = "Einführung überspringen";
+"Onboarding.Button.Next" = "Nächste Seite";
+"Onboarding.Button.GetStarted" = "Starten";
+
+"Onboarding.FirstTab.Title" = "Wilkommen bei Persistent!";
+"Onboarding.FirstTab.AddHabits" = "Füge Gewohnheiten hinzu und passe sie nach Belieben an.";
+"Onboarding.FirstTab.Calendar" = "Wenn du mal einen Tag vergessen hast, deine Gewohnheit abzuschließen, dann wähle den Tag einfach in der Kalendaransicht aus und schließe sie nachträglich ab.";
+"Onboarding.FirstTab.Widgets" = "Benutze Widgets um mit einem schnellen Blick sehen zu können, wie es um deine Gewohnheiten steht.";
+
+"Onboarding.SecondTab.Title" = "Füge oft benutze Mengen hinzu";
+"Onboarding.SecondTab.QuickAdd.Header" = "Drücke";
+"Onboarding.SecondTab.QuickAdd.Footer" = "um Quick-Add Aktionen zu speichern, mit denen du Mengen hinzufügen kannst, welche du oft benötigst.";
+
+"Onboarding.ThirdTab.Title" = "Jetzt starten!";
+
+"Onboarding.QuickStartButton.Running.Name" = "Laufen";
+"Onboarding.QuickStartButton.Meditation.Name" = "Meditation";
+"Onboarding.QuickStartButton.Read.Name" = "Lesen";
+"Onboarding.QuickStartButton.DrinkWater.Name" = "Wasser trinken";
+
+// List View
+
+"ListView.Search.Prompt" = "Gewohnheiten durchsuchen";
+
+"ListView.FilterButton.Sorting" = "Sortieren";
+"ListView.FilterButton.Ascending" = "Aufsteigend";
+"ListView.FilterButton.Descending" = "Absteigend";
+"ListView.FilterButton.Name" = "Name";
+"ListView.FilterButton.PercentageDone" = "Anteil geschafft";
+
+"ListView.FilterButton.Intervals" = "Intervalle";
+"ListView.FilterButton.Tags" = "Tags";
+
+// Add Edit View
+
+"AddHabit.NavigationTitle" = "Neue Gewohnheit";
+"EditHabit.NavigationTitle" = "Gewohnheit";
+
+"AddEditBase.NameHeader" = "Name";
+
+"AddEditBase.ValueType.Header" = "Einheit";
+"AddEditBase.ValueType.Section.Length" = "Länge";
+"AddEditBase.ValueType.Section.Volume" = "Volumen";
+"AddEditBase.ValueType.Section.Time" = "Zeit";
+
+"AddEditBase.IntervalHeader" = "Intervall";
+"AddEditBase.Interval.Name" = "Wähle einen Intervall";
+"AddEditBase.Goal.Header.Build" = "Ziel";
+"AddEditBase.Goal.Header.Break" = "Limit";
+"AddEditBase.Goal.Name" = "Menge";
+"AddEditBase.Goal.Prompt" = "Wie viel?";
+
+"AddEditBase.AddAmount" = "Standardmenge";
+"AddEditBase.AddAmountTextField" = "Standardmenge";
+"AddEditBase.AddAmountTextField.Prompt" = "Optional";
+"AddEditBase.BuildOrBreak.Header" = "Ich möchte...";
+
+"AddEditBase.IconColor.Header" = "Icon & Farbe";
+"AddEditBase.IconColor.Icon.NavigationTitle" = "Wähle ein Icon";
+"AddEditBase.IconColor.Icon.Help.Label" = "Hilfe";
+"AddEditBase.IconColor.Icon.Help.Header" = "Fehlendes Icon?";
+"AddEditBase.IconColor.Icon.Help.Body" = "Wenn du denkst, dass in Persistent Icons fehlen, schreibe mir ruhig eine E-Mail mit deinen Vorschlägen.";
+
+"General.IconSections.Sport" = "Sport";
+"General.IconSections.Food" = "Essen";
+"General.IconSections.PeopleAnimals" = "Menschen & Tiere";
+"General.IconSections.ChoresBreakingHabits" = "Pflichten & Gewohnheiten brechen";
+"General.IconSections.Tech" = "Technologie";
+"General.IconSections.Objects" = "Objekte";
+"General.IconSections.Symbols" = "Symbole";
+
+"AddEditBase.Tags.Header" = "Tags";
+"AddEditBase.Tags.AddNewTag" = "Tag hinzufügen";
+"AddEditBase.Tags.EditTag" = "Tag bearbeiten";
+"AddEditBase.Tags.TextField.Header" = "Tag Name";
+"AddEditBase.Tags.TextField.Body" = "Name";
+"AddEditBase.Tags.NoneSelected" = "Keine ausgewählt";
+
+"AddEditBase.SaveHabitButton" = "Gewohnheit sichern";
+
+"AddEditBase.Notifications.Header" = "Erinnerungen";
+"AddEditBase.Notifications.AddNotification" = "Erinnerung hinzufügen";
+"AddEditBase.Notifications.EditNotification" = "Erinnerung bearbeiten";
+"AddEditBase.Notifications.DeleteNotification" = "Erinnerung löschen";
+"AddEditBase.Notifications.SaveNotification" = "Erinnerung speichern";
+"AddEditBase.Notifications.Message.Name" = "Nachricht";
+"AddEditBase.Notifications.Message.Prompt" = "Nachricht für deine Erinnerung";
+"AddEditBase.Notifications.DatePicker" = "Wähle eine Uhrzeit";
+"AddEditBase.Notifications.WeekdaySelection.Header" = "Wähle die Tage der Woche";
+
+"AddEditBase.NotificationsPremiumPurchaseAlert.Header" = "Du kannst keine Benachrichtigungen für Gewohnheiten erstellen.";
+"AddEditBase.NotificationsPremiumPurchaseAlert.Message" = "Wenn du Benachrichtigungen für Gewohnheiten erstellen möchtest, unterstütze die App durch einen Kauf von Persistent Premium.";
+"AddEditBase.NotificationsPremiumPurchaseAlert.Cancel" = "Kein Interesse";
+"AddEditBase.NotificationsPremiumPurchaseAlert.Purchase" = "Zeigs mir!";
+
+"AddEditBase.StandardAddHelp.Header" = "Standardmenge";
+"AddEditBase.StandardAddHelp.Body1" = "Dies ist die Menge, die du beim Tippen des Plus (oder Minus) in der Detailansicht oder beim Antippen des Rings einer Gewohnheit in der Listenansicht standardmäßig hinzufügst (oder eben entfernst).";
+"AddEditBase.StandardAddHelp.Body2" = "Wenn du hier keinen Wert eingibst, wird der Wert 1 betragen.";
+
+"AddEditBase.AddHabitError.Header" = "Konnte Gewohnheit nicht speichern";
+"AddEditBase.AddHabitError.Message" = "Bitte schau einmal, ob du jedes Feld ausgefüllt hast.";
+"AddEditBase.AddHabitError.Continue" = "OK";
+
+"AddEditBase.DifferentValueTypeError.Header" = "Unterschiedliche Einheit";
+"AddEditBase.DifferentValueTypeError.Message" = "Du hast eine Einheit ausgewählt, die sich in der Berechnung von der vorherig ausgewählten Einheit unterscheidet. Die Einheit zu ändern wird ungeplante Effekte verursachen.";
+"AddEditBase.DifferentValueTypeError.Continue" = "Fortfahren";
+"AddEditBase.DifferentValueTypeError.Stop" = "Stopp";
+
+// Settings
+
+"Settings.Navigation" = "Einstellungen";
+
+"Settings.Toolbar.Close" = "Schließen";
+
+"Settings.PersistentPremium.Header" = "Persistent Pro";
+"Settings.PersistentPremium.BoughtText" = "Gekauft 👍";
+"Settings.PersistentPremium.BuyNowText %@" = "Kaufe Pro für %@";
+"Settings.PersistentPremium.BuyNowText.unknowPrice" = "einen unbekannten Preis";
+"Settings.PersistentPremium.RestorePurchase" = "Kauf wiederherstellen";
+
+"Settings.PersistentPremium.MoreHabits.Title" = "Mehr Gewohnheiten";
+"Settings.PersistentPremium.MoreHabits.Description" = "Mehr als drei Gewohnheiten erstellen. Zeit, richtig durchzustarten!";
+"Settings.PersistentPremium.Graphs.Title" = "Statistiken";
+"Settings.PersistentPremium.Graphs.Description" = "Bekomme einen graphischen Einblick in deinen Erfolg der letzten Tage, Wochen oder Monate.";
+"Settings.PersistentPremium.Notifications.Title" = "Erinnerungen";
+"Settings.PersistentPremium.Notifications.Description" = "Aktiviere Erinnerungen für deine Gewohnheiten, damit du dich daran erinnerst, deine Gewohnheiten einzuhalten.";
+"Settings.PersistentPremium.Support.Title" = "Unterstützung";
+"Settings.PersistentPremium.Support.Description" = "Zusätzlich unterstützt du mit diesem Kauf einen einzelnen Indie-Entwickler, mich 😊.";
+
+"Settings.PersistentPremium.Error.Title" = "Etwas ist schiefgelaufen";
+"Settings.PersistentPremium.Error.Description" = "Dies war eventuell deine Internetverbindung, der App Store hat gerade Probleme oder ich habe irgendeinen Fehler gemacht. Falls es weiterhin passiert, kontaktiere mich gerne.";
+
+"Settings.InterfaceDesign.Header" = "Interface & Design";
+
+"Settings.InterfaceDesign.AccentTheme" = "Akzentfarbe & Thema";
+"Settings.InterfaceDesign.AccentTheme.ColorPicker" = "Wähle deine präferierte Farbe";
+
+"Settings.InterfaceDesign.AccentTheme.ThemePicker" = "Wähle ein Thema";
+"Settings.InterfaceDesign.AccentTheme.ThemePicker.Light" = "Hell";
+"Settings.InterfaceDesign.AccentTheme.ThemePicker.Dark" = "Dunkel";
+"Settings.InterfaceDesign.AccentTheme.ThemePicker.Automatic" = "Automatisch";
+
+"Settings.InterfaceDesign.ListCellColor" = "Listen-Farbwahl";
+"Settings.InterfaceDesign.ListCellColor.Colorful" = "Farbig";
+"Settings.InterfaceDesign.ListCellColor.Muted" = "Gedämpft";
+"Settings.InterfaceDesign.AppIcon" = "App Icon";
+"Settings.InterfaceDesign.HandPreference" = "Hand Präferenz";
+"Settings.InterfaceDesign.HandPreference.Right" = "Rechtshänder";
+"Settings.InterfaceDesign.HandPreference.Left" = "Linkshänder";
+
+"Settings.Habits" = "Gewohnheiten";
+"Settings.Habits.NightOwl" = "Nachteulen Modus";
+"Settings.Habits.NightOwl.Picker" = "Wähle eine tägliche Verzögerung";
+"Settings.Habits.NightOwl.Help.Body" = "Wähle die Anzhal an Stunden, in denen jeden Tag, nachdem dieser Tag eigentlich abgeschlossen ist, standardmäßig hinzugefügte Daten zu deinen Gewohnheiten immer noch zu dem vorherigen Tag zählen.";
+"Settings.Habits.Archived" = "Archivierte Gewohnheiten";
+
+"Settings.Calendar" = "Kalendar";
+"Settings.Calendar.FirstDay" = "Erster Tag der Woche";
+"Settings.Calendar.FirstDay.Enum.Sunday" = "Sonntag";
+"Settings.Calendar.FirstDay.Enum.Monday" = "Montag";
+
+"Settings.Sync.Header" = "Sync";
+"Settings.Sync.Body" = "iCloud Sync";
+
+"Settings.About.Header" = "Über";
+"Settings.About.About" = "Über die App";
+"Settings.About.About.Version %@" = "Version %@";
+"Settings.About.About.BuiltBy" = "Entwickelt von Bennett Quaritsch";
+"Settings.About.About.Feedback" = "Feedback, Feature-Vorschläge und Bug-Berichte";
+"Settings.About.About.Website" = "Persistent Website";
+"Settings.About.About.Twitter" = "Persistent Twitter";
+"Settings.About.About.Review" = "Lass ein Review da 😀";
+"Settings.About.About.TermsOfUse" = "Nutzungsbedingungen";
+"Settings.About.About.PrivacyPolicy" = "Datenschutzerklärung";
+"Settings.About.Thanks" = "Danke an...";
+
+// Detail View
+
+"DetailView.GoalString %@ %@" = "Ziel von %1$@ pro %2$@";
+
+"DetailView.Accessibility.Button.RemoveFromHabit" = "Entferne von der Gewohnheit";
+"DetailView.Accessibility.Button.AddToHabit" = "Füge zur Gewohnheit hinzu";
+"DetailView.Accessibility.Menu" = "Mehr";
+
+"DetailView.AddRemoveMultiple.Header" = "Hinzufügen/Entfernen";
+"DetailView.AddRemoveMultiple.Picker.Header" = "Hinzufügen oder Entfernen";
+"DetailView.AddRemoveMultiple.Picker.Add" = "Hinzufügen";
+"DetailView.AddRemoveMultiple.Picker.Remove" = "Entfernen";
+"DetailView.AddRemoveMultiple.HowMuch" = "Wie viel?";
+"DetailView.AddRemoveMultiple.ComparableTypesPicker.Header" = "Wähle eine Einheit";
+"DetailView.AddRemoveMultiple.TextField" = "Gib eine Menge ein";
+
+"DetailView.QuickAdd.Button" = "Quick Add";
+"DetailView.QuickAdd.Header" = "Quick Add Aktionen";
+"DetailView.QuickAdd.Name" = "Name";
+"DetailView.QuickAdd.Amount" = "Menge";
+"DetailView.QuickAdd.CreateNew" = "Neue Quick-Add Aktion";
+"DetailView.QuickAdd.Accessibility.Save" = "Quick-Add Aktion sichern";
+
+"DetailView.Menu.AddRemoveMultiple" = "Hinzufügen oder Entfernen";
+
+"DetailView.Statistics.Header" = "Statistik";
+"DetailView.Calendar.Header" = "Kalender";
+
+// Statistics
+
+"Statistics.Picker.Header" = "Wähle einen Intevall";
+"Statistics.Picker.Days" = "7 Tage";
+"Statistics.Picker.Week" = "8 Wochen";
+"Statistics.Picker.Months" = "12 Monate";
+
+"Statistics.BoxView.AbsolutGoal.Header" = "Ziel erreicht";
+"Statistics.BoxView.AbsolutGoal.Trailing" = " Mal";
+"Statistics.BoxView.AbsolutGoal.Bottom" = "in den letzten 12 Monaten";
+
+"Statistics.BoxView.PercentageGoal.Header" = "Ziel erreicht";
+"Statistics.BoxView.PercentageGoal.Trailing" = "%";
+"Statistics.BoxView.PercentageGoal.Bottom" = "in den letzten 12 Monaten";
+
+"Statistics.PremiumNeeded" = "Mit Persistent Premium jetzt deine Statistiken sehen";
+
+// Share
+
+"Share.ProgressCircle.Date.Text %@" = "Am %@";
+
+// Widgets
+
+"Widget.SingleHabit.Name" = "Gewohnheit";
+"Widget.SingleHabit.Description" = "Dieses Widget zeigt dir deinen Fortschritt groß an! Wähle die Gewohnheit durch langes Drücken auf dein Widget.";
+
+"Widget.SingleHabit.Circular.Name" = "Gewohnheit";
+"Widget.SingleHabit.Circular.Description" = "Dieses Widget zeigt dir deinen Fortschritt an! Wähle die Gewohnheit durch langes Drücken auf dein Widget.";
+
+"Widget.MultipleHabits.Name" = "Gewohnheiten";
+"Widget.MultipleHabits.Description" = "Dieses Widget zeigt dir den Fortschritt mehrerer deiner Gewohnheiten an! Wähle die Gewohnheit durch langes Drücken auf dein Widget.";
+
+"Widget.RoundedBarChart.Name" = "Balkendiagramm";
+"Widget.RoundedBarChart.Description" = "Dieses Widget zeigt dir deinen Fortschritt in Form eines Balkendiagramms an! Konfiguriere das Widget durch langes Drücken auf dein Widget.";
+
+// App Intents
+
+"AppIntents.Parameter.Habit" = "Gewohnheit";
+"AppIntents.Parameter.Amount" = "Menge";
+
+"AppIntents.Entities.Habit.TypeDisplayRepresentation" = "Gewohnheit";
+"AppIntents.Entities.Habit.TypeDisplayName" = "Gewohnheits Name";
+
+// Open Habit Intent
+
+"AppIntents.OpenHabitIntent.Title" = "Öffne Gewohnheit";
+"AppIntents.OpenHabitIntent.Description" = "Öffnet Persistent mit einer Gewohnheit, die du auswählst.";
+
+"AppIntents.OpenHabitIntent.Parameter.Habit.ValueRequest" = "Welche Gewohnheit möchtest du öffnen?";
+
+"AppIntents.OpenHabitIntent.Summary ${habit}" = "Öffne ${habit}";
+
+// Add To Habit Intent
+
+"AppIntents.AddToHabitIntent.Title" = "Füge zu einer Gewohnheit hinzu";
+"AppIntents.AddToHabitIntent.Description" = "Fügt eine Menge einer Gewohnheit hinzu, die du auswählst.";
+
+"AppIntents.AddToHabitIntent.Parameter.Habit.ValueRequest" = "Welcher Gewohnheit möchtest du etwas hinzufügen?";
+"AppIntents.AddToHabitIntent.Parameter.Amount.ValueRequest" = "Wie viel möchtest du hinzufügen?";
+
+"AppIntents.AddToHabitIntent.Result.Dialog %1$@ %2$@" = "Okay, %1$@ wurde zu %2$@ hinzugefügt.";
+"AppIntents.AddToHabitIntent.Result.Dialog.ValueType %1$@ %2$@ %3$@" = "Okay, %1$@ %2$@ wurde zu %3$@ hinzugefügt.";
+"AppIntents.AddToHabitIntent.Summary ${value} ${habit}" = "Füge ${value} zu ${habit} hinzu";
+
+// IntentHandler
+
+"IntentHandler.Sections.Habits.Title" = "Deine Gewohnheiten";
+"IntentHandler.Sections.None.Body" = "Keine";

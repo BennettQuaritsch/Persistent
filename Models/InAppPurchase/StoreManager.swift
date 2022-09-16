@@ -14,6 +14,13 @@ public enum StoreError: Error {
 }
 
 class StoreManager: ObservableObject {
+    fileprivate static func setPurchaseInfo(_ purchaseInfo: Bool) {
+        let keychain = KeychainSwift()
+        keychain.accessGroup = "PBR8289HNX.keychainGroup"
+        
+        keychain.set(purchaseInfo, forKey: "isPurchasedIdentifier")
+    }
+    
     init() {
         self.updateListenerTask = listenForTransactions()
         
@@ -35,6 +42,8 @@ class StoreManager: ObservableObject {
         do {
             let storeProducts = try await Product.products(for: Set(["quaritsch.bennnett.Persistent.premium.single"]))
             
+            print("products: \(storeProducts)")
+            
             self.products = storeProducts
         } catch {
             print("FetchError")
@@ -49,7 +58,9 @@ class StoreManager: ObservableObject {
             let transaction = try checkVerified(verification)
             
             //UserDefaults.standard.setValue(true, forKey: transaction.productID)
-            KeychainWrapper.standard.set(true, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
+//            Self.groupedKeychainWrapper.set(true, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
+            Self.setPurchaseInfo(true)
+            
             
             print("True set for \(transaction.productID)")
             
@@ -82,7 +93,8 @@ class StoreManager: ObservableObject {
                 do {
                     let transaction = try self.checkVerified(result)
                     
-                    UserDefaults.standard.setValue(true, forKey: transaction.productID)
+//                    UserDefaults.standard.setValue(true, forKey: transaction.productID)
+                    Self.setPurchaseInfo(true)
                     
                     print("True set for \(transaction.productID)")
 
@@ -101,24 +113,24 @@ class StoreManager: ObservableObject {
     
     func getEntitlements() async {
         print("getEntitlements")
-        UserDefaults.standard.setValue(false, forKey: "quaritsch.bennnett.Persistent.premium.single")
-        print("currentState: \(UserDefaults.standard.bool(forKey: "quaritsch.bennnett.Persistent.premium.single"))")
+//        UserDefaults.standard.setValue(false, forKey: "quaritsch.bennnett.Persistent.premium.single")
+//        Self.setPurchaseInfo(false)
         for await result in Transaction.currentEntitlements {
             switch result {
             case .verified(let transaction):
                 print("transaction: \(transaction.productID)")
                 if transaction.productID == "quaritsch.bennnett.Persistent.premium.single" {
                     if transaction.revocationDate == nil {
-                        UserDefaults.standard.setValue(true, forKey: transaction.productID)
+                        Self.setPurchaseInfo(true)
                         print("entitlement true")
                     } else {
-                        UserDefaults.standard.setValue(false, forKey: transaction.productID)
+                        Self.setPurchaseInfo(false)
                         print("entitlement false")
                     }
                 }
             case .unverified(let transaction, _):
                 if transaction.productID == "quaritsch.bennnett.Persistent.premium.single" {
-                    UserDefaults.standard.setValue(false, forKey: transaction.productID)
+                    Self.setPurchaseInfo(false)
                     print("entitlement false")
                 }
             }
@@ -130,26 +142,31 @@ class StoreManager: ObservableObject {
     }
     
     func getPurchaseEntitlement() async {
-        KeychainWrapper.standard.set(false, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
+        Self.setPurchaseInfo(false)
+        
         for await result in Transaction.currentEntitlements {
+            
             switch result {
             case .verified(let transaction):
                 print("transaction: \(transaction.productID)")
                 
                 if transaction.productID == "quaritsch.bennnett.Persistent.premium.single" {
                     if transaction.revocationDate == nil {
-                        KeychainWrapper.standard.set(true, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
+//                        KeychainWrapper.standard.set(true, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
+                        Self.setPurchaseInfo(true)
                         
                         print("entitlement true")
                     } else {
-                        KeychainWrapper.standard.set(false, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
+//                        KeychainWrapper.standard.set(false, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
+                        Self.setPurchaseInfo(false)
                         
                         print("entitlement false")
                     }
                 }
             case .unverified(let transaction, _):
                 if transaction.productID == "quaritsch.bennnett.Persistent.premium.single" {
-                    KeychainWrapper.standard.set(false, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
+//                    KeychainWrapper.standard.set(false, forKey: PurchaseEnum.isPurchasedIdentifier.rawValue)
+                    Self.setPurchaseInfo(false)
                     print("entitlement false")
                 }
             }

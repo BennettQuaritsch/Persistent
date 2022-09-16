@@ -1,0 +1,322 @@
+/* 
+  Localizable.strings
+  Persistent
+
+  Created by Bennett Quaritsch on 14.08.22.
+  
+*/
+
+"General.Buttons.Edit" = "Edit";
+"General.Buttons.Delete" = "Delete";
+"General.Buttons.Help" = "Help";
+"General.Buttons.Archive" = "Archive";
+"General.Buttons.Unarchive" = "Unarchive";
+"General.Buttons.Close" = "Close";
+"General.Buttons.Submit" = "Submit";
+"General.Buttons.Save" = "Save";
+
+
+"General.ValueTypeEnum.Number" = "Number";
+"General.ValueTypeEnum.Minutes" = "Minutes";
+"General.ValueTypeEnum.Hours" = "Hours";
+"General.ValueTypeEnum.Millilitres" = "Millilitres";
+"General.ValueTypeEnum.Litres" = "Litres";
+"General.ValueTypeEnum.Ounces" = "Ounces";
+"General.ValueTypeEnum.Cups" = "Cups";
+"General.ValueTypeEnum.Quarts" = "Quart";
+"General.ValueTypeEnum.Metres" = "Metres";
+"General.ValueTypeEnum.Kilometres" = "Kilometres";
+"General.ValueTypeEnum.Yards" = "Yards";
+"General.ValueTypeEnum.Miles" = "Miles";
+
+"General.ResetIntervals.Daily" = "Daily";
+"General.ResetIntervals.Weekly" = "Weekly";
+"General.ResetIntervals.Monthly" = "Monthly";
+"General.ResetIntervals.Daily.Noun" = "Day";
+"General.ResetIntervals.Weekly.Noun" = "Week";
+"General.ResetIntervals.Monthly.Noun" = "Month";
+
+"General.ListFilterSelection.All" = "All Habits";
+"General.ListFilterSelection.Daily" = "Daily Habits";
+"General.ListFilterSelection.Weekly" = "Weekly Habits";
+"General.ListFilterSelection.Monthly" = "Monthly Habits";
+
+"General.BuildOrBreak.BuildHabit" = "Build Habit";
+"General.BuildOrBreak.BreakHabit" = "Break Habit";
+
+"General.AmountToDoString.JoiningWord" = "and";
+
+// Onboarding
+
+"Onboarding.Button.Skip" = "Skip introduction";
+"Onboarding.Button.Next" = "Next";
+"Onboarding.Button.GetStarted" = "Get Started";
+
+"Onboarding.FirstTab.Title" = "Welcome to Persistent!";
+"Onboarding.FirstTab.AddHabits" = "Add Habits and customize them as much as you need them.";
+"Onboarding.FirstTab.Calendar" = "If you forgot to complete your habit some days ago, you can go back to that day using the calendar.";
+"Onboarding.FirstTab.Calendar" = "Use widgets to get a quick glance on how you are doing.";
+
+"Onboarding.SecondTab.Title" = "Add frequently used amounts";
+"Onboarding.SecondTab.QuickAdd.Header" = "Press the";
+"Onboarding.SecondTab.QuickAdd.Footer" = "to save amounts that you will add to your habit frequently.";
+
+"Onboarding.ThirdTab.Title" = "Get started now!";
+
+"Onboarding.QuickStartButton.Running.Name" = "Running";
+"Onboarding.QuickStartButton.Meditation.Name" = "Meditation";
+"Onboarding.QuickStartButton.Read.Name" = "Read";
+"Onboarding.QuickStartButton.DrinkWater.Name" = "Drink Water";
+
+// List View
+
+"ListView.Search.Prompt" = "Search for your habits";
+
+"ListView.FilterButton.Sorting" = "Sorting";
+"ListView.FilterButton.Ascending" = "Ascending";
+"ListView.FilterButton.Descending" = "Descending";
+"ListView.FilterButton.Name" = "Name";
+"ListView.FilterButton.PercentageDone" = "Percentage Done";
+
+"ListView.FilterButton.Intervals" = "Intervals";
+"ListView.FilterButton.Tags" = "Tags";
+
+// Add Edit View
+
+"AddHabit.NavigationTitle" = "Create a Habit";
+"EditHabit.NavigationTitle" = "Edit Habit";
+
+"AddEditBase.NameHeader" = "Name";
+
+"AddEditBase.ValueType.Header" = "Unit";
+"AddEditBase.ValueType.Section.Length" = "Length";
+"AddEditBase.ValueType.Section.Volume" = "Volume";
+"AddEditBase.ValueType.Section.Time" = "Time";
+
+"AddEditBase.IntervalHeader" = "Interval";
+"AddEditBase.Interval.Name" = "Select an Interval";
+"AddEditBase.Goal.Header.Build" = "Goal";
+"AddEditBase.Goal.Header.Break" = "Limit";
+"AddEditBase.Goal.Name" = "Amount";
+"AddEditBase.Goal.Prompt" = "How much?";
+
+"AddEditBase.AddAmount" = "Add Amount";
+"AddEditBase.AddAmountTextField" = "Standard Add-Value";
+"AddEditBase.AddAmountTextField.Prompt" = "Optional";
+"AddEditBase.BuildOrBreak.Header" = "I want to...";
+
+"AddEditBase.IconColor.Header" = "Icon & Color";
+"AddEditBase.IconColor.Icon.NavigationTitle" = "Choose Icon";
+"AddEditBase.IconColor.Icon.Help.Label" = "Help";
+"AddEditBase.IconColor.Icon.Help.Header" = "Icon missing?";
+"AddEditBase.IconColor.Icon.Help.Body" ="If you feel like Persistent misses some icons, feel free to write me an e-mail with your suggestions.";
+
+"General.IconSections.Sport" = "Sport";
+"General.IconSections.Food" = "Food";
+"General.IconSections.PeopleAnimals" = "People & Animals";
+"General.IconSections.ChoresBreakingHabits" = "Chores & Breaking habits";
+"General.IconSections.Tech" = "Tech";
+"General.IconSections.Objects" = "Objects";
+"General.IconSections.Symbols" = "Symbols";
+
+"AddEditBase.Tags.Header" = "Tags";
+"AddEditBase.Tags.AddNewTag" = "Add new Tag";
+"AddEditBase.Tags.EditTag" = "Edit Tag";
+"AddEditBase.Tags.TextField.Header" = "Tag Name";
+"AddEditBase.Tags.TextField.Body" = "Name";
+"AddEditBase.Tags.NoneSelected" = "None selected";
+
+"AddEditBase.SaveHabitButton" = "Save Habit";
+
+"AddEditBase.Notifications.Header" = "Reminders";
+"AddEditBase.Notifications.AddNotification" = "Add Reminder";
+"AddEditBase.Notifications.EditNotification" = "Edit Reminder";
+"AddEditBase.Notifications.DeleteNotification" = "Delete Reminder";
+"AddEditBase.Notifications.SaveNotification" = "Save Reminder";
+"AddEditBase.Notifications.Message.Name" = "Reminder Message";
+"AddEditBase.Notifications.Message.Prompt" = "Message for your Reminder";
+"AddEditBase.Notifications.DatePicker" = "Select a time";
+"AddEditBase.Notifications.WeekdaySelection.Header" = "Select the days of the week";
+
+"AddEditBase.NotificationsPremiumPurchaseAlert.Header" = "You can't set notifications for habits";
+"AddEditBase.NotificationsPremiumPurchaseAlert.Message" = "If you want to set notifications, you will need Persistent Premium.";
+"AddEditBase.NotificationsPremiumPurchaseAlert.Cancel" = "Not interested";
+"AddEditBase.NotificationsPremiumPurchaseAlert.Purchase" = "Show me!";
+
+"AddEditBase.StandardAddHelp.Header" = "Standard-Add Amount";
+"AddEditBase.StandardAddHelp.Body1" = "This is the amount you add (or remove) from your habit from the selected day when you click the plus (or minus) button in the detail view of the habit or the small habit button in the list view.";
+"AddEditBase.StandardAddHelp.Body2" = "If left empty, the Standard-Add Amount will be one.";
+
+"AddEditBase.AddHabitError.Header" = "Failed to save habit";
+"AddEditBase.AddHabitError.Message" = "Please look again if you missed to fill in some of the fields.";
+"AddEditBase.AddHabitError.Continue" = "OK";
+
+"AddEditBase.DifferentValueTypeError.Header" = "Different unit";
+"AddEditBase.DifferentValueTypeError.Message" = "You chose a unit that is calculated differently than the one you previously selected. Changing the unit will result in weird effects.";
+"AddEditBase.DifferentValueTypeError.Continue" = "Continue";
+"AddEditBase.DifferentValueTypeError.Stop" = "Stop";
+
+// Settings
+
+"Settings.Navigation" = "Settings";
+
+"Settings.Toolbar.Close" = "Close";
+
+"Settings.PersistentPremium.Header" = "Persistent Pro";
+"Settings.PersistentPremium.BoughtText" = "Bought 👍";
+"Settings.PersistentPremium.BuyNowText %@" = "Buy Pro for %@";
+"Settings.PersistentPremium.BuyNowText.unknowPrice" = "unknown price";
+"Settings.PersistentPremium.RestorePurchase" = "Restore Purchase";
+
+"Settings.PersistentPremium.MoreHabits.Title" = "More than 3 Habits";
+"Settings.PersistentPremium.MoreHabits.Description" = "You can create more than 3 habits at the same time. Time to power through them!";
+"Settings.PersistentPremium.Graphs.Title" = "Statistics";
+"Settings.PersistentPremium.Graphs.Description" = "Get a graphic look at your accomplishments of the last days, weeks or months.";
+"Settings.PersistentPremium.Notifications.Title" = "Notifications";
+"Settings.PersistentPremium.Notifications.Description" = "Schedule notifications that remind you of your habit.";
+"Settings.PersistentPremium.Support.Title" = "Support";
+"Settings.PersistentPremium.Support.Description" = "Additionally, with this purchase you can support me, an indie app-creator 😊.";
+
+"Settings.PersistentPremium.Error.Title" = "Something went wrong";
+"Settings.PersistentPremium.Error.Description" = "This might have been your connection, the App Store´s fault or I made a mistake. If this keeps happening, please reach out to me.";
+
+"Settings.InterfaceDesign.Header" = "Interface & Design";
+
+"Settings.InterfaceDesign.AccentTheme" = "Accent Color & Theme";
+"Settings.InterfaceDesign.AccentTheme.ColorPicker" = "Select your preffered Color";
+
+"Settings.InterfaceDesign.AccentTheme.ThemePicker" = "Select a Theme";
+"Settings.InterfaceDesign.AccentTheme.ThemePicker.Light" = "Light Mode";
+"Settings.InterfaceDesign.AccentTheme.ThemePicker.Dark" = "Dark Mode";
+"Settings.InterfaceDesign.AccentTheme.ThemePicker.Automatic" = "Automatic";
+
+"Settings.InterfaceDesign.ListCellColor" = "List Cell Color";
+"Settings.InterfaceDesign.ListCellColor.Colorful" = "Colorful";
+"Settings.InterfaceDesign.ListCellColor.Muted" = "Muted";
+"Settings.InterfaceDesign.AppIcon" = "App Icon";
+"Settings.InterfaceDesign.HandPreference" = "Hand Preference";
+"Settings.InterfaceDesign.HandPreference.Right" = "Right Handed";
+"Settings.InterfaceDesign.HandPreference.Left" = "Left Handed";
+
+"Settings.Habits" = "Habits";
+"Settings.Habits.NightOwl" = "Night Owl Mode";
+"Settings.Habits.NightOwl.Picker" = "Select a delay";
+"Settings.Habits.NightOwl.Help.Body" = "Select the amount of hours that, even after the day is technically over, still count towards the previous day.";
+"Settings.Habits.Archived" = "Archived Habits";
+
+"Settings.Calendar" = "Calendar";
+"Settings.Calendar.FirstDay" = "First Day of the Week";
+"Settings.Calendar.FirstDay.Enum.Sunday" = "Sunday";
+"Settings.Calendar.FirstDay.Enum.Monday" = "Monday";
+
+"Settings.Sync.Header" = "Sync";
+"Settings.Sync.Body" = "iCloud Sync";
+
+"Settings.About.Header" = "About";
+"Settings.About.About" = "About the app";
+"Settings.About.About.Version %@" = "Version %@";
+"Settings.About.About.BuiltBy" = "Built by Bennett Quaritsch";
+"Settings.About.About.Feedback" = "Feedback, Feature Requests and Bug Reports";
+"Settings.About.About.Website" = "Persistent Website";
+"Settings.About.About.Twitter" = "Persistent Twitter";
+"Settings.About.About.Review" = "Leave a review 😀";
+"Settings.About.About.TermsOfUse" = "Terms of Use";
+"Settings.About.About.PrivacyPolicy" = "Privacy Policy";
+"Settings.About.Thanks" = "Thanks to";
+
+// Detail View
+
+"DetailView.GoalString %@ %@" = "Goal of %@ per %@";
+
+"DetailView.Accessibility.Button.RemoveFromHabit" = "Remove from habit";
+"DetailView.Accessibility.Button.AddToHabit" = "Add to habit";
+"DetailView.Accessibility.Menu" = "More Aktionen";
+
+"DetailView.AddRemoveMultiple.Header" = "Add or Remove";
+"DetailView.AddRemoveMultiple.Picker.Header" = "Add or Remove?";
+"DetailView.AddRemoveMultiple.Picker.Add" = "Add";
+"DetailView.AddRemoveMultiple.Picker.Remove" = "Remove";
+"DetailView.AddRemoveMultiple.HowMuch" = "How much?";
+"DetailView.AddRemoveMultiple.ComparableTypesPicker.Header" = "Pick a value type";
+"DetailView.AddRemoveMultiple.TextField" = "Enter a number";
+
+"DetailView.QuickAdd.Button" = "Quick Add";
+"DetailView.QuickAdd.Header" = "Quick Add Actions";
+"DetailView.QuickAdd.Name" = "Name";
+"DetailView.QuickAdd.Amount" = "Amount";
+"DetailView.QuickAdd.CreateNew" = "Create new quick add";
+"DetailView.QuickAdd.Accessibility.Save" = "Save Quick Add action";
+
+"DetailView.Menu.AddRemoveMultiple" = "Add or Remove";
+
+"DetailView.Statistics.Header" = "Statistics";
+"DetailView.Calendar.Header" = "Calendar";
+
+// Statistics
+
+"Statistics.Picker.Header" = "Select an Interval";
+"Statistics.Picker.Days" = "7 Days";
+"Statistics.Picker.Week" = "8 Weeks";
+"Statistics.Picker.Months" = "12 Months";
+
+"Statistics.BoxView.AbsolutGoal.Header" = "Goal reached";
+"Statistics.BoxView.AbsolutGoal.Trailing" = " times";
+"Statistics.BoxView.AbsolutGoal.Bottom" = "in the last 12 months";
+
+"Statistics.BoxView.PercentageGoal.Header" = "Goal reached";
+"Statistics.BoxView.PercentageGoal.Trailing" = "%";
+"Statistics.BoxView.PercentageGoal.Bottom" = "in the last 12 months";
+
+"Statistics.PremiumNeeded" = "Statistics are available with Persistent Premium";
+
+// Share
+
+"Share.ProgressCircle.Date.Text %@" = "On %@";
+
+// Widgets
+
+"Widget.SingleHabit.Name" = "Habit Progress";
+"Widget.SingleHabit.Description" = "This widget shows your habit in a big way! Choose your habit through long pressing on the widget.";
+
+"Widget.SingleHabit.Circular.Name" = "Habit";
+"Widget.SingleHabit.Circular.Description" = "This widget shows your habit progress! Choose your habit through long pressing on the widget.";
+
+"Widget.MultipleHabits.Name" = "Multiple Habits";
+"Widget.MultipleHabits.Description" = "See multiple habits at once! Choose your habits through long pressing on the widget.";
+
+"Widget.RoundedBarChart.Name" = "Bar Chart";
+"Widget.RoundedBarChart.Description" = "This widget shows a chart of your habit progress! Configure the widget through long pressing on the widget.";
+
+// App Intents
+
+"AppIntents.Parameter.Habit" = "Habit";
+"AppIntents.Parameter.Amount" = "Amount";
+
+"AppIntents.Entities.Habit.TypeDisplayRepresentation" = "Habit";
+"AppIntents.Entities.Habit.TypeDisplayName" = "Habit Name";
+
+// Open Habit Intent
+
+"AppIntents.OpenHabitIntent.Title" = "Open Habit";
+"AppIntents.OpenHabitIntent.Description" = "Opens a habit you specify.";
+
+"AppIntents.OpenHabitIntent.Parameter.Habit.ValueRequest" = "What habit do you want to open?";
+
+"AppIntents.OpenHabitIntent.Summary ${habit}" = "Open ${habit}";
+
+// Add To Habit Intent
+
+"AppIntents.AddToHabitIntent.Title" = "Add to Habit";
+"AppIntents.AddToHabitIntent.Description" = "Adds a value you specify to a habit you specify";
+
+"AppIntents.AddToHabitIntent.Parameter.Habit.ValueRequest" = "What habit do you want to add to?";
+"AppIntents.AddToHabitIntent.Parameter.Amount.ValueRequest" = "How much do you want to add?";
+
+"AppIntents.AddToHabitIntent.Result.Dialog %1$@ %2$@" = "Okay, added %1$@ to %2$@.";
+"AppIntents.AddToHabitIntent.Result.Dialog.ValueType %1$@ %2$@ %3$@" = "Okay, added %1$@ %2$@ to %3$@.";
+"AppIntents.AddToHabitIntent.Summary ${value} ${habit}" = "Add ${value} to ${habit}";
+
+// Intent Hahndler
+
+"IntentHandler.Sections.Habits.Title" = "Your Habits";
+"IntentHandler.Sections.None.Body" = "None";

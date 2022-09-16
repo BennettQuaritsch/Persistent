@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct ChooseIconView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) var dismiss
     @Environment(\.openURL) private var openURL
+    @Environment(\.colorScheme) private var colorScheme
     
     let columns = [GridItem(.adaptive(minimum: 60, maximum: 80))]
     
@@ -23,43 +24,31 @@ struct ChooseIconView: View {
     
     var body: some View {
         ZStack {
-            Color("systemGray6")
+            Color.systemGray6
                 .edgesIgnoringSafeArea(.all)
                 .zIndex(0)
             
             ScrollView {
-                ForEach($sections, id: \.self) { $section in
-                    VStack {
-                        HStack {
-                            Text(section.name)
+                VStack(spacing: 25) {
+                    ForEach($sections, id: \.self) { $section in
+                        VStack(spacing: 10) {
+                            Text(LocalizedStringKey(section.name))
                                 .font(.title2)
                                 .fontWeight(.bold)
-
-                            Spacer()
+                                .foregroundColor(.secondary)
+                                .multilineTextAlignment(.leading)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             
-                            Image(systemName: "chevron.right")
-                                .rotationEffect(.degrees(section.isSelected ? 90 : 0))
-                                .transaction { transaction in
-                                    transaction.disablesAnimations = true
-                                }
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            withAnimation(.spring(response: 0.25, dampingFraction: 0.75, blendDuration: 1)) {
-                                section.isSelected.toggle()
-                                
-                                UserDefaults.standard.set(section.isSelected, forKey: section.name + IconSection.userDefaultsKey)
-                            }
-                        }
-                        
-                        if section.isSelected {
                             LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
                                 ForEach(section.iconArray, id: \.self) { icon in
                                     Button {
                                         iconChoice = icon
-                                        presentationMode.wrappedValue.dismiss()
+                                        dismiss()
                                     } label: {
                                         ZStack {
+                                            RoundedRectangle(cornerRadius: 15, style: .continuous)
+                                                .foregroundColor(colorScheme == .dark ? .systemGray5 : .systemBackground)
+                                            
                                             Image(icon)
                                                 .resizable()
                                                 .scaledToFit()
@@ -70,16 +59,100 @@ struct ChooseIconView: View {
                                             if icon == iconChoice {
                                                 RoundedRectangle(cornerRadius: 15, style: .continuous)
                                                     .strokeBorder(Color.accentColor, lineWidth: 5)
+                                                    .shadow(radius: 3)
                                             }
                                         }
                                     }
                                 }
                             }
-                            .transition(.asymmetric(insertion: .opacity.animation(.easeInOut(duration: 0.3)), removal: .opacity.animation(.easeInOut(duration: 0.2))))
                         }
-                            
+                        
+    //                    DisclosureGroup(isExpanded: $section.isSelected) {
+    //                        LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
+    //                            ForEach(section.iconArray, id: \.self) { icon in
+    //                                Button {
+    //                                    iconChoice = icon
+    //                                    presentationMode.wrappedValue.dismiss()
+    //                                } label: {
+    //                                    ZStack {
+    //                                        RoundedRectangle(cornerRadius: 15, style: .continuous)
+    //                                            .foregroundColor(colorScheme == .dark ? .systemGray5 : .systemBackground)
+    //
+    //                                        Image(icon)
+    //                                            .resizable()
+    //                                            .scaledToFit()
+    //                                            .foregroundColor(.primary.opacity(0.7))
+    //                                            .padding(8)
+    //                                            .accessibility(label: Text(icon))
+    //
+    //                                        if icon == iconChoice {
+    //                                            RoundedRectangle(cornerRadius: 15, style: .continuous)
+    //                                                .strokeBorder(Color.accentColor, lineWidth: 5)
+    //                                        }
+    //                                    }
+    //                                }
+    //                            }
+    //                        }
+    //                    } label: {
+    //                        Text(LocalizedStringKey(section.name))
+    //                            .font(.title2)
+    //                            .fontWeight(.bold)
+    //                            .foregroundColor(.primary)
+    //                            .multilineTextAlignment(.leading)
+    //                    }
+    //                    VStack {
+    //                        HStack {
+    //                            Text(LocalizedStringKey(section.name))
+    //                                .font(.title2)
+    //                                .fontWeight(.bold)
+    //
+    //                            Spacer()
+    //
+    //                            Image(systemName: "chevron.right")
+    //                                .rotationEffect(.degrees(section.isSelected ? 90 : 0))
+    //                                .transaction { transaction in
+    //                                    transaction.disablesAnimations = true
+    //                                }
+    //                        }
+    //                        .contentShape(Rectangle())
+    //                        .onTapGesture {
+    //                            withAnimation(.spring(response: 0.25, dampingFraction: 0.75, blendDuration: 1)) {
+    //                                section.isSelected.toggle()
+    //
+    //                                UserDefaults.standard.set(section.isSelected, forKey: section.name + IconSection.userDefaultsKey)
+    //                            }
+    //                        }
+    //
+    //                        if section.isSelected {
+    //                            LazyVGrid(columns: columns, alignment: .center, spacing: 10) {
+    //                                ForEach(section.iconArray, id: \.self) { icon in
+    //                                    Button {
+    //                                        iconChoice = icon
+    //                                        presentationMode.wrappedValue.dismiss()
+    //                                    } label: {
+    //                                        ZStack {
+    //                                            Image(icon)
+    //                                                .resizable()
+    //                                                .scaledToFit()
+    //                                                .foregroundColor(.primary.opacity(0.7))
+    //                                                .padding(8)
+    //                                                .accessibility(label: Text(icon))
+    //
+    //                                            if icon == iconChoice {
+    //                                                RoundedRectangle(cornerRadius: 15, style: .continuous)
+    //                                                    .strokeBorder(Color.accentColor, lineWidth: 5)
+    //                                            }
+    //                                        }
+    //                                    }
+    //                                }
+    //                            }
+    //                            .transition(.asymmetric(insertion: .opacity.animation(.easeInOut(duration: 0.3)), removal: .opacity.animation(.easeInOut(duration: 0.2))))
+    //                        }
+    //
+    //                    }
+    //                    .padding(.bottom)
                     }
-                    .padding(.bottom)
+                    
                 }
                 .zIndex(1)
                 .padding()
@@ -91,11 +164,11 @@ struct ChooseIconView: View {
                     Spacer()
                     
                     VStack {
-                        Text("Icon missing?")
+                        Text("AddEditBase.IconColor.Icon.Help.Header")
                             .font(.headline)
                             .padding(.bottom, 1)
                         
-                        Text("If you feel like Persistent misses some icons, feel free to write me an e-mail with your suggestions.")
+                        Text("AddEditBase.IconColor.Icon.Help.Body")
                             .multilineTextAlignment(.center)
                             .foregroundColor(.secondary)
                         
@@ -128,13 +201,13 @@ struct ChooseIconView: View {
         #if os(iOS)
         .navigationBarTitleDisplayMode(.inline)
         #endif
-        .navigationTitle("Choose Icon")
+        .navigationTitle("AddEditBase.IconColor.Icon.NavigationTitle")
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     helpShown.toggle()
                 } label: {
-                    Label("Help", systemImage: "questionmark")
+                    Label("AddEditBase.IconColor.Icon.Help.Label", systemImage: "questionmark")
                 }
             }
         }

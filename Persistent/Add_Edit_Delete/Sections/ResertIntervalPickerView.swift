@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ResertIntervalPickerView: View {
+    let breakHabitEnum: BuildOrBreakHabitEnum
+    
     @Binding var intervalChoice: ResetIntervals
     
     @Binding var valueString: String
@@ -16,13 +18,13 @@ struct ResertIntervalPickerView: View {
     
     @Binding var valueTypeSelection: HabitValueTypes
     
-    @FocusState var valueTypeTextFieldSelected: Bool
+    @FocusState var valueTypeTextFieldSelected: AlternativeEditHabitBaseView.TextFieldFocusEnum?
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Picker("Select a Interval", selection: $intervalChoice) {
+            Picker("AddEditBase.Interval.Name", selection: $intervalChoice) {
                 ForEach(ResetIntervals.allCases, id: \.self) { interval in
-                    Text(interval.name)
+                    Text(interval.localizedStringKey)
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
@@ -36,13 +38,13 @@ struct ResertIntervalPickerView: View {
     //                .focused($valueTypeTextFieldSelected)
     //        }
             HStack {
-                Text("Goal")
+                Text(breakHabitEnum == .breakHabit ? "AddEditBase.Goal.Header.Break" : "AddEditBase.Goal.Header.Build")
                     .font(.subheadline.weight(.semibold))
                     .foregroundStyle(.secondary)
                 
-                TextField("Volume", text: $valueString, prompt: Text("How much?"))
+                TextField("AddEditBase.Goal.Name", text: $valueString, prompt: Text("AddEditBase.Goal.Prompt"))
                     .keyboardType(.decimalPad)
-                    .focused($valueTypeTextFieldSelected)
+                    .focused($valueTypeTextFieldSelected, equals: .standardAdd)
             }
         }
         
@@ -51,6 +53,6 @@ struct ResertIntervalPickerView: View {
 
 struct ResertIntervalPickerView_Previews: PreviewProvider {
     static var previews: some View {
-        ResertIntervalPickerView(intervalChoice: .constant(.daily), valueString: .constant(""), timesPerDay: .constant(3), valueTypeSelection: .constant(.number))
+        ResertIntervalPickerView(breakHabitEnum: .buildHabit, intervalChoice: .constant(.daily), valueString: .constant(""), timesPerDay: .constant(3), valueTypeSelection: .constant(.number))
     }
 }

@@ -21,8 +21,6 @@ struct SettingsView: View {
     @Environment(\.purchaseInfo) var purchaseInfo
     @Environment(\.dismiss) var dismiss
     
-    @State var syncEnabled: Bool
-    
     @State var premiumSheet: Bool = false
     @State private var premiumNavigationActive: Bool = false
     
@@ -62,101 +60,106 @@ struct SettingsView: View {
         }
     }
     
-    init() {
-        self._syncEnabled = State(wrappedValue: UserDefaults.standard.bool(forKey: "syncDisabled"))
-    }
-    
     var product: Product? {
         return storeManager.products.first(where: { $0.id == "quaritsch.bennnett.Persistent.premium.single" })
     }
     
+    enum BuyPremiumNavigationEnum: Hashable {
+        case buyPremiumNavigation
+    }
+    
+    @State private var navigationPath = NavigationPath()
+    
     var body: some View {
-        NavigationView {
+        NavigationStack(path: $navigationPath) {
             List {
                 ZStack {
-                    NavigationLink(destination: BuyPremiumView(), isActive: $premiumNavigationActive) {
-                        EmptyView()
-                    }
-                    .hidden()
-                    
                     Button {
-                        premiumNavigationActive = true
+                        navigationPath.append(BuyPremiumNavigationEnum.buyPremiumNavigation)
                     } label: {
                         HStack {
                             Spacer()
                             
                             VStack(spacing: 10) {
-                                Text("Persistent Premium")
+                                Text("Settings.PersistentPremium.Header")
                                     .font(.title)
                                     .fontWeight(.bold)
                                     .foregroundColor(.accentColor)
                                 
                                 if purchaseInfo.wrappedValue {
-                                    Text("Bought 👍")
+                                    Text("Settings.PersistentPremium.BoughtText")
                                         .fontWeight(.semibold)
                                 } else {
-                                    Text("Buy Premium for \(product?.displayPrice ?? "unknown price")")
+                                    Text("Settings.PersistentPremium.BuyNowText \(product?.displayPrice ?? NSLocalizedString("Settings.PersistentPremium.BuyNowText.unknowPrice", comment: ""))")
                                         .fontWeight(.semibold)
+                                        .multilineTextAlignment(.center)
                                 }
                             }
                             
                             Spacer()
                         }
                         .padding(10)
+                        .contentShape(Rectangle())
                     }
                     .buttonStyle(.plain)
                 }
                 
-                Section("Interface Design") {
+                Section("Settings.InterfaceDesign.Header") {
                     NavigationLink(destination: AccentColorSetting()) {
                         HStack {
                             Image(systemName: "paintbrush")
                                 .foregroundColor(userSettings.accentColor)
                             
-                            Text("Accent Color & Theme")
+                            Text("Settings.InterfaceDesign.AccentTheme")
                         }
                     }
                     
-                    VStack(alignment: .leading, spacing: 0) {
+                    Picker(selection: $userSettings.simplerListCellColor) {
+                        Text("Settings.InterfaceDesign.ListCellColor.Colorful").tag(false)
+                            .accessibilityIdentifier("ColorfulOption")
+                        Text("Settings.InterfaceDesign.ListCellColor.Muted").tag(true)
+                            .accessibilityIdentifier("MutedOption")
+                    } label: {
                         HStack {
                             Image(systemName: "paintpalette")
                                 .foregroundColor(userSettings.accentColor)
                             
-                            Text("List cell colors")
-                                .padding(.vertical, 5)
+                            Text("Settings.InterfaceDesign.ListCellColor")
                         }
-                        
-                        Picker("List cell color", selection: $userSettings.simplerListCellColor) {
-                            Text("Colorful").tag(false)
-                            Text("Muted").tag(true)
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.top, 5)
                     }
+                    .pickerStyle(.menu)
+                    .accessibilityIdentifier("ListCellColorPicker")
                     
                     NavigationLink(destination: ChangeAppIconView()) {
                         HStack {
                             Image(systemName: "app")
                                 .foregroundColor(userSettings.accentColor)
                             
-                            Text("App Icon")
+                            Text("Settings.InterfaceDesign.AppIcon")
                         }
                     }
                     
-                    Picker("Hand Preference", selection: $userSettings.leftHandedInterface) {
-                        Text("Left Handed").tag(true)
-                        Text("Right Handed").tag(false)
+                    Picker(selection: $userSettings.leftHandedInterface) {
+                        Text("Settings.InterfaceDesign.HandPreference.Left").tag(true)
+                        Text("Settings.InterfaceDesign.HandPreference.Right").tag(false)
+                    } label: {
+                        HStack {
+                            Image(systemName: "hand.raised")
+                                .foregroundColor(userSettings.accentColor)
+                            
+                            Text("Settings.InterfaceDesign.HandPreference")
+                        }
                     }
-                    .pickerStyle(.segmented)
+                    .pickerStyle(.menu)
                 }
                 
-                Section("Habits") {
+                Section("Settings.Habits") {
                     NavigationLink(destination: NightOwlModeView()) {
                         HStack {
                             Image(systemName: "moon.stars")
                                 .foregroundColor(userSettings.accentColor)
                             
-                            Text("Night Owl Mode")
+                            Text("Settings.Habits.NightOwl")
                         }
                     }
                     
@@ -165,86 +168,50 @@ struct SettingsView: View {
                             Image(systemName: "archivebox")
                                 .foregroundColor(userSettings.accentColor)
                             
-                            Text("Archived Habits")
+                            Text("Settings.Habits.Archived")
                         }
                     }
                 }
                 
-                Section("Calendar") {
+                Section("Settings.Calendar") {
                     NavigationLink(destination: FirstWeekdayPickerView(settingsViewModel: viewModel)) {
                         HStack {
                             Image(systemName: "calendar")
                                 .foregroundColor(userSettings.accentColor)
                             
-                            Text("First Day of the Week")
+                            Text("Settings.Calendar.FirstDay")
                         }
                     }
                 }
                 
-                Section("Sync") {
-//                    HStack {
-//                        VStack(alignment: .leading, spacing: 3) {
-//                            HStack {
-//                                Image(systemName: syncMonitor.syncStateSummary.symbolName)
-//                                    .foregroundColor(userSettings.accentColor)
-//
-//                                Text("iCloud Sync")
-//
-//                                Spacer()
-//
-//                                Text(syncStateText)
-//                                    .font(.subheadline)
-//                                    .foregroundColor(.secondary)
-//                            }
-//
-//
-//                        }
-//
-//                        Spacer()
-//
-//                        Toggle("iCloud Sync", isOn: !$syncEnabled)
-//                            .onChange(of: syncEnabled) { value in
-//                                UserDefaults.standard.set(value, forKey: "syncDisabled")
-//
-//                                print(value)
-//
-//                                viewContext.refreshAllObjects()
-//
-////                                viewContext.refreshAllObjects()
-//                            }
-//                            .labelsHidden()
-//                            .preference(key: CloudSyncPreferenceKey.self, value: !syncEnabled)
-//                    }
-//                    .padding(.vertical, 5)
+                Section("Settings.Sync.Header") {
                     HStack {
                         Image(systemName: syncMonitor.syncStateSummary.symbolName)
                             .foregroundColor(userSettings.accentColor)
                         
-                        Text("iCloud Sync")
-                        
-                        Spacer()
-                        
-                        Text(syncStateText)
-                            .font(.subheadline)
-                            .foregroundColor(.secondary)
+                        VStack(alignment: .leading, spacing: 3) {
+                            Text("Settings.Sync.Body")
+                            
+                            Text(syncStateText)
+                                .font(.footnote)
+                                .foregroundColor(.secondary)
+                        }
                     }
+                    .padding(.vertical, 1)
                 }
                 
-                Section("About") {
+                Section("Settings.About.Header") {
                     NavigationLink(destination: AboutAppView()) {
-                        Label("About the app", systemImage: "info.circle.fill") 
+                        Label("Settings.About.About", systemImage: "info.circle.fill")
                     }
                     
                     NavigationLink(destination: AboutPersistentView()) {
-                        Label("Thanks to", systemImage: "hand.thumbsup.fill")
+                        Label("Settings.About.Thanks", systemImage: "hand.thumbsup.fill")
                     }
                 }
                 
                 //NavigationLink("calendar", destination: CalendarPageViewController(toggle: .constant(true), habitDate: .constant(Date()), date: Date(), habit: previewTestHabit))
                 
-                #if DEBUG
-                
-                #endif
 //                NavigationLink(destination: AlternativeListView()) {
 //                    Text("Alternativer List View")
 //                }
@@ -269,19 +236,22 @@ struct SettingsView: View {
             .symbolVariant(.fill)
             #if os(iOS)
             .listStyle(InsetGroupedListStyle())
-            .navigationBarTitle("Settings")
+            .navigationBarTitle("Settings.Navigation")
             #endif
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button(role: .cancel) {
                         dismiss()
                     } label: {
-                        Text("Close")
+                        Text("Settings.Toolbar.Close")
                     }
+                    .accessibilityIdentifier("SettingsCloseButton")
                 }
             }
+            .navigationDestination(for: BuyPremiumNavigationEnum.self) { _ in
+                BuyPremiumView()
+            }
         }
-        .navigationViewStyle(.stack)
         .sheet(isPresented: $premiumSheet) {
             #if os(iOS)
             NavigationView {
@@ -308,10 +278,10 @@ struct AccentColorSetting: View {
     
     var body: some View {
         List {
-            Picker("Select your preffered Color", selection: $selection) {
+            Picker("Settings.InterfaceDesign.AccentTheme.ColorPicker", selection: $selection) {
                 ForEach(settings.accentColorNames, id: \.self) { name in
                     HStack {
-                        RoundedRectangle(cornerRadius: 10)
+                        RoundedRectangle(cornerRadius: 8, style: .continuous)
                             .fill(Color(name))
                             .scaledToFit()
                             .frame(width: 30)
@@ -328,7 +298,7 @@ struct AccentColorSetting: View {
                 settings.accentColorName = value
             })
             
-            Picker("Select a Theme", selection: $settings.themeSelection) {
+            Picker("Settings.InterfaceDesign.AccentTheme.ThemePicker", selection: $settings.themeSelection) {
                 ForEach(UserSettings.ThemeSelectionEnum.allCases, id: \.self) { theme in
                     Text(theme.shownName)
                         .tag(theme)
@@ -339,7 +309,7 @@ struct AccentColorSetting: View {
         }
         #if os(iOS)
         .listStyle(InsetGroupedListStyle())
-        .navigationBarTitle("Accent Color & Theme")
+        .navigationBarTitle("Settings.InterfaceDesign.AccentTheme")
         #endif
         .onAppear {
 //            selection = settings.accentColorIndex

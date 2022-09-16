@@ -26,97 +26,94 @@ struct ListMenuButton: View {
                 filterOption = filter
             }
         } label: {
-            Text("\(text) (\(filterCount(filter)))")
+//            Text("\(text) (\(filterCount(filter)))")
+            Text("\(text)")
         }
     }
     
-    var sortingNameOptionImage: String {
-        switch viewModel.sortingOption {
-        case .nameAscending:
-            return "arrow.up"
-        case .nameDescending:
-            return "arrow.down"
-        default:
-            return "abc"
-        }
-    }
-    
-    var sortingPercentageOptionImage: String {
-        switch viewModel.sortingOption {
-        case .percentageDoneAscending:
-            return "arrow.up"
-        case .percentageDoneDescending:
-            return "arrow.down"
-        default:
-            return "percent"
-        }
-    }
-    
-    func filterCount(_ filterOption: ListFilterSelectionEnum) -> Int {
-        switch filterOption {
-        case .daily:
-            return allHabits
-                .filter {$0.resetIntervalEnum == .daily}
-                .count
-        case .weekly:
-            return allHabits
-                .filter {$0.resetIntervalEnum == .weekly}
-                .count
-        case .monthly:
-            return allHabits
-                .filter {$0.resetIntervalEnum == .monthly}
-                .count
-        case.tag(let tag):
-            return tag
-                .containingHabits?.count ?? 0
-        default:
-            return allHabits.count
-        }
-    }
+//    func filterCount(_ filterOption: ListFilterSelectionEnum) -> Int {
+//        switch filterOption {
+//        case .daily:
+//            return allHabits
+//                .filter {$0.resetIntervalEnum == .daily && !$0.habitArchived}
+//                .count
+//        case .weekly:
+//            return allHabits
+//                .filter {$0.resetIntervalEnum == .weekly && !$0.habitArchived}
+//                .count
+//        case .monthly:
+//            return allHabits
+//                .filter {$0.resetIntervalEnum == .monthly && !$0.habitArchived}
+//                .count
+//        case.tag(let tag):
+//            return tag
+//                .containingHabits?
+//                .filter { $0. }
+//                .count ?? 0
+//        default:
+//            return allHabits.count
+//        }
+//    }
     
     var body: some View {
         Menu() {
             Menu {
-                Button {
-                    withAnimation {
-                        if viewModel.sortingOption == .nameAscending {
-                            viewModel.sortingOption = .nameDescending
-                        } else {
+                Menu {
+                    Button {
+                        withAnimation {
                             viewModel.sortingOption = .nameAscending
                         }
+                    } label: {
+                        Label("ListView.FilterButton.Ascending", systemImage: "arrow.up")
+                    }
+                    
+                    Button {
+                        withAnimation {
+                            viewModel.sortingOption = .nameDescending
+                        }
+                    } label: {
+                        Label("ListView.FilterButton.Descending", systemImage: "arrow.down")
                     }
                 } label: {
-                    Label("Name", systemImage: sortingNameOptionImage)
+                    Label("ListView.FilterButton.Name", systemImage: "abc")
                 }
                 
-                Button {
-                    withAnimation {
-                        if viewModel.sortingOption == .percentageDoneAscending {
-                            viewModel.sortingOption = .percentageDoneDescending
-                        } else {
+                Menu {
+                    Button {
+                        withAnimation {
                             viewModel.sortingOption = .percentageDoneAscending
                         }
+                    } label: {
+                        Label("ListView.FilterButton.Ascending", systemImage: "arrow.up")
+                    }
+                    
+                    Button {
+                        withAnimation {
+                            viewModel.sortingOption = .percentageDoneDescending
+                        }
+                    } label: {
+                        Label("ListView.FilterButton.Descending", systemImage: "arrow.down")
                     }
                 } label: {
-                    Label("Percentage Done", systemImage: sortingPercentageOptionImage)
+                    Label("ListView.FilterButton.PercentageDone", systemImage: "percent")
                 }
             } label: {
-                Label("Sorting", systemImage: "line.3.horizontal")
+                Label("ListView.FilterButton.Sorting", systemImage: "line.3.horizontal")
             }
             
             if parentSizeClass == .compact {
                 Divider()
                 
-                predicateButton(filter: .all, text: "All Habits", imageName: "checkmark.circle")
+                predicateButton(filter: .all, text: ListFilterSelectionEnum.all.name, imageName: "checkmark.circle")
                 
                 Menu {
-                    predicateButton(filter: .daily, text: "Daily Habits")
+                    predicateButton(filter: .daily, text: ListFilterSelectionEnum.daily.name)
                     
-                    predicateButton(filter: .weekly, text: "Weekly Habits")
+                    predicateButton(filter: .weekly, text: ListFilterSelectionEnum.weekly.name)
                     
-                    predicateButton(filter: .monthly, text: "Monthly Habits")
+                    predicateButton(filter: .monthly, text: ListFilterSelectionEnum.monthly.name)
                 } label: {
-                    Label("Intervals", systemImage: "timer")
+                    Label("ListView.FilterButton.Intervals", systemImage: "timer")
                 }
                 
                 Menu {
@@ -124,7 +121,7 @@ struct ListMenuButton: View {
                         predicateButton(filter: .tag(tag), text: tag.wrappedName)
                     }
                 } label: {
-                    Label("Tags", systemImage: "bookmark")
+                    Label("ListView.FilterButton.Tags", systemImage: "bookmark")
                 }
             }
             
