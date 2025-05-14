@@ -237,7 +237,7 @@ struct AppSidebarNavigation: View {
             }
             #endif
         } content: {
-            SplitViewListView(filter, shownHabit: $shownHabit, splitViewVisibility: $columnVisibility)
+            SplitViewListView(filter, shownHabit: $shownHabit, splitViewVisibility: $columnVisibility, habitToEdit: $habitToEdit)
         } detail: {
             VStack {
                 if let shownHabit {

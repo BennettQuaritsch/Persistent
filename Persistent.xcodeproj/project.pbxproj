@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -174,7 +174,6 @@
 		9179C97826E242020054B188 /* CoreDataBackup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9179C97526E242020054B188 /* CoreDataBackup.swift */; };
 		917A21342880E6490016350F /* ListMenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917A21332880E6490016350F /* ListMenuButton.swift */; };
 		917A21372884C0ED0016350F /* NewTagSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 917A21362884C0ED0016350F /* NewTagSection.swift */; };
-		91807CEC2720D83B006208FE /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91807CEB2720D83B006208FE /* StoreKit.framework */; };
 		91807CF02720D883006208FE /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91807CEF2720D883006208FE /* StoreManager.swift */; };
 		91807CF2272209E5006208FE /* BuyPremiumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91807CF1272209E5006208FE /* BuyPremiumView.swift */; };
 		91807CF52726059C006208FE /* ProductsTest.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 91807CF42726059C006208FE /* ProductsTest.storekit */; };
@@ -469,7 +468,6 @@
 		9179C97526E242020054B188 /* CoreDataBackup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataBackup.swift; sourceTree = "<group>"; };
 		917A21332880E6490016350F /* ListMenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListMenuButton.swift; sourceTree = "<group>"; };
 		917A21362884C0ED0016350F /* NewTagSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTagSection.swift; sourceTree = "<group>"; };
-		91807CEB2720D83B006208FE /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		91807CEF2720D883006208FE /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		91807CF1272209E5006208FE /* BuyPremiumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuyPremiumView.swift; sourceTree = "<group>"; };
 		91807CF42726059C006208FE /* ProductsTest.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = ProductsTest.storekit; sourceTree = "<group>"; };
@@ -562,7 +560,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				91807CEC2720D83B006208FE /* StoreKit.framework in Frameworks */,
 				9194121226DFF3B30042599E /* CloudKit.framework in Frameworks */,
 				916A8C382761161C00D24202 /* SwiftKeychainWrapper in Frameworks */,
 				91B6D7A527BDA36900B18E15 /* CloudKitSyncMonitor in Frameworks */,
@@ -788,7 +785,6 @@
 				917905AC27852A820001C105 /* CoreData.framework */,
 				91829B4C27851EE1001FE335 /* CloudKit.framework */,
 				91561867272A0FC400C07395 /* StoreKit.framework */,
-				91807CEB2720D83B006208FE /* StoreKit.framework */,
 				91D0483A26FCD6DD005C712C /* CloudKit.framework */,
 				9194121126DFF3B30042599E /* CloudKit.framework */,
 				9105492226860D5C005E80C2 /* SwiftUI.framework */,
@@ -1751,7 +1747,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1807,7 +1803,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1827,13 +1823,13 @@
 				CODE_SIGN_ENTITLEMENTS = Persistent/Persistent.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"Persistent/Preview Content\"";
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Persistent/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1859,13 +1855,13 @@
 				CODE_SIGN_ENTITLEMENTS = Persistent/Persistent.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_ASSET_PATHS = "\"Persistent/Preview Content\"";
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Persistent/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1890,10 +1886,10 @@
 				CODE_SIGN_ENTITLEMENTS = PersistentWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				INFOPLIST_FILE = PersistentWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1917,10 +1913,10 @@
 				CODE_SIGN_ENTITLEMENTS = PersistentWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				INFOPLIST_FILE = PersistentWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2030,7 +2026,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PersistentMac/Preview Content\"";
 				DEVELOPMENT_TEAM = PBR8289HNX;
@@ -2063,7 +2059,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 10;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PersistentMac/Preview Content\"";
 				DEVELOPMENT_TEAM = PBR8289HNX;
@@ -2091,10 +2087,10 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PersistentIntent/PersistentIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				INFOPLIST_FILE = PersistentIntent/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2114,10 +2110,10 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = PersistentIntent/PersistentIntent.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 9;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = PBR8289HNX;
 				INFOPLIST_FILE = PersistentIntent/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

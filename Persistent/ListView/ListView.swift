@@ -29,6 +29,7 @@ struct ListView: View {
     
     @State private var showSettings: Bool = false
     @Binding var habitToEdit: HabitItem?
+    @State private var addHabitShown: Bool = false
     
     @State private var purchaseAlert = false
     
@@ -167,7 +168,7 @@ struct ListView: View {
                         purchaseAlert = true
                         warningVibration()
                     } else {
-                        viewModel.addSheetPresented = true
+                        addHabitShown = true
                     }
                 }
                 .padding(EdgeInsets(top: 0, leading: 25, bottom: 25, trailing: 25))
@@ -201,7 +202,7 @@ struct ListView: View {
                         purchaseAlert = true
                         warningVibration()
                     } else {
-                        viewModel.addSheetPresented = true
+                        addHabitShown = true
                     }
                 } label: {
                     Label("Add habit", systemImage: "plus")
@@ -216,7 +217,7 @@ struct ListView: View {
             .environment(\.purchaseInfo, purchaseInfo)
             .environment(\.interfaceColor, interfaceColor)
         }
-        .sheet(isPresented: $viewModel.addSheetPresented, content: {
+        .sheet(isPresented: $addHabitShown, content: {
             AddHabitView(accentColor: userSettings.accentColor)
                 .accentColor(userSettings.accentColor)
                 .environment(\.managedObjectContext, self.viewContext)

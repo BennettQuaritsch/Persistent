@@ -27,13 +27,13 @@ struct HabitDetailView: View {
     init(habit: HabitItem, habitToEdit: Binding<HabitItem?>) {
         self.habit = habit
         
-        self._viewModel = StateObject(wrappedValue: HabitDetailViewModel(habit: habit))
+        self._viewModel = ObservedObject(wrappedValue: HabitDetailViewModel(habit: habit))
         self._habitTimer = StateObject(wrappedValue: HabitTimer(habit: habit))
         
         self._habitToEdit = habitToEdit
     }
     
-    @StateObject private var viewModel: HabitDetailViewModel
+    @ObservedObject private var viewModel: HabitDetailViewModel
     @StateObject private var editViewModel: EditViewShownModel = EditViewShownModel()
     
     @State private var showCalendarSheet: Bool = false

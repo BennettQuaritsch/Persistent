@@ -190,7 +190,9 @@ struct AlternativeEditHabitBaseView: View {
                         .background(Color.accentColor, in: RoundedRectangle(cornerRadius: 15, style: .continuous))
                 }
                 .padding()
+                .scrollDismissesKeyboard(.immediately)
             }
+            .scrollDismissesKeyboard(.immediately)
 //            .background(Color.systemGroupedBackground, ignoresSafeAreaEdges: .all)
             .background {
                 Color.systemGroupedBackground
@@ -233,32 +235,30 @@ struct AlternativeEditHabitBaseView: View {
                     .preferredColorScheme(colorScheme)
             }
             
-            VStack {
-                Spacer()
-                
-                HStack {
-                    Spacer()
-                    
-                    if textFieldFocus == .valueType || textFieldFocus == .standardAdd {
-                        Button {
-                            textFieldFocus = nil
-                        } label: {
-                            Image(systemName: "keyboard.chevron.compact.down")
-                                .imageScale(.large)
-                                .fontWeight(.semibold)
-                                .padding()
-                                .background(colorScheme == .dark ? Color.systemGray5 : Color.systemBackground, in: Capsule())
-                        }
-                        .accessibilityLabel("Dismiss Keyboard")
-                        .padding()
-                        .transition(.opacity.animation(.easeInOut(duration: 0.05)))
-                        .animation(.easeInOut(duration: 0.07), value: textFieldFocus)
-//                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
-                        .zIndex(2)
-                    }
-                }
-            }
-            .zIndex(2)
+//            VStack {
+//                Spacer()
+//
+//                HStack {
+//                    Spacer()
+//
+//                    if textFieldFocus == .valueType || textFieldFocus == .standardAdd {
+//                        Button {
+//                            textFieldFocus = nil
+//                        } label: {
+//                            Image(systemName: "keyboard.chevron.compact.down")
+//                                .imageScale(.large)
+//                                .fontWeight(.semibold)
+//                                .padding()
+//                                .background(colorScheme == .dark ? Color.systemGray5 : Color.systemBackground, in: Capsule())
+//                        }
+//                        .accessibilityLabel("Dismiss Keyboard")
+//                        .padding()
+//                        .transition(.opacity.animation(.easeInOut(duration: 0.05)))
+//                        .animation(.easeInOut(duration: 0.07), value: textFieldFocus)
+//                    }
+//                }
+//            }
+//            .zIndex(2)
             
             if standardAddHelpShown {
                 VStack(spacing: 5) {

@@ -60,11 +60,13 @@ final class PersistenceController {
         return result
     }()
 
-    var container: NSPersistentCloudKitContainer
+//    var container: NSPersistentCloudKitContainer
+    var container: NSPersistentContainer
 
     init() {
 //        self.container = initializePersistentContainer()
-        container = NSPersistentCloudKitContainer(name: "Persistent")
+//        container = NSPersistentCloudKitContainer(name: "Persistent")
+        container = NSPersistentContainer(name: "Persistent")
 
         let storeURL = URL.storeURL(for: "group.persistentData", databaseName: "PersistentDatabase")
         let storeDescription = NSPersistentStoreDescription(url: storeURL)
@@ -76,7 +78,7 @@ final class PersistenceController {
 //        if !syncDisabled {
 //            storeDescription.cloudKitContainerOptions  = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.PersistentCloudKit")
 //        }
-        storeDescription.cloudKitContainerOptions  = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.PersistentCloudKit")
+//        storeDescription.cloudKitContainerOptions  = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.PersistentCloudKit")
         
         storeDescription.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
         storeDescription.setOption(true as NSNumber, forKey: NSInferMappingModelAutomaticallyOption)

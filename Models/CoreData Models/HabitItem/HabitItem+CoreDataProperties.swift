@@ -966,7 +966,6 @@ extension HabitItem {
         do {
             try context.save()
         } catch {
-            let nsError = error as NSError
             guard let appViewModel = appViewModel else { return }
             
             appViewModel.saveErrorActionSheet = true

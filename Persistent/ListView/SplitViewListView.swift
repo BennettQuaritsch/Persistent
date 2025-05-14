@@ -13,6 +13,7 @@ struct SplitViewListView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @Environment(\.purchaseInfo) var purchaseInfo
+    @Environment(\.interfaceColor) var interfaceColor
     
     #if os(iOS)
     @Environment(\.horizontalSizeClass) var horizontalSizeClass
@@ -20,6 +21,8 @@ struct SplitViewListView: View {
     #endif
     
     @State private var showSettings: Bool = false
+    @Binding var habitToEdit: HabitItem?
+    @State private var addHabitShown: Bool = false
     
     @State private var purchaseAlert = false
     
@@ -39,7 +42,7 @@ struct SplitViewListView: View {
         return !purchaseInfo.wrappedValue && items.count >= 3
     }
     
-    init(_ filter: ListFilterSelectionEnum = .all, shownHabit: Binding<HabitItem?>, splitViewVisibility: Binding<NavigationSplitViewVisibility>) {
+    init(_ filter: ListFilterSelectionEnum = .all, shownHabit: Binding<HabitItem?>, splitViewVisibility: Binding<NavigationSplitViewVisibility>, habitToEdit: Binding<HabitItem?>) {
         
         var tempPredicate: NSPredicate?
         
@@ -65,6 +68,7 @@ struct SplitViewListView: View {
         
         self._shownHabit = shownHabit
         self._splitViewVisibility = splitViewVisibility
+        self._habitToEdit = habitToEdit
     }
     
     @StateObject var viewModel: ListViewModel = .init()
@@ -154,7 +158,7 @@ struct SplitViewListView: View {
                         purchaseAlert = true
                         warningVibration()
                     } else {
-                        viewModel.addSheetPresented = true
+                        addHabitShown = true
                     }
                 }
                 .padding(EdgeInsets(top: 0, leading: 25, bottom: 25, trailing: 25))
@@ -187,7 +191,7 @@ struct SplitViewListView: View {
                         purchaseAlert = true
                         warningVibration()
                     } else {
-                        viewModel.addSheetPresented = true
+                        addHabitShown = true
                     }
                 } label: {
                     Label("Add habit", systemImage: "plus")
@@ -195,7 +199,14 @@ struct SplitViewListView: View {
                 }
             }
         }
-        .sheet(isPresented: $viewModel.addSheetPresented, content: {
+        .sheet(item: $habitToEdit) { habitItem in
+            EditView(habit: habitItem, accentColor: userSettings.accentColor)
+                .accentColor(userSettings.accentColor)
+            .environment(\.managedObjectContext, self.viewContext)
+            .environment(\.purchaseInfo, purchaseInfo)
+            .environment(\.interfaceColor, interfaceColor)
+        }
+        .sheet(isPresented: $addHabitShown, content: {
             AddHabitView(accentColor: userSettings.accentColor)
                 .accentColor(userSettings.accentColor)
             .environment(\.managedObjectContext, self.viewContext)
@@ -246,21 +257,31 @@ struct SplitViewListView: View {
                 .habitDeleteAlert(isPresented: $habitDeleteAlertActive, habit: habitToDelete, context: viewContext)
                 .contentShape(ContentShapeKinds.contextMenuPreview, RoundedRectangle(cornerRadius: 20, style: .continuous))
                 .contextMenu {
-                    Button {
-                        withAnimation {
-                            item.archiveHabit(context: viewContext)
+                    Section {
+                        Button {
+                            habitToEdit = item
+                        } label: {
+                            Label("Edit", systemImage: "pencil")
                         }
-                    } label: {
-                        Label("Archive", systemImage: "archivebox")
                     }
                     
-                    Button(role: .destructive) {
-                        withAnimation {
-                            habitToDelete = item
-                            habitDeleteAlertActive = true
+                    Section {
+                        Button {
+                            withAnimation {
+                                item.archiveHabit(context: viewContext)
+                            }
+                        } label: {
+                            Label("Archive", systemImage: "archivebox")
                         }
-                    } label: {
-                        Label("Delete", systemImage: "trash")
+                        
+                        Button(role: .destructive) {
+                            withAnimation {
+                                habitToDelete = item
+                                habitDeleteAlertActive = true
+                            }
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
                     }
                 }
         }
@@ -273,7 +294,7 @@ struct SplitViewListView: View {
 struct SplitViewListView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationView {
-            SplitViewListView(shownHabit: .constant(nil), splitViewVisibility: .constant(.all))
+            SplitViewListView(shownHabit: .constant(nil), splitViewVisibility: .constant(.all), habitToEdit: .constant(nil))
                 .environmentObject(UserSettings())
                 .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
         }
