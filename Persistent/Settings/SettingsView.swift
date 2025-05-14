@@ -8,7 +8,7 @@
 import SwiftUI
 import WidgetKit
 import StoreKit
-import CloudKitSyncMonitor
+//import CloudKitSyncMonitor
 
 struct SettingsView: View {
     #if os(iOS)
@@ -26,39 +26,39 @@ struct SettingsView: View {
     
     @StateObject private var viewModel: SettingsViewModel = .init()
     
-    @ObservedObject private var syncMonitor = SyncMonitor.shared
+//    @ObservedObject private var syncMonitor = SyncMonitor.shared
     
-    var syncStateText: String {
-        switch syncMonitor.syncStateSummary {
-        case .notStarted:
-            return "Sync not started"
-        case .inProgress:
-            return "Sync is in progress"
-        case .succeeded:
-            let importState = syncMonitor.importState
-            let exportState = syncMonitor.exportState
-            
-            if case let .succeeded(_, ended: importDate) = importState, case let .succeeded(_, ended: exportDate) = exportState {
-                let date = max(importDate, exportDate)
-                
-                return "iCloud Sync was successful at \(date.formatted(.dateTime.hour().minute()))"
-            } else if case let .succeeded(_, ended: importDate) = importState {
-                return "iCloud Sync was successful at \(importDate.formatted(.dateTime.hour().minute()))"
-            } else if case let .succeeded(_, ended: exportDate) = exportState {
-                return "iCloud Sync was successful at \(exportDate.formatted(.dateTime.hour().minute()))"
-            }
-            
-            return "Sync succeeded"
-        case .noNetwork:
-            return "No network available"
-        case .accountNotAvailable:
-            return "No iCloud Account available"
-        case .notSyncing:
-            return "Not syncing"
-        default:
-            return "An error occured"
-        }
-    }
+//    var syncStateText: String {
+//        switch syncMonitor.syncStateSummary {
+//        case .notStarted:
+//            return "Sync not started"
+//        case .inProgress:
+//            return "Sync is in progress"
+//        case .succeeded:
+//            let importState = syncMonitor.importState
+//            let exportState = syncMonitor.exportState
+//            
+//            if case let .succeeded(_, ended: importDate) = importState, case let .succeeded(_, ended: exportDate) = exportState {
+//                let date = max(importDate, exportDate)
+//                
+//                return "iCloud Sync was successful at \(date.formatted(.dateTime.hour().minute()))"
+//            } else if case let .succeeded(_, ended: importDate) = importState {
+//                return "iCloud Sync was successful at \(importDate.formatted(.dateTime.hour().minute()))"
+//            } else if case let .succeeded(_, ended: exportDate) = exportState {
+//                return "iCloud Sync was successful at \(exportDate.formatted(.dateTime.hour().minute()))"
+//            }
+//            
+//            return "Sync succeeded"
+//        case .noNetwork:
+//            return "No network available"
+//        case .accountNotAvailable:
+//            return "No iCloud Account available"
+//        case .notSyncing:
+//            return "Not syncing"
+//        default:
+//            return "An error occured"
+//        }
+//    }
     
     var product: Product? {
         return storeManager.products.first(where: { $0.id == "quaritsch.bennnett.Persistent.premium.single" })
@@ -184,21 +184,21 @@ struct SettingsView: View {
                     }
                 }
                 
-                Section("Settings.Sync.Header") {
-                    HStack {
-                        Image(systemName: syncMonitor.syncStateSummary.symbolName)
-                            .foregroundColor(userSettings.accentColor)
-                        
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text("Settings.Sync.Body")
-                            
-                            Text(syncStateText)
-                                .font(.footnote)
-                                .foregroundColor(.secondary)
-                        }
-                    }
-                    .padding(.vertical, 1)
-                }
+//                Section("Settings.Sync.Header") {
+//                    HStack {
+//                        Image(systemName: syncMonitor.syncStateSummary.symbolName)
+//                            .foregroundColor(userSettings.accentColor)
+//                        
+//                        VStack(alignment: .leading, spacing: 3) {
+//                            Text("Settings.Sync.Body")
+//                            
+//                            Text(syncStateText)
+//                                .font(.footnote)
+//                                .foregroundColor(.secondary)
+//                        }
+//                    }
+//                    .padding(.vertical, 1)
+//                }
                 
                 Section("Settings.About.Header") {
                     NavigationLink(destination: AboutAppView()) {

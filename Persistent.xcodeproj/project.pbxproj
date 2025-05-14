@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,6 +24,10 @@
 		9105491226860C62005E80C2 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9105490826860C62005E80C2 /* EditView.swift */; };
 		9105491326860C62005E80C2 /* PersistentApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9105490926860C62005E80C2 /* PersistentApp.swift */; };
 		9105491426860C62005E80C2 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9105490B26860C62005E80C2 /* ListView.swift */; };
+		910C17CC2DD4BF8F0083D828 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 910C17CB2DD4BF8F0083D828 /* README.md */; };
+		910C17CD2DD4BF8F0083D828 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 910C17CB2DD4BF8F0083D828 /* README.md */; };
+		910C17CE2DD4BF8F0083D828 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 910C17CB2DD4BF8F0083D828 /* README.md */; };
+		910C17CF2DD4BF8F0083D828 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 910C17CB2DD4BF8F0083D828 /* README.md */; };
 		91183C8A26B087F900413BB4 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91183C8926B087F900413BB4 /* WidgetKit.framework */; };
 		91183C8B26B087F900413BB4 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9105492226860D5C005E80C2 /* SwiftUI.framework */; };
 		91183C8E26B087F900413BB4 /* PersistentWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91183C8D26B087F900413BB4 /* PersistentWidget.swift */; };
@@ -394,6 +398,7 @@
 		9105490B26860C62005E80C2 /* ListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		9105491926860D08005E80C2 /* Persistent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Persistent.entitlements; sourceTree = "<group>"; };
 		9105492226860D5C005E80C2 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		910C17CB2DD4BF8F0083D828 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		911784CB273C37E2004B5DEC /* PersistentModel 1.2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "PersistentModel 1.2.xcdatamodel"; sourceTree = "<group>"; };
 		91183C8826B087F900413BB4 /* PersistentWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PersistentWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		91183C8926B087F900413BB4 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -555,6 +560,10 @@
 		91FC193928BE920E00E66180 /* MultipleHabitWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleHabitWidget.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		910C17D02DD4BFCA0083D828 /* git-pictures */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "git-pictures"; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
+
 /* Begin PBXFrameworksBuildPhase section */
 		910548D626860ADE005E80C2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
@@ -621,6 +630,8 @@
 		910548D026860ADE005E80C2 = {
 			isa = PBXGroup;
 			children = (
+				910C17D02DD4BFCA0083D828 /* git-pictures */,
+				910C17CB2DD4BF8F0083D828 /* README.md */,
 				91BE46F728CA2CC200FB2A6C /* Localization */,
 				91807CF42726059C006208FE /* ProductsTest.storekit */,
 				91183CA426B0892400413BB4 /* PersistentWidgetExtension.entitlements */,
@@ -1075,6 +1086,9 @@
 				91183C9626B087FD00413BB4 /* PBXTargetDependency */,
 				91F45A2126CC5F1800311FD1 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				910C17D02DD4BFCA0083D828 /* git-pictures */,
+			);
 			name = Persistent;
 			packageProductDependencies = (
 				916A8C372761161C00D24202 /* SwiftKeychainWrapper */,
@@ -1095,6 +1109,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				910C17D02DD4BFCA0083D828 /* git-pictures */,
 			);
 			name = PersistentWidgetExtension;
 			packageProductDependencies = (
@@ -1151,6 +1168,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				910C17D02DD4BFCA0083D828 /* git-pictures */,
+			);
 			name = PersistentMac;
 			packageProductDependencies = (
 			);
@@ -1169,6 +1189,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				910C17D02DD4BFCA0083D828 /* git-pictures */,
 			);
 			name = PersistentIntent;
 			packageProductDependencies = (
@@ -1245,6 +1268,7 @@
 				9130253C273EB6EF00CC91B2 /* Blackout-AppIcon@2x.png in Resources */,
 				91302518273E8C3E00CC91B2 /* 08-15-AppIcon@3x.png in Resources */,
 				91302547273ED05000CC91B2 /* 08-15-AppIcon@2x~ipad.png in Resources */,
+				910C17CF2DD4BF8F0083D828 /* README.md in Resources */,
 				911AADED28A8573000ECA473 /* Localizable.strings in Resources */,
 				9130255B273ED18800CC91B2 /* Blackout-AppIcon@2x~ipad.png in Resources */,
 				91302536273EB2AA00CC91B2 /* Deep-Sea-AppIcon@2x.png in Resources */,
@@ -1280,6 +1304,7 @@
 			files = (
 				91302515273E8C3E00CC91B2 /* 08-15-AppIcon@2x.png in Resources */,
 				91807CF627260702006208FE /* ProductsTest.storekit in Resources */,
+				910C17CE2DD4BF8F0083D828 /* README.md in Resources */,
 				916DC3A928B79DEB00FACDF3 /* Localizable.stringsdict in Resources */,
 				9130251F273E8F2600CC91B2 /* Classic-AppIcon@2x.png in Resources */,
 				91302523273E8F2600CC91B2 /* Classic-AppIcon@3x.png in Resources */,
@@ -1321,6 +1346,7 @@
 				91302531273EB27000CC91B2 /* Blush-AppIcon@2x.png in Resources */,
 				9130252F273EB27000CC91B2 /* Blush-AppIcon@3x.png in Resources */,
 				91302535273EB2AA00CC91B2 /* Deep-Sea-AppIcon@3x.png in Resources */,
+				910C17CC2DD4BF8F0083D828 /* README.md in Resources */,
 				916DC3AD28B79DEE00FACDF3 /* Localizable.stringsdict in Resources */,
 				91302550273ED12B00CC91B2 /* Blush-AppIcon@2x~ipad.png in Resources */,
 				91302541273EB74000CC91B2 /* Night-AppIcon@3x.png in Resources */,
@@ -1345,6 +1371,7 @@
 			files = (
 				91302516273E8C3E00CC91B2 /* 08-15-AppIcon@2x.png in Resources */,
 				91807CF727260703006208FE /* ProductsTest.storekit in Resources */,
+				910C17CD2DD4BF8F0083D828 /* README.md in Resources */,
 				916DC3AB28B79DED00FACDF3 /* Localizable.stringsdict in Resources */,
 				91302520273E8F2600CC91B2 /* Classic-AppIcon@2x.png in Resources */,
 				91302524273E8F2600CC91B2 /* Classic-AppIcon@3x.png in Resources */,
